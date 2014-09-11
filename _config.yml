@@ -20,7 +20,8 @@ baseurl:          '/blog'
 paginate:         5
 
 #Gems
-gems:             ["emoji_for_jekyll"]
+gems:
+  - jemoji
 
 author:
   name:           'Ramana Venkata'
