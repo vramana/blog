@@ -19,6 +19,9 @@ url:              http://vramana.github.io
 baseurl:          '/blog'
 paginate:         5
 
+#Gems
+gems:             ["emoji_for_jekyll"]
+
 author:
   name:           'Ramana Venkata'
   url:            https://twitter.com/idlike2dream
