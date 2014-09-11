@@ -1,9 +1,15 @@
 # Dependencies
-markdown:         redcarpet
+markdown:         kramdown
+kramdown:
+  input:          GFM
+  use_coderay:    false
 highlighter:      pygments
 
 # Permalinks
 permalink:        pretty
+
+#Timezone
+timezone:         Asia/Kolkata
 
 # Setup
 title:            MathStack
