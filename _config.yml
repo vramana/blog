@@ -1,0 +1,24 @@
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            MathStack
+tagline:          'Some ramblings'
+#description:      'A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+url:              http://vramana.github.io/blog
+baseurl:          '/'
+paginate:         5
+
+author:
+  name:           'Ramana Venkata'
+  url:            https://twitter.com/idlike2dream
+
+# Custom vars
+version:          1.0.0
+
+github:
+  repo:           https://github.com/vramana
