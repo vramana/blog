@@ -30,7 +30,7 @@ Observe that a path between two points $$a$$ and $$b$$ is an equivalence relatio
 
 {% gist bfca9253cbd95950d56b union1.hs %}
 
-**Solution 2** If know what are the connected components then we can represent each component as tree like structure (for sake of simplicity we will just refer it as a tree) with a root and nodes. We may have node of node connected to the root or exceptions to a definition of tree structure but it doesn't get in the way of our algorithm. We just require that root of the tree is unique.
+**Solution 2** If we know all the connected components, then we can represent each component as tree like structure (for sake of simplicity we will just refer it as a tree) with a root and nodes. We may have node of node connected to the root or exceptions to a definition of tree structure but it doesn't get in the way of our algorithm. We just require that root of the tree is unique.
 
 Initialize an array of dimension $$N$$ such that `tree[i] = i`. Here index $$i$$ corresponds to our objects and value `tree[i]` corresponds to root of the node it is connected (if it has multiple roots choose any one). We are setting the initial state of all objects to be disconnected. Our functions definitions are slighted modified to match our representation of objects. So the new definitions are
 
@@ -47,7 +47,7 @@ We also here need a auxiliary function to determine root of the tree containing 
 
 Here `step2` and `wStep2` illustrates how the `union` and `weightUnion` work.
 
-We can do one more little improvisation on our tree that is Path Compression. Instead of having tall balanced trees, we make the tree wide and balanced, so that we can get to root of tree really quickly (access in constant time). We achieve this by setting `tree[i] = tree[tree[i]]`.
+We can do one more little improvisation on our tree that is Path Compression. Instead of having tall balanced trees, we make the tree wide and balanced, so that we can get to root of tree really quickly. We achieve this by setting `tree[i] = tree[tree[i]]`.
 
 {% gist bfca9253cbd95950d56b union4.hs %}
 
