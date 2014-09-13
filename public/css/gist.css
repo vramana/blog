@@ -10,3 +10,7 @@
 .gist-meta {
   display: none !important;
 }
+
+.post p {
+    text-align: justify;
+}
