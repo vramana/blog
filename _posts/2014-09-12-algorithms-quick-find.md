@@ -12,7 +12,7 @@ Once the course ends, and if I am still writing, I will definitely pick up Purel
 
 ## Union-Find
 
-**Problem** Given $$N$$ objects and two functions on those objects `find` and `union` which are defined as follows. If $$a$$ and $$B$$ are two objects
+**Problem** Given $$N$$ objects and two functions on those objects `find` and `union` which are defined as follows. If $$a$$ and $$b$$ are two objects
 
 - `union(a, b)` - connects $$a$$ and $$b$$ by a path
 - `find(a, b)` - returns if there is a path connecting $$a$$ and $$b$$
