@@ -16,7 +16,10 @@ title: Home
 
     {{ post.content }}
 
-    <a href="{{ site.baseurl }}{{post.id}}#disqus_thread" data-disqus-identifier="{{ post.path | split:'/' | last | cgi_escape }}">Leave a comment</a>
+    {% if site.dev == false %}
+      <a href="{{ site.baseurl }}{{post.id}}#disqus_thread" data-disqus-identifier="{{ post.path | split:'/' | last | cgi_escape }}">Leave a comment</a>
+    {% endif %}
+
   </div>
 
   {% endfor %}

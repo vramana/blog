@@ -28,7 +28,21 @@ Observe that a path between two points $$a$$ and $$b$$ is an equivalence relatio
 
 **Solution 1**  Represent the $$N$$ objects by $$0, 1 \dots N- 1$$. Initialize an array of N-dimension with indices representing out objects. Suppose we know the initial state of objects, set same value at each index in the array that belongs to a component.
 
-{% gist bfca9253cbd95950d56b union1.hs %}
+{% highlight haskell %}
+
+-- Connect a and b --
+union :: (Int, Int) -> [Int] -> [Int]
+union (a, b) tree  = map (replace (x, y)) tree
+    where x = tree!!a
+          y = tree!!b
+          replace (p, q) a
+                | (a == q)  = p
+                | otherwise = a
+
+--find if a and b are connected--
+find :: (Int, Int) -> [Int] -> Bool
+find (a, b) tree = (tree!!a) == (tree!!b)
+{% endhighlight %}
 
 **Solution 2** If we know all the connected components, then we can represent each component as tree like structure (for sake of simplicity we will just refer it as a tree) with a root and nodes. We may have node of node connected to the root or exceptions to a definition of tree structure but it doesn't get in the way of our algorithm. We just require that root of the tree is unique.
 
@@ -39,16 +53,71 @@ Initialize an array of dimension $$N$$ such that `tree[i] = i`. Here index $$i$$
 
 We also here need a auxiliary function to determine root of the tree containing the given node. Lets call it `root`.
 
-{% gist bfca9253cbd95950d56b union2.hs %}
+
+{% highlight haskell %}
+replaceAt :: (Int, Int) -> [Int] -> [Int]
+replaceAt (x, i) list =
+    let (p, q) = splitAt i list
+    in p ++ [x] ++ tail q
+
+root :: Int -> [Int] -> Int
+root a tree
+    | (a == b)  = a
+    | otherwise = root b tree
+    where b = tree!!a
+
+union :: (Int, Int) -> [Int] -> [Int]
+union (a, b) tree = replaceAt (rootA, rootB) tree
+    where rootA = root a tree
+          rootB = root b tree
+
+find :: (Int, Int) -> [Int] -> Bool
+find (a, b) tree = (root a tree) == (root b tree)
+{% endhighlight %}
+
 
 **Solution 2.1** `root` is crucial function in both union and find so we would like it to be as fast as possible. After several unions, the tree might look unbalanced, one sided may contains way too many nodes which in turn decreases the speed of `root`. So, we would like to have a balanced tree. One way to do it is avoid creating a unbalanced tree in the first place. To do this we create another array which stores the weight of node. When we call the union function, we see which tree has greater weight and connect the root of small tree to the big tree.
 
-{% gist bfca9253cbd95950d56b union3.hs %}
+{% highlight haskell %}
+weightUnion :: (Int, Int) -> ([Int], [Int]) -> ([Int], [Int])
+weightUnion (a, b) (tree, size)
+    | (size!!rootA >= size!!rootB)  = (replaceT rootA rootB, replaceS rootA rootB)
+    | otherwise                     = (replaceT rootB rootA, replaceS rootB rootA)
+    where rootA = root a tree
+          rootB = root b tree
+          replaceT x y = replaceAt (x, y) tree
+          replaceS x y = replaceAt (size!!x + size!!y, x) size
+
+wStep1  = weightUnion (1, 2) ([0,1..9], replicate 10 1)
+-- ([0,1,1,3,4,5,6,7,8,9],[1,2,1,1,1,1,1,1,1,1])
+wStep2  = weightUnion (3, 1) wStep1
+-- ([0,1,1,1,4,5,6,7,8,9],[1,3,1,1,1,1,1,1,1,1])
+
+step1  = union (1, 2) [0,1..9]
+-- [0,1,1,3,4,5,6,7,8,9]
+step2  = union (3, 1) step1
+-- [0,3,1,3,4,5,6,7,8,9]
+{% endhighlight %}
 
 Here `step2` and `wStep2` illustrates how the `union` and `weightUnion` work.
 
 We can do one more little improvisation on our tree that is Path Compression. Instead of having tall balanced trees, we make the tree wide and balanced, so that we can get to root of tree really quickly. We achieve this by setting `tree[i] = tree[tree[i]]`.
 
-{% gist bfca9253cbd95950d56b union4.hs %}
+{% highlight haskell %}
+pcRoot :: Int -> [Int] -> (Int, [Int])
+pcRoot a tree
+    | (a == b)  = (a, tree)
+    | otherwise = pcRoot b (replaceAt (tree!!b,  a) tree)
+    where b = tree!!a
+
+quickUnion :: (Int, Int) -> ([Int], [Int]) -> ([Int], [Int])
+quickUnion (a, b) (tree, size)
+    | (size!!rootA >= size!!rootB) = (replaceT rootA rootB, replaceS rootA rootB)
+    | otherwise                    = (replaceT rootB rootA, replaceS rootB rootA)
+    where (rootA, tree') = pcRoot a tree
+          (rootB, tree'') = pcRoot b tree'
+          replaceT x y = replaceAt (x, y) tree''
+          replaceS x y = replaceAt (size!!x + size!!y, x) size
+{% endhighlight %}
 
 That wraps up the first week's content.
