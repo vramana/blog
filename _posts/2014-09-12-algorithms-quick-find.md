@@ -7,7 +7,7 @@ date: 2014-09-13
 
 Currently, there is a ongoing [Algorithms Part I](https://www.coursera.org/course/algs4partI) course on coursera. Along with studying the course, in a series of blog posts, I will try to explain various data structures and algorithms and implement them in Haskell and if time permits in JavaScript as well. I started learning Haskell recently, so implementation of algorithms here will very naive and may not of same efficiency. But I will try my best to write as nice solution within my knowledge. As learn more Haskell along the way, I plan to revisit old algorithms and rewrite them. In case you are wondering why I mentioned JavaScript beside Haskell, I really really like it as language(because of the way Douglas Crockford puts it) and I want to explore its potential to do functional style programs.
 
-Once the course ends, and if I am still writing, I will definitely pick up Purely Functional Data Structures book by C. Osaki and rewrite everything. You may ask, what's the point of rewriting this many times? I just view as a good learning exercise. Alright, let's get started!
+Once the course ends, and if I am still writing, I will definitely pick up Purely Functional Data Structures book by C. Okasaki and rewrite everything. You may ask, what's the point of rewriting this many times? I just view as a good learning exercise. Alright, let's get started!
 
 
 ## Union-Find
