@@ -12,15 +12,15 @@ For these tutorials (I plan to do more than one tutorial but we will see), we wi
 
 I looked to around a bit to find to good first problem, then it struck to me, now that we have template strings in ES2015, we don't have to write to have to concatenate using `+` operator. So our aim is to convert this
 
-{% highlight javascript %}
+```js
 'Yo ' + name + '! What are you doing?'  
-{% endhighlight %}
+```
 
 to
 
-{% highlight javascript %}
+```js
 `Yo ${name}! What are you doing?`
-{% endhighlight %}
+```
 
 ### Solution:
 
@@ -29,15 +29,15 @@ In this section of this tutorial, I will teach to how to use [ASTExplorer](ast) 
 Whenever I try to solve a problem, my first approach is to break down the problem into smaller pieces and solve them one by one. To explain this bit more,
 you don't need to solve problem in its full generality in the first go, solve for a specific case it may give you insights into how to solve the original problem. I think converting  
 
-{% highlight javascript %}
+```js
 a + b
-{% endhighlight %}
+```
 
 to
 
-{% highlight javascript %}
+```js
 `${a}${b}`
-{% endhighlight %}
+```
 
 is a nice way to begin solving this problem.
 
@@ -66,9 +66,6 @@ explains these things.
 **Insert Diagram here**
 
 *raw* and *cooked* only differ when there are escape characters inside the `TemplateElement`.  
-
-
-
 
 
 
