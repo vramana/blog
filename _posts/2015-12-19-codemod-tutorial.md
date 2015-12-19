@@ -1,14 +1,14 @@
 ---
 layout: post
 title: How to write a codemod
-published: true
+published: false
 ---
 
 If you don't know what codemods are, go watch [this talk][cpojer-talk]. Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again. I wanted to write such codemods for my own projects but there is not whole lot of documentation or tutorial on how to write them. So, I am writing some tutorials for myself and you the reader. I will try to make this as self contained as possible (even if you are lazy to watch the above video).
 
 For these tutorials (I plan to do more than one tutorial but we will see), we will use [ASTExplorer][ast] (the same tool showed in the talk) to visualize the AST and writing the transforms as well.
 
-### Problem:
+## Problem:
 
 I looked to around a bit to find to good first problem, then it struck to me, now that we have template strings in ES2015, we don't have to write to have to concatenate using `+` operator. So our aim is to convert this
 
@@ -22,7 +22,7 @@ to
 `Yo ${name}! What are you doing?`
 ```
 
-### Solution:
+## Solution:
 
 In this section of this tutorial, I will teach to how to use [ASTExplorer](ast) and arrive the solution to our problem incrementally.
 
@@ -41,7 +41,7 @@ to
 
 is a nice way to begin solving this problem.
 
-#### Step 1:
+### Step 1:
 
 Our entire solution revolves around transforming one AST into another. In our first step we will explore the AST Lets open  [ASTExplorer](ast). Clear everything inside the editor and enter `a + b`. On the right hand side of the editor, you will see the corresponding AST for the code you have just written. Open the tree a bit and it will look like this.
 
@@ -67,8 +67,13 @@ explains these things.
 
 *raw* and *cooked* only differ when there are escape characters inside the `TemplateElement`.  
 
+### Step 2:
+
+Now that we know AST structures of the initial code and final code, we will learn how to achieve this transformation using [jscodeshift][jscodeshift].
+
 
 
 
 [cpojer-talk]: https://www.youtube.com/watch?v=d0pOgY8__JM
 [ast]: https://astexplorer.net/
+[jscodeshift]: https://github.com/facebook/jscodeshift
