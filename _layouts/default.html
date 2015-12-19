@@ -46,23 +46,5 @@
     <script type="text/javascript"
       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
-    {% if site.dev == false %}
-      <script type="text/javascript">
-        var disqus_shortname  = 'vramana',
-            disqus_identifier = '{{ page.path | split:'/' | last | cgi_escape }}',
-            disqus_url        = '{{ site.url }}{{site.baseurl}}{{ page.url | uri_escape }}'
-        ;
-        (function() {
-          var load = function(src){
-            var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = src;
-            var e = document.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e);
-          };
-          load('//' + disqus_shortname + '.disqus.com/count.js');
-          if (document.getElementById('disqus_thread')) {
-            load('//' + disqus_shortname + '.disqus.com/embed.js');
-          }
-        })();
-      </script>
-    {% endif %}
   </body>
 </html>
