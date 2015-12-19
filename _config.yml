@@ -24,6 +24,7 @@ paginate:         5
 #Gems
 gems:
   - jemoji
+  - jekyll-feed
 
 author:
   name:           'Ramana Venkata'
