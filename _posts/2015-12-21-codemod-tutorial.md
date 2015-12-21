@@ -273,7 +273,7 @@ I could have shown the final solution & explained it and as consequence this tut
 Next I hope to tackle more challenging problems of converting ES5 style React.createClass to ES6 style *class* syntax for React components. This is already a solved problem. This problem is interesting to me because it has lot of unique constraints which I hope to explain. The codemod is already available in this [react-codemod](react-codemod) repository. But I think this is problem may not appeal to everybody so I am open to suggestions.
 
 
-Thanks for reading! If you have any suggestions and comments, tweet me at [@_vramana](https://twitter.com/vramana).
+Thanks for reading! If you have any suggestions and comments, tweet me at [@_vramana](https://twitter.com/_vramana).
 
 Big shoutout to [@cpojer] who carefully reviewed this post.
 
