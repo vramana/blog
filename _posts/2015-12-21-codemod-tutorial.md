@@ -294,4 +294,4 @@ The main idea of this kind iterative function is capture the items after perform
 [jscodeshift]: https://github.com/facebook/jscodeshift
 [recast]: https://github.com/benjamn/recast
 [ast-types]: https://github.com/benjamn/ast-types
-[react-codemod]
+[react-codemod]: https://github.com/reactjs/react-codemod
