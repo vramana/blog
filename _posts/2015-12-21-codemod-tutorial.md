@@ -6,7 +6,7 @@ published: true
 
 *Note: This post assumes some knowledge of JS features from ES2015*
 
-If you don't know what codemods are, go watch [this talk][cpojer-talk]. Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again. I wanted to write such codemods for my own projects but there is not whole lot of documentation or tutorial on how to write them. So, I am writing some tutorials for myself and you the reader. I will try to make this as self contained as possible (even if you are lazy to watch the above video).
+If you don't know what codemods are, go watch [this talk][cpojer-talk] by Christoph Pojer (cpojer). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again. I wanted to write such codemods for my own projects but there is not whole lot of documentation or tutorial on how to write them. So, I am writing some tutorials for myself and you the reader. I will try to make this as self contained as possible (even if you are lazy to watch the above video).
 
 For these tutorials (I plan to do more than one tutorial but we will see), we will use [ASTExplorer][ast] (the same tool showed in the talk) to visualize the AST and writing the transforms as well.
 
