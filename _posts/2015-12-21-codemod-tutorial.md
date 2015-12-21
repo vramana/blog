@@ -1,10 +1,10 @@
 ---
 layout: post
 title: How to write a codemod
-published: true
+published: false
 ---
 
-*Note: This post assumes knowledge of features from ES015 and later*
+*Note: This post assumes some knowledge of JS features from ES2015*
 
 If you don't know what codemods are, go watch [this talk][cpojer-talk]. Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again. I wanted to write such codemods for my own projects but there is not whole lot of documentation or tutorial on how to write them. So, I am writing some tutorials for myself and you the reader. I will try to make this as self contained as possible (even if you are lazy to watch the above video).
 
@@ -28,8 +28,7 @@ to
 
 In this section of this tutorial, I will teach to how to use [ASTExplorer](ast) and arrive the solution to our problem incrementally.
 
-Whenever I try to solve a problem, my first approach is to break down the problem into smaller pieces and solve them one by one. To explain this bit more,
-you don't need to solve problem in its full generality in the first go, solve for a specific case it may give you insights into how to solve the original problem. I think converting  
+Whenever I try to solve a problem, my first approach is to break down the problem into smaller pieces and solve them one by one. To explain this bit more, you don't need to solve problem in its full generality in the first go, solve for a specific case it may give you insights into how to solve the original problem. I think converting  
 
 ```js
 a + b
@@ -47,26 +46,23 @@ is a nice way to begin solving this problem.
 
 Our entire solution revolves around transforming one AST into another. In our first step we will explore the AST Lets open  [ASTExplorer](ast). Clear everything inside the editor and enter `a + b`. On the right hand side of the editor, you will see the corresponding AST for the code you have just written. Open the tree a bit and it will look like this.
 
-![Binary Expression AST](http://i.imgur.com/ws1noj7.png)
+![Binary Expression AST](https://i.imgur.com/ws1noj7.png?1)
 
-Now look at the words written in **blue**, they represent the nodes in our AST tree and things other than them represent the data about the node. We have the
-following words: `File`, `Program`, `ExpressionStatement`, `BinaryExpression`,
-`Identifier`. Lets try under to understand them each of them. `File`, `Program` are kind of straight forward to understand from the name. Here we don't have actual file but the ASTExplorer is simulating one to our AST parser (which is *recast* in our case).
+Now look at the words written in **blue**, they represent the nodes in our AST tree and things other than them represent the data about the node. We have the following words: `File`, `Program`, `ExpressionStatement`, `BinaryExpression`, `Identifier`. Lets try under to understand them each of them. `File`, `Program` are kind of straight forward to understand from the name. Here we don't have actual file but the ASTExplorer is simulating one to our AST parser (which is *recast* in our case).
 
 Next let's look at `ExpressionStatement` again kind of obvious it refers to `a + b` here. Other examples of `ExpressionStatement` would be a value like `4` or function call like `f(a)` (just these term in isolated line because JS automatically inserts `;` for us). `BinaryExpression` is again easy to infer from the name it refers to our expression `a + b`. The two `Identifier` node is refers to the variables `a` and `b`. `Identifier` are in general names of variables, functions, methods, object keys, etc.,     
 
 Lets look at what the AST of `${a}${b}` (*I don't how to write \` in the markdown highlight so excuse me for that. Just treat as if they are present*).
 This is what it looks like
 
-![Template Literal AST](http://i.imgur.com/C6obcyE.png)
+![Template Literal AST](https://i.imgur.com/C6obcyE.png?1)
 
 This time it is not as straight forward to understand. We have `TemplateLiteral` which represent our template string `${a}${b}`. `a` & `b` are represented by the `Identifier`'s in the value of *expressions* key of this node. But what is this *quasis* key which has array of `TemplateElement`? Now hover the mouse over one of the `TemplateElement` we will see the `${` is highlighted in the editor i.e, whenever you hover over a node you will see the corresponding code the node represents in the AST. This is especially helpful when you encounter new node type or there are multiple nodes of the same type and you want to see which corresponds to what etc., You can do this for other `TemplateElement`s as well then we can observe that *quasis* represent the regions of a template string between the *expressions* (or simply variables `a` & `b` in our case) including the region of template string before the first expression and region of template string after the last expression and each of these regions is represented as a `TemplateElement` in the AST.
 
 In the `TemplateElement` node highlighted in the above image, we have a *value* key which has *raw* & *cooked* keys to be empty strings. The following diagram
 explains these things.       
 
-**Insert Diagram here**
-
+![Diagram One](https://i.imgur.com/ZE47VaS.png)
 
 *raw* and *cooked* only differ when there are escape characters inside the `TemplateElement`.  
 
@@ -89,9 +85,7 @@ export default function(file, api) {
 };
 ```
 
-This is the code for *jscodeshift* transformation which identifies all the
-`Identifier` in your code and reverses the `Identifier`'s name. Let's understand
-the code here bit by bit.
+This is the code for *jscodeshift* transformation which identifies all the `Identifier` in your code and reverses the `Identifier`'s name. Let's understand the code here bit by bit.
 
 Our transform is function that takes two variables `file` and `api` where `file`    as the name suggests represents the file on which we perform the transform and `api` represents the *jscodeshift*'s API passed as the other variable. `api.jscodeshift` is the function that perform the transformation. Instead of writing writing `api.jscodeshift` every time we need it need we shorten to and assign to variable `j` (trust me we are going to use `j` a lot and it will make sense in the future).
 
@@ -171,10 +165,11 @@ export default function(file, api) {
 
     const expressions = extractNodes(p.node)
 
+    const buildQuasis =
+      expressions.map(_ => j.templateElement({ cooked: '', raw: ''}, false))
+
     const quasis = [
-      ...(expressions.map(_ => (
-        j.templateElement({ cooked: '', raw: ''}, false)
-      ))),  
+      ...buildQuasis,
       j.templateElement({ cooked: '', raw: ''}, true)
     ]
 
@@ -263,9 +258,33 @@ export default function(file, api) {
 };
 ```
 
-In the `buildTL` function we have wrote what has been described above. Thus we have solved our original problem. I have intentionally left out case where we have escape characters in `Literal`s cause it may introduce too much complexity.
+In the `buildTL` function we have wrote what has been described above (I explained more about this function is **Notes** section at the end). Thus we have solved our original problem. I have intentionally left out case where we have escape characters in `Literal`s cause it may introduce too much complexity.
 
-I could have shown the final solution & explained it and as consequence this tutorial would have been much shorter. But it would remove the learning experience from it. I had lot of fun writing this and discovered my solution at Step 5 was wrong so I had to rewrite. I hope there are no other glaring bugs. I encourage start writing your blog. I firmly believe that trying to teach others is very way to understand a subject that you may or may have been familiar with.  
+I could have shown the final solution & explained it and as consequence this tutorial would have been much shorter. But it would remove the learning experience from it. I had lot of fun writing this and discovered my solution at Step 5 was wrong so I had to rewrite. I hope there are no other glaring bugs. I encourage start writing your blog. I firmly believe that trying to teach others is very good way to understand a subject deeply that you may or may have been familiar with.
+
+Next I hope to tackle a bit more challenging problem of converting ES5 style React.createClass to ES6 style *class* syntax for React components. This is already a solved problem. This problem is interesting to me because it has lot of unique constraints which I hope to explain. The codemod is already available on this [react-codemod](react-codemod) repository. But I think this is problem will be may not appeal to everybody so I am open to suggestions.
+
+
+Thanks for reading! If you have any suggestions and comments, tweet me at [@vramana](https://twitter.com/vramana).
+
+
+### Notes:
+
+Initially when I was solving **Step 5**, I could think of solution that uses imperative logic but I wanted to write it in functional style. That's how I ended up with `buildTL` function. Some of the readers will notice that it is very familiar. It is a standard functional way to iterate through an list of items. For example `Array.map` will be implemented as
+
+```js
+const map = (list, fn, acc = []) {
+  if (list.length === 0) {
+    return acc
+  }
+
+  const [ a, ...as ] = list
+
+  return map(as, fn, acc.concat(fn(a)))
+}
+```
+
+The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into *quasis* and *expressions* so we need an accumalator for each of them. But we also want to collect adjacent `Literal` so we will need another accumalator for that and that's how we end up with that function.     
 
 
 [cpojer-talk]: https://www.youtube.com/watch?v=d0pOgY8__JM
@@ -273,3 +292,4 @@ I could have shown the final solution & explained it and as consequence this tut
 [jscodeshift]: https://github.com/facebook/jscodeshift
 [recast]: https://github.com/benjamn/recast
 [ast-types]: https://github.com/benjamn/ast-types
+[react-codemod]

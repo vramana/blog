@@ -16,10 +16,6 @@ title: Home
 
     {{ post.content }}
 
-    {% if site.dev == false %}
-      <a href="{{ site.baseurl }}{{post.id}}#disqus_thread" data-disqus-identifier="{{ post.path | split:'/' | last | cgi_escape }}">Leave a comment</a>
-    {% endif %}
-
   </div>
 
   {% endfor %}
@@ -41,4 +37,3 @@ title: Home
     <span class="pagination-item newer">Newer</span>
   {% endif %}
 </div>
-
