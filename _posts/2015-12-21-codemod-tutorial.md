@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to write a codemod
-published: false
+published: true
 ---
 
 *Note: This post assumes some knowledge of JS features from ES2015*
