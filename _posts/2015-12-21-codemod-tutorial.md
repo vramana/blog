@@ -264,7 +264,7 @@ In the `buildTL` function we have wrote what has been described above (I explain
 
 I could have shown the final solution & explained it and as consequence this tutorial would have been much shorter. But it would remove the learning experience from it. I had lot of fun writing this and discovered my solution at Step 5 was wrong so I had to rewrite. I hope there are no other glaring bugs. I encourage start writing your blog. I firmly believe that trying to teach others is very good way to understand a subject deeply that you may or may have been familiar with.
 
-Next I hope to tackle a bit more challenging problem of converting ES5 style React.createClass to ES6 style *class* syntax for React components. This is already a solved problem. This problem is interesting to me because it has lot of unique constraints which I hope to explain. The codemod is already available on this [react-codemod](react-codemod) repository. But I think this is problem will be may not appeal to everybody so I am open to suggestions.
+Next I hope to tackle a bit more challenging problem of converting ES5 style React.createClass to ES6 style *class* syntax for React components. This is already a solved problem. This problem is interesting to me because it has lot of unique constraints which I hope to explain. The codemod is already available on this [react-codemod](react-codemod) repository. But I think this is problem may not appeal to everybody so I am open to suggestions.
 
 
 Thanks for reading! If you have any suggestions and comments, tweet me at [@vramana](https://twitter.com/vramana).
