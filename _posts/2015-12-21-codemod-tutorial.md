@@ -18,7 +18,7 @@ I looked to around a bit to find to good first problem, then it struck to me, no
 'Yo ' + name + '! How are you doing?'  
 ```
 
-to
+to this
 
 ```js
 `Yo ${name}! How are you doing?`
@@ -34,7 +34,7 @@ Whenever I try to solve a problem, my first approach is to break down the proble
 a + b
 ```
 
-to
+to this
 
 ```js
 `${a}${b}`
