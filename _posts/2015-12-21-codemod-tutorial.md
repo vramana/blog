@@ -64,6 +64,8 @@ explains these things.
 
 ![Diagram One](https://i.imgur.com/ZE47VaS.png)
 
+*Excuse me for my extremely poor drawing skills, this is the best I can manage.*
+
 *raw* and *cooked* only differ when there are escape characters inside the `TemplateElement`.  
 
 ### Step 2:
