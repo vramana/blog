@@ -279,7 +279,7 @@ Big shoutout to [@cpojer](https://twitter.com/cpojer) who carefully reviewed thi
 
 ### Notes:
 
-Initially when I was solving **Step 5**, I could think of solution that uses imperative logic but I wanted to write it in functional style. That's how I ended up with `buildTL` function. Some of the readers will notice that it is very familiar. It is a standard functional way to iterate through an list of items. For example `Array.map` will be implemented as
+Initially when I was solving **Step 5**, I could think of a solution that uses imperative logic but I wanted to write it in functional style. That's how I ended up with `buildTL` function. Some of the readers will notice that it is very familiar. It is a standard functional way to iterate through an list of items. For example `Array.map` will be implemented as
 
 ```js
 const map = (list, fn, acc = []) {
