@@ -275,7 +275,7 @@ Next I hope to tackle more challenging problems of converting ES5 style React.cr
 
 Thanks for reading! If you have any suggestions and comments, tweet me at [@_vramana](https://twitter.com/_vramana).
 
-Big shoutout to [@cpojer] who carefully reviewed this post.
+Big shoutout to [@cpojer](https://twitter.com/cpojer) who carefully reviewed this post.
 
 ### Notes:
 
