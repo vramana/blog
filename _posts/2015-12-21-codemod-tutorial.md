@@ -26,7 +26,7 @@ to this
 
 ## Solution:
 
-In this section of this tutorial, I will teach to how to use [ASTExplorer](ast) and arrive at the solution to our problem incrementally.
+In this section of this tutorial, I will teach to how to use [ASTExplorer][ast] and arrive at the solution to our problem incrementally.
 
 Whenever I try to solve a problem, my first approach is to break down the problem into smaller pieces and solve them one by one. To explain this bit more, you don't need to solve problem in its full generality in the first go, solve for a specific case it may give you insights on how to solve the original problem. I think that converting this  
 
@@ -44,7 +44,7 @@ is a nice way to begin solving this problem.
 
 ### Step 1:
 
-Our entire solution revolves around transforming one AST into another. In our first step, we will explore the AST. Let's open [ASTExplorer](ast). Clear everything inside the editor and enter `a + b`. On the right hand side of the editor, you will see the corresponding AST for the code you have just written. Open the tree a bit and it will look like this.
+Our entire solution revolves around transforming one AST into another. In our first step, we will explore the AST. Let's open [ASTExplorer][ast]. Clear everything inside the editor and enter `a + b`. On the right hand side of the editor, you will see the corresponding AST for the code you have just written. Open the tree a bit and it will look like this.
 
 ![Binary Expression AST](https://i.imgur.com/ws1noj7.png?1)
 
