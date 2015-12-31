@@ -190,17 +190,17 @@ This is my first half of the solution:
 
 ```js
 export default function (file, api) {
-  const j = api.jscodeshift;
+  const j = api.jscodeshift
 
   const hasKey = (object, key) => {
-    const { properties } = object;
-    return properties.some(property => property.key.name === key);
+    const { properties } = object
+    return properties.some(property => property.key.name === key)
   }
 
   const transformArity = fnNode => {
     if (fnNode.params.length === 2) {
       if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
-        fnNode.params = [ fnNode.params[1] ];
+        fnNode.params = [ fnNode.params[1] ]
       }
     }
   }
@@ -210,7 +210,7 @@ export default function (file, api) {
     if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
       const [ initialize ] = node.properties.filter(property => property.key.name === 'initialize')
 
-      if (initialize.value.type === 'FunctionExpression' || initialize.value.type === 'ArrowFunctionExpression') {
+      if (initialize.value.type === 'FunctionExpression') {
         transformArity(initialize.value)
       } else if (initialize.value.type === 'Identifier') {
         // todo  
@@ -231,14 +231,15 @@ export default function (file, api) {
 
 **A quick tip**: Always read the source of codemod from the bottom to top, it usually makes more sense that way. This way you don't have to read through plethora of implementation details to understand the gist of it.
 
+**Note:** Arity is defined as the number of arguments of that given function accepts.
 
 Let's try to understand the code we have here. In the return value of the codemod function, first we convert the file into an AST and find all the `ObjectExpression` nodes and then apply the `changeArity` function on each of them finally convert it back to JavaScript code. This part is pretty much the same thing we have been doing in out previous examples.
 
-In the `changeArity` function, we are checking if the `ObjectExpression` node we have contains the keys `name` and `initialize` using the `hasKey` function. If it has both of them, then we look at the type of value of `initialize` key. If it's either a `FunctionExpression` or `ArrowFunctionExpression`, we then apply the `transformArity` function which will check if the `FunctionExpression` has two arguments and if `container` has been used or not in the function body.
+In the `changeArity` function, we are checking if the `ObjectExpression` node we have contains the keys `name` and `initialize` using the `hasKey` function. If it has both of them, then we look at the type of value of `initialize` key. If it's either a `FunctionExpression`, we then apply the `transformArity` function which will check if the `FunctionExpression` has two arguments and if `container` has been used or not in the function body.
 
 Here, I hit my first road block trying to write the `transformArity` function. I didn't know how to count all instances of `container`. After reading a bit of examples, I realized you can call `j` with a node and it will return a `Collection` of that node then we can perform `find`, `filter` etc., on it. `Collection` has a `size` method which will return the no. of paths it has. With this information we are back on track. So, we need to create a `Collection` from the function body and find all `Identifier`'s with name `container` and check if that `Collection`'s size is 0.   
 
-Now we will look at how to handle the other case where type of value of `initialize` key is an `Identifier`. First we need look up the name of the `Identifier` and then find the `FunctionDeclaration` node then apply `transformArity` function on that node.    
+Now we will look at how to handle the other case where type of value of `initialize` key is an `Identifier`. First we need look up the name of the `Identifier` and then find the `FunctionDeclaration` node then apply `transformArity` function on that node. That's it we are done because we already handled logic to transform the arity of the function and all we needed to do was to find where our function is.
 
 So, the question is how do I go to this `FunctionDeclaration` node. The best way I could think of is to go the root of your AST and search from there. So, you have to go to parent node check if it has a parent node or not. If not then it is the root of AST otherwise go it's parent and check again. Although the idea seemed okay, I wanted to find an easier way to get to the root. After some struggle, I found the solution in one of the transforms in [react-codemod][react-codemod] repo. I will now present a very simplified version of it.
 
@@ -260,10 +261,98 @@ export default function (file, api) {
   return null
 }
 ```
-  
+
+There are several ideas that presented in this short piece. But we will not right away delve into all of them right away. Let's just look at the most important one of them.
+
+In the third line, `j(file.source)` is declared as `root`. As we have discussed, `j` when used a function returns a `Collection` and this time it's a collection that contains the entire program.
+
+This solves of our problem of finding the `FunctionDeclaration` node because you can simply do `root.find(j.FunctionDeclaration)`. There is absolutely no need to write any recursive functions to get to the root. Voila! We can get back to solving our main problem.
+
+This is what the final code looks like:
+
+```js
+export default function (file, api) {
+  const j = api.jscodeshift
+  const root = j(file.source)
+
+  const hasKey = (object, key) => {
+    const { properties } = object
+    return properties.some(property => property.key.name === key)
+  }
+
+  const transformArity = fnNode => {
+    if (fnNode.params.length === 2) {
+      if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
+        fnNode.params = [ fnNode.params[1] ]
+      }
+    }
+  }
+
+  const changeArity = p => {
+    const { node } = p
+    if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
+      const [ initialize ] = node.properties.filter(property => property.key.name === 'initialize')
+
+      if (initialize.value.type === 'FunctionExpression') {
+        transformArity(initialize.value)
+      } else if (initialize.value.type === 'Identifier') {
+
+        root.find(j.FunctionDeclaration, { id : { name:  initialize.value.name } })
+          .replaceWith(p => {
+            transformArity(p.node)
+            return p.node;
+          })
+      }
+    }
+
+    return p.node
+  }
+
+  return (
+    root.find(j.ObjectExpression)
+      .replaceWith(changeArity)
+      .toSource()
+  )
+}
+```
+
+All I did here was to replace the TODO block with some code and the rest is same. We actually didn't write much code this time. Let's try to understand it.
+
+We started here with a familiar `root.find(j.FunctionDeclaration, ...)` call & the other argument is just to find the function with correct name and this find us path of the function we need. Then we are calling `.replaceWith(...)` to change the arity of the function that fits our description using previously defined `transformArity` function. Some here may say "Hey! wait a second. Are you trying to pull a fast one over me?" Actually no, I actually struggled quite a lot for writing these few lines.
+
+We are actually inside a transformation call already and we are invoking another transformation call. It is a non-trivial idea but all we are doing is mutating AST within `root` Collection. When I first realized that I was mutating `root` AST, I was unhappy because I love functional programming and strongly try to not mutate data. I kind of disliked the API at this point. Anyway, let's get back to matter at hand.
+
+After mutating ( transforming the function's arity ), we just stop there and  wait till we get out of the outer transformation call and covert the `root` back into JavaScript using `.toSource` method on the `Collection`.
+
+Although I have solved the problem, I was not satisfied. The reason was `changeArity` didn't look clean at all and it was doing too much stuff. I wanted a better arrange the logic in a better way. And thats where I used the ideas in the above snippet again.       
 
 ### Solution (Attempt 2)
 
+I am just re-pasting the snippet for sake of convenience. Let's dive more into it this time.
+
+```js
+export default function (file, api) {
+  const j = api.jscodeshift;
+  const root = j(file.source);
+
+  // Some methods here
+
+  const didTransform1 = root.find(...).replaceWith(...).size()
+
+  const didTransform2 = root.find(...).replaceWith(...).size()
+
+  if (didTransform1 + didTransform2 > 0) {
+    return root.toSource();
+  }
+
+  return null
+}
+```
+
+I treat `root.find(...).replaceWith(...)` as a single transform. If you look at the above snippet, we are doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The `.size()` calls at the end give no. of paths that have transformed in your transformation. The `didTransform1` and `didTransform2` variables capture total no. of paths that involved in the whole transformation. If their sum is zero, then there is not point in coverting unmodified AST to JavaScript, we can just leave the file as is and so we return `null` instead the `root.toSource()` to notify **jscodeshift**  that we haven't changed anything.
+
+
+ 
 
 
 [tutorial]: https://vramana.github.io/blog/2015/12/21/codemod-tutorial/
