@@ -349,10 +349,26 @@ export default function (file, api) {
 }
 ```
 
-I treat `root.find(...).replaceWith(...)` as a single transform. If you look at the above snippet, we are doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The `.size()` calls at the end give no. of paths that have transformed in your transformation. The `didTransform1` and `didTransform2` variables capture total no. of paths that involved in the whole transformation. If their sum is zero, then there is not point in coverting unmodified AST to JavaScript, we can just leave the file as is and so we return `null` instead the `root.toSource()` to notify **jscodeshift**  that we haven't changed anything.
+I treat `root.find(...).replaceWith(...)` as a single transform. If you look at the above snippet, we are doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The `.size()` calls at the end give no. of paths that have transformed in your transformation. The `didTransform1` and `didTransform2` variables capture total no. of paths that involved in the whole transformation. If their sum is zero, then there is not point in coverting unmodified AST to JavaScript, we can just leave the file as is and so we return `null` instead the `root.toSource()` to notify **jscodeshift**  that we haven't changed anything. These things are not necessary to write a codemod but it kind of hints at difference in the way the an amateur and an expert thinks.
 
 
- 
+Anyway before going into the second solution, I will introduce one last **jscodeshift** API. This API allows us to add custom methods (that are built on top of more primitive methods) on the `Collection`'s prototype so you use use these methods on `Collection`s as if they were normal methods. Here is how you do it.
+
+```js
+j.registerMethods({
+  customMethod() {
+    return this.find().... // some primitive methods
+  }
+})
+
+// Allows:
+root.customMethod()
+```
+
+
+
+
+
 
 
 [tutorial]: https://vramana.github.io/blog/2015/12/21/codemod-tutorial/
