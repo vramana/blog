@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Path to painless upgrades in Ember
+title: Codemods: Path to painless upgrades in Ember
 published: false
 ---
 
@@ -320,7 +320,7 @@ All I did here was to replace the TODO block with some code and the rest is same
 
 We started here with a familiar `root.find(j.FunctionDeclaration, ...)` call & the other argument is just to find the function with correct name and this find us path of the function we need. Then we are calling `.replaceWith(...)` to change the arity of the function that fits our description using previously defined `transformArity` function. Some here may say "Hey! wait a second. Are you trying to pull a fast one over me?" Actually no, I actually struggled quite a lot for writing these few lines.
 
-We are actually inside a transformation call already and we are invoking another transformation call. It is a non-trivial idea but all we are doing is mutating AST within `root` Collection. When I first realized that I was mutating `root` AST, I was unhappy because I love functional programming and strongly try to not mutate data. I kind of disliked the API at this point. Anyway, let's get back to matter at hand.
+We are actually inside a transformation call already and we are invoking another transformation call. It is a non-trivial idea but all we are doing is mutating AST within `root` Collection. This is first time I realized that I was mutating `root` AST, I was unhappy because I love functional programming and strongly try to not mutate data. If we are not mutating, both the transformations would end up creating two different AST's but we want to change same AST so we mutate it. I kind of disliked the API at this point. Anyway, let's get back to matter at hand.
 
 After mutating ( transforming the function's arity ), we just stop there and  wait till we get out of the outer transformation call and covert the `root` back into JavaScript using `.toSource` method on the `Collection`.
 
@@ -328,7 +328,7 @@ Although I have solved the problem, I was not satisfied. The reason was `changeA
 
 ### Solution (Attempt 2)
 
-I am just re-pasting the snippet for sake of convenience. Let's dive more into it this time.
+I am just re-pasting the above snippet for the sake of convenience. Let's dive more into it this time.
 
 ```js
 export default function (file, api) {
@@ -349,10 +349,10 @@ export default function (file, api) {
 }
 ```
 
-I treat `root.find(...).replaceWith(...)` as a single transform. If you look at the above snippet, we are doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The `.size()` calls at the end give no. of paths that have transformed in your transformation. The `didTransform1` and `didTransform2` variables capture total no. of paths that involved in the whole transformation. If their sum is zero, then there is not point in coverting unmodified AST to JavaScript, we can just leave the file as is and so we return `null` instead the `root.toSource()` to notify **jscodeshift**  that we haven't changed anything. These things are not necessary to write a codemod but it kind of hints at difference in the way the an amateur and an expert thinks.
+Here, I treat `root.find(...).replaceWith(...)` as a single transform. If you look at the above snippet, we are doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The `.size()` calls at the end give no. of paths that have transformed in your transformation. The `didTransform1` and `didTransform2` variables capture total no. of paths that involved in the whole transformation. If their sum is zero, then there is not point in coverting unmodified AST to JavaScript, we can just leave the file as is and so we return `null` instead the `root.toSource()` to notify **jscodeshift**  that we haven't changed anything. These things are not necessary to write a codemod but it kind of hints at difference in the way the an amateur and an expert thinks.
 
 
-Anyway before going into the second solution, I will introduce one last **jscodeshift** API. This API allows us to add custom methods (that are built on top of more primitive methods) on the `Collection`'s prototype so you use use these methods on `Collection`s as if they were normal methods. Here is how you do it.
+Anyway before going into the second solution, I will introduce one last **jscodeshift** API. This API allows us to add custom methods (that are built on top of more primitive methods) on the `Collection`'s prototype so you use use these methods on `Collection`s as if they were normal methods. These are called Extensions. Here is how you do it.
 
 ```js
 j.registerMethods({
@@ -365,11 +365,117 @@ j.registerMethods({
 root.customMethod()
 ```
 
+Don't worry if this didn't make too much sense to you, we will see some real code that will help you understand things. Instead of extending the `Collection`, you can simply write a function and   
+
+In our problem, we have two different styles of code which we have to codemod, one where `initialize` is an `Identifier` node and the other where it's a `FunctionExpression` node. So, the idea is to solve them independently using didTransform pattern (I just made this up) we just saw.  
+
+This is what the final code looks like:
+
+```js
+export default function (file, api) {
+  const j = api.jscodeshift
+  const root = j(file.source)
+
+  const transformArity = node => {
+    if (node.params.length === 2) {
+      if (j(node.body).find(j.Identifier, { name: node.params[0].name }).size() === 0) {
+        node.params = [ node.params[1] ]
+      }
+    }
+  }
+
+  const hasKey = (object, key) => {
+    const { properties } = object
+    return properties.some(property => property.key.name === key)
+  }
+
+  const isIntializer = p => {
+    return hasKey(p.node, 'name') && hasKey(p.node, 'initialize')
+  }
+
+  const findInitialize = p => {
+    const { properties } = p.node
+    const [ initialize ] = properties.filter(property => property.key.name === 'initialize')
+
+    return initialize
+  }
+
+  const isIntializeMethod = p => findInitialize(p).value.type === 'FunctionExpression'
+
+  const isIntializeIdentifier = p => findInitialize(p).value.type = 'Identifier'
+
+  const changeMethod = p => {
+    const method = findInitialize(p).value
+    transformArity(method)
+
+    return p.node
+  }
+
+  const changeIdentifierDeclaration = p => {
+    const name = findInitialize(p1).value.name
+    root.find(j.FunctionDeclaration, { id : { name } }).replaceWith(p => {
+      transformArity(p.node)
+      return p.node
+    })
+
+    return p.node
+  }
+
+  j.registerMethods({
+    findInitializeMethod() {
+      return (
+        this.find(j.ObjectExpression)
+          .filter(isIntializer)
+          .filter(isIntializeMethod)
+      )
+    },
+    findInitializeIdentifier() {
+      return (
+        this.find(j.ObjectExpression)
+          .filter(isIntializer)
+          .filter(isIntializeIdentifier)
+      )
+    }
+  })
+
+  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size()
+
+  const didTransform2 = root.findInitializeIdentifier().replaceWith(changeIdentifierDeclaration).size()
+
+  if (didTransform1 + didTransform2 > 0) {
+    return root.toSource();
+  }
+
+  return null
+}
+```
+
+This looks a lot longer than the previous solution but don't worry you have already seen most it and the real difference lies in the organization of the code.
+
+Start reading the code from bottom to top. First thing to notice is using the didTransform pattern, we divided the transform into two sub-transforms which are simpler to reason about (Divide and Conquer FTW!!).
+
+Without reading the implementation details lets look at what `didTransform1` and `didTransform2` are doing. The `didTransform1` handles the case where `initialize` is a `FunctionExpression` node and `didTransform2` handles the case where `initialize` is an `Identifier` node. Here,`findInitializeMethod` and `findInitializeIdentifier` are extensions which return the path of the `ObjectExpression`'s that have `initialize` defined as `FunctionExpression` and `Identifier` respectively. We transform both collection of paths using `changeMethod` and `changeIdentifierDeclaration` functions respectively. Then we see if the anything changed and convert the AST to JavaScript if something changes.
+
+The implementation of `findInitializeMethod` is make a collection of `ObjectExpression`'s and filter the Initializer objects and check if the value of `initialize` key is actually a `FunctionExpression`. The implementation of `findInitializeIdentifier` is similar to `findInitializeMethod` except in the last step, instead of filtering `FunctionExpression` we filter `Identifier` nodes.
+
+`changeMethod` and `changeIdentifierDeclaration` code is already presented in Solution 1. We just repackaged it under a different name here so I am not explaining it again. We are still doing a transformation call inside another transformation call in `changeIdentifierDeclaration`. I currently don't know any way around it. But the point of writing this approach is to learn a way to write transforms more **declaratively**. It's not completely declarative but it tries to be within it's limitations.
 
 
+### Summary
 
+Let's summarize quickly, the important things what we have learnt so far.
 
+- By declaring `j(file.source)` as `root` let's you mutate the AST outside the scope of your current node.
 
+- The didTransform pattern allows you to write two transforms in a single codemod.
+
+That is all we have learned but I hoped to illustrate the need for these powerful ideas and how one can exploit these ideas to write a codemod. I think I tried my best to explain most of the concepts of codemods. Please go through the README of jscodeshift, it should not feel so alienistic. It will fill a few more things I have omitted here. You can now write codemods that you can use in your own project.
+
+Currently, jscodeshift's documentation is in a poor state (not even an API reference). I hope to improve it in the coming weeks as much as possible. Also, I want to find way another way to avoid calling a transformation inside another transformation. I have recently heard about Lenses in [this talk][drboolean] probably they are meant to solve this kind of problem I don't know I have to experiment with them.
+
+Coming back to the title of this post, I just named that way because I think it may attract more eyes on codemods for this long standing problem. Codemods by no means are silver bullet but they solve some trivial aspects in a very effective way.
+
+Thanks for reading this till the end. I appreciate it. If you have any comments or feedback, tweet at [@_vramana][vramana]
 
 [tutorial]: https://vramana.github.io/blog/2015/12/21/codemod-tutorial/
 [ast]: http://astexplorer.net/
@@ -379,3 +485,5 @@ root.customMethod()
 [dep2]: http://emberjs.com/deprecations/v2.x/#toc_initializer-arity
 [initial-sol]: https://github.com/vramana/ember-codemod/blob/dae24c2b0f1d34a08b332784aa96ade505c774fe/transforms/default-layout.js
 [react-codemod]: https://github.com/reactjs/react-codemod
+[drboolean]: https://www.youtube.com/watch?v=AvgwKjTPMmM
+[vramana]: https://twitter.com/_vramana
