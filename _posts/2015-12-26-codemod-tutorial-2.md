@@ -203,6 +203,8 @@ export default function (file, api) {
     if (fnNode.params.length === 2) {
       if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
         fnNode.params = [ fnNode.params[1] ]
+      } else {
+        // todo, warn the user of non-modded code
       }
     }
   }
