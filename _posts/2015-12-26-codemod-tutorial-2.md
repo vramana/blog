@@ -188,6 +188,8 @@ Although it may feel a bit overkill, this problem helped me understand that I kn
 
 The outline of my first solution is to find the object which has `name` & `initialize` keys and depending the type of value of `initialize` key we can apply a suitable transform. The case where `initialize` key's value is a `FunctionExpression` seemed easier to handle. If you don't know what a `FunctionExpression` is, a function is called `FunctionExpression` if it is passed around as value for example to initialize a variable, passed as argument to function etc.,
 
+**Tip**: Always read the source of my codemods from the bottom to top, so that you don't have to read through plethora of implementation details to understand the gist of it.
+
 This is my first half of the solution:
 
 ```js
@@ -210,7 +212,7 @@ export default function (file, api) {
   const changeArity = p => {
     const { node } = p
     if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const initialize = node.properties.find(property => property.key.name === 'initialize')
+      const [ initialize ] = node.properties.filter(property => property.key.name === 'initialize')
 
       if (initialize.value.type === 'FunctionExpression') {
         transformArity(initialize.value)
@@ -230,8 +232,6 @@ export default function (file, api) {
   )
 }
 ```
-
-**Tip**: Always read the source of codemod from the bottom to top, so that you don't have to read through plethora of implementation details to understand the gist of it.
 
 **Note:** Arity is defined as the number of arguments of that given function accepts.
 
