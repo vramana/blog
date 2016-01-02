@@ -26,7 +26,7 @@ A codemod is essentially a function which takes `file` and `api` (jscodeshift AP
 
 Note: `j` simply refers to `api.jscodeshift` if you have forgot.
 
-These are [jscodeshift][jscodeshift] API that we have learnt so far.  
+These are the [jscodeshift][jscodeshift] APIs that we have learnt so far.  
 
 - Pascal case version of node type (for example `j.FunctionExpression`) is used to check the type of node
 
