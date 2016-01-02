@@ -210,7 +210,7 @@ export default function (file, api) {
   const changeArity = p => {
     const { node } = p
     if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const [ initialize ] = node.properties.filter(property => property.key.name === 'initialize')
+      const initialize = node.properties.find(property => property.key.name === 'initialize')
 
       if (initialize.value.type === 'FunctionExpression') {
         transformArity(initialize.value)
