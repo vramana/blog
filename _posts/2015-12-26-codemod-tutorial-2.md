@@ -20,7 +20,7 @@ In my previous blog post, I haven't summarized what we have learned about codemo
 
 The first step to write a code is to dump the both input and output code in [ASTExplorer][ast] and inspect it & identify the nodes you want to change. Only then start writing your codemod.
 
-Codemod is essentially a function which takes `file` and `api` (jscodeshift API) as arguments and returns the transformed JavaScript code as the output. Inside our codemod function, first we convert our given JavaScript code into AST. Then we identify all the nodes we want to modify and apply the corresponding modifications on them. Once we are done, we convert the modified AST back into JavaScript code.
+A codemod is essentially a function which takes `file` and `api` (jscodeshift API) as arguments and returns the transformed JavaScript code as the output. Inside our codemod function, first we convert our given JavaScript code into AST. Then we identify all the nodes we want to modify and apply the corresponding modifications on them. Once we are done, we convert the modified AST back into JavaScript code.
 
 #### API summary
 
