@@ -186,7 +186,7 @@ Although it may feel a bit overkill, this problem helped me understand that I kn
 
 ### Solution (Attempt 1)
 
-The outline of my first solution is to find the object which has `name` & `initialize` keys and depending the type of value of `initialize` key we can apply a suitable transform. The case where `initialize` key's value is a `FunctionExpression` seemed easier to handle. If you don't know what a `FunctionExpression`, a function is called `FunctionExpression` if it is passed around as value for example to initialize a variable, passed as argument to function etc.,
+The outline of my first solution is to find the object which has `name` & `initialize` keys and depending the type of value of `initialize` key we can apply a suitable transform. The case where `initialize` key's value is a `FunctionExpression` seemed easier to handle. If you don't know what a `FunctionExpression` is, a function is called `FunctionExpression` if it is passed around as value for example to initialize a variable, passed as argument to function etc.,
 
 This is my first half of the solution:
 
