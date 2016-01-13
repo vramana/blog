@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Codemods: Path to painless upgrades in Ember
-published: false
+published: true
 ---
 
 *Note: This post assumes some knowledge of JS features from ES2015*
@@ -12,15 +12,15 @@ published: false
 
 After I wrote my last blog post on **How to write a codemod**, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.0 churn. I felt that codemods could have prevented some of the pain in the upgrading process. So, I wanted to write codemods for ember to show the community that, they can really benefit from codemods. But, the problem, I have absolutely zero knowledge of ember. But somehow, I landed on this [ember deprecations][ember-depr] page and I was immediately excited. It's because they gave the code before deprecation and after deprecation i.e, all we need to do is to write a codemod. I also felt a huge sigh of relief because I don't have to learn a new framework just to write a few codemods.      
 
-In this blog post, we will write codemods for two of the deprecations listed ont that page. The first one is extremely simple and second one is slightly more complex and tricky. Let's start!
+In this blog post, we will write codemods for two of the deprecations listed on that page. The first one is extremely simple and second one is slightly more complex and tricky. Let's start!
 
 ### A little recap
 
 In my previous blog post, I haven't summarized what we have learned about codemods. Let's quickly go over things we have learned so far.
 
-The first step to write a codemod is to dump the both input and output code in [ASTExplorer][ast] and inspect it & identify the nodes you want to change. Only then start writing your codemod.
+The first step to write a codemod is to dump the both input and output code in [ASTExplorer][ast]. Then look at both the AST's and identify the nodes you want to change and finally start writing your codemod.
 
-A codemod is essentially a function which takes `file` and `api` (jscodeshift API) as arguments and returns the transformed JavaScript code as the output. Inside our codemod function, first we convert our given JavaScript code into AST. Then we identify all the nodes we want to modify and apply the corresponding modifications on them. Once we are done, we convert the modified AST back into JavaScript code.
+A codemod is essentially a function which takes `file` and `api` (jscodeshift API) as arguments and returns the transformed JavaScript code as the output. Inside our codemod function, first we convert our given JavaScript code into AST. Then we select all the identified nodes we want to modify and apply the corresponding modifications on them. Once we are done, we convert the modified AST back into JavaScript code.
 
 #### API summary
 
@@ -133,6 +133,8 @@ export default function (file, api) {
 }
 ```
 
+Live Version: [http://astexplorer.net/#/bq5fA4afqR](http://astexplorer.net/#/bq5fA4afqR)
+
 There is not much here to explain. The code here feels a bit long but most of it is checking types of nodes and the `Identifier`'s name. Just look at return value of our transform, it gives the gist of what the codemod is. Each line follows the steps we have described above with the exception of first and last line which are common to every codemod. `filter` method here behaves exactly similar to `Array.filter`.  
 
 **Note**: I am not trying to write the most efficient code but I am trying to write modular code. The emphasis here is on teaching you how to write the codemod you want. Writing the most optimal code is left to you, the reader, as an exercise.
@@ -233,6 +235,8 @@ export default function (file, api) {
 }
 ```
 
+Live Version: [http://astexplorer.net/#/K0xJ26FT0Z](http://astexplorer.net/#/K0xJ26FT0Z)
+
 **Tip**: Always read the source of codemod from the bottom to top, so that you don't have to read through plethora of implementation details to understand the gist of it.
 
 **Note:** Arity is defined as the number of arguments of that given function accepts.
@@ -317,6 +321,8 @@ export default function (file, api) {
 }
 ```
 
+Live Version: [http://astexplorer.net/#/K0xJ26FT0Z/1](http://astexplorer.net/#/K0xJ26FT0Z/1)
+
 All I did here was to replace the TODO block with some code and the rest is same. We actually didn't write much code this time. Let's try to understand it.
 
 We started here with a familiar `root.find(j.FunctionDeclaration, ...)` call & the other argument is just to find the function with correct name and this filter the function with the name we want. Then we are calling `.replaceWith(...)` to change it's arity using `transformArity` function. Some here may say "Hey! wait a second. Are you trying to pull a fast one over me?" Actually no, I actually struggled quite a lot for writing these few lines.
@@ -334,112 +340,73 @@ export default function (file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  // Some methods here
-
-  const didTransform1 = root.find(...).replaceWith(...).size();
-
-  const didTransform2 = root.find(...).replaceWith(...).size();
-
-  if (didTransform1 + didTransform2 > 0) {
-    return root.toSource();
-  }
-
-  return null;
-}
-```
-
-Here, I treat `root.find(...).replaceWith(...)` as a single transform. If you look at the above snippet, we are actually doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The `.size()` calls at the end give no. of paths that have transformed in your transformation. So, the `didTransform1` and `didTransform2` give a sense of how many transformations occurred and this can be used to prevent errors.
-
-There are two kinds of errors that can happen while writing a codemod. The first kind is where you select an incorrect node type while finding the code you want to transform or even if you are finding the correct type, you may not be filtering it enough. The second kind is where you have a bug in your transformation logic. The `didTransform1` or `didTransform2` helps to avoid mistakes of the first kind.   
-
-Finally the if conditional at the end says if their sum is zero, then its unnecessary to convert an unmodified AST to back to JavaScript, we can just leave the file as is. So, we return `null` instead the `root.toSource()`.
-
-Anyway before going into the second solution, I will introduce Extensions in **jscodeshift** API. This allows us to add custom methods on the `Collection`'s prototype, so you use use these methods on `Collection`'s as if they were normal methods. Here is sample.
-
-```js
-j.registerMethods({
-  customMethod() {
-    return this.find(j.ObjectExpression).filter(isIntializer);
-  }
-})
-```
-
-If you don't like this, just simply write a function and it works too. There are reasons why you may want to use registerMethods but we won't cover it here.
-
-In our problem, we have two different styles of code which we have to codemod, one where value of `initialize` key is an `Identifier` node and the other where it's a `FunctionExpression` node. So, the idea is to solve them independently using didTransform pattern (I made this up) we just saw.  
-
-This is what the final code looks like:
-
-```js
-export default function (file, api) {
-  const j = api.jscodeshift;
-  const root = j(file.source);
-
   const transformArity = node => {
     if (node.params.length === 2) {
       if (j(node.body).find(j.Identifier, { name: node.params[0].name }).size() === 0) {
         node.params = [ node.params[1] ];
       }
     }
-  }
+  };
 
   const hasKey = (object, key) => {
     const { properties } = object;
     return properties.some(property => property.key.name === key);
-  }
+  };
 
   const isIntializer = p => {
     return hasKey(p.node, 'name') && hasKey(p.node, 'initialize');
-  }
+  };
 
   const findInitialize = p => {
     const { properties } = p.node;
     const [ initialize ] = properties.filter(property => property.key.name === 'initialize');
 
     return initialize;
-  }
+  };
 
-  const isIntializeMethod = p => findInitialize(p).value.type === 'FunctionExpression';
+  const isIntializeMethod = p => {
+    const type = findInitialize(p).value.type;
+    return type === 'FunctionExpression';
+  };
 
-  const isIntializeIdentifier = p => findInitialize(p).value.type = 'Identifier';
+  const isIntializeIdentifier = p => {
+    const type = findInitialize(p).value.type;
+    return type === 'Identifier';
+  };
 
   const changeMethod = p => {
     const method = findInitialize(p).value;
     transformArity(method);
 
     return p.node;
-  }
+  };
 
   const changeIdentifierDeclaration = p => {
-    const name = findInitialize(p1).value.name;
+    const name = findInitialize(p).value.name;
     root.find(j.FunctionDeclaration, { id : { name } }).replaceWith(p => {
-      transformArity(p.node)
-      return p.node
-    });
+      transformArity(p.node);
+      return p.node;
+    })
 
     return p.node;
-  }
+  };
 
   j.registerMethods({
     findInitializeMethod() {
       return (
-        this.find(j.ObjectExpression)
-          .filter(isIntializer)
-          .filter(isIntializeMethod)
+        this.find(j.ObjectExpression).filter(isIntializer).filter(isIntializeMethod)
       );
     },
     findInitializeIdentifier() {
       return (
-        this.find(j.ObjectExpression)
-          .filter(isIntializer)
-          .filter(isIntializeIdentifier)
+        this.find(j.ObjectExpression).filter(isIntializer).filter(isIntializeIdentifier)
       );
     }
-  })
+  });
 
-  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size();
+  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size()
 
-  const didTransform2 = root.findInitializeIdentifier().replaceWith(changeIdentifierDeclaration).size();
+  const didTransform2 = root.findInitializeIdentifier().replaceWith(changeIdentifierDeclaration).size()
 
   if (didTransform1 + didTransform2 > 0) {
     return root.toSource();
@@ -448,6 +415,8 @@ export default function (file, api) {
   return null;
 }
 ```
+
+Live Version: [http://astexplorer.net/#/K0xJ26FT0Z/2](http://astexplorer.net/#/K0xJ26FT0Z/2)
 
 This looks a lot longer than the previous solution but don't worry you have already seen most it and the difference lies in the organization of the code.
 
@@ -457,8 +426,7 @@ Without reading the implementation details, lets look at what `didTransform1` an
 
 The implementation of `findInitializeMethod` is make a collection of `ObjectExpression`'s and filter the Initializer objects and check if the value of `initialize` key is actually a `FunctionExpression`. The implementation of `findInitializeIdentifier` is similar to `findInitializeMethod` except in the last step, instead of filtering `FunctionExpression` we filter `Identifier` nodes.
 
-`changeMethod` and `changeIdentifierDeclaration` code is already presented in Solution 1. We just repackaged it under a different name here so I am not explaining it again. We are still doing a transformation call inside another transformation call in `changeIdentifierDeclaration`. I currently don't know any way around it. But the point of writing this approach is to learn a way to write transforms more **declaratively**. It's not completely declarative but it tries to be within it's limitations.
-
+`changeMethod` and `changeIdentifierDeclaration` code is already presented in Solution 1. We just repackaged it under a different name here so I am not explaining it again. We are still doing a transformation call inside another transformation call in `changeIdentifierDeclaration`. I currently don't know any way around it. But the point of writing this approach is to learn a way to write a codemod that targets two different styles of writing code at the same time i.e, it does two different kind of transforms at the same time. I also think it's a bit more declaritive but it's purely subjective opinion.
 
 ### Summary
 
@@ -468,13 +436,15 @@ Let's summarize quickly, the important things what we have learned so far.
 
 - The didTransform pattern allows you to write two transforms in a single codemod.
 
-That is all we have learned but I hoped to illustrate the need for these powerful ideas and how one can exploit these ideas to write a codemod. I think I tried my best to explain most of the concepts of codemods. Please go through the README of jscodeshift, it should not feel so alienistic. It will fill a few more things I have omitted here. You can now write codemods that you can use in your own project.
+That is all we have learned but I hoped to illustrate the need for these powerful ideas and how one can exploit these ideas to write a codemod. I think I tried my best to explain most of the concepts of codemods. Please go through the README of jscodeshift, it should not feel so alienistic. It will fill a few more things I have omitted here.
 
-Currently, jscodeshift's documentation is in a poor state (not even an API reference). I hope to improve it in the coming weeks as much as possible. Also, I want to find way another way to avoid calling a transformation inside another transformation. I have recently heard about Lenses in [this talk][drboolean] probably they are meant to solve this kind of problem I don't know I have to experiment with them.
+Currently, jscodeshift's documentation is in a poor state (not even an API reference). I hope to improve it in the coming weeks as much as possible (I started it but I haven't done too much). Also, I want to find way another way to avoid calling a transformation inside another transformation. I have recently heard about Lenses in [this talk][drboolean] probably they are meant to solve this kind of problem I don't know I have to experiment with them.
 
-Coming back to the title of this post, I just named that way because I think it may attract more eyes on codemods for this long standing problem. Codemods by no means are silver bullet but they solve some trivial aspects in a very effective way.
+Coming back to the title of this post, I just named that way because I thought it would attract more eyes on how codemods can reduce churn. React already provides codemods for some of their API changes. In the same manner, I think any framework/library can potentially use codemods to reduce some of the churn. Codemods by no means are silver bullet but they solve some trivial aspects in a very effective way.
 
 Thanks for reading this till the end. I appreciate it. If you have any comments or feedback, tweet at [@_vramana][vramana]
+
+Also big thanks to @cpojer and @kentcdodds for reviewing this post.
 
 [tutorial]: https://vramana.github.io/blog/2015/12/21/codemod-tutorial/
 [ast]: http://astexplorer.net/
