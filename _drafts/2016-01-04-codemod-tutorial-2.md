@@ -10,7 +10,7 @@ published: false
 
 ### Introduction
 
-After I wrote my last blog post on **How to write a codemod**, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.0 churn. I felt that codemods could have prevented some of the pain in the upgrading process. So, I wanted to write codemods for ember to show the community that, they can really benefit from codemods. But, the problem, I have absolutely zero knowledge of ember. But somehow, I landed on this [ember deprecations][ember-depr] page and I was immediately excited. It's because they gave the code before deprecation and after deprecation i.e, all we need to do is to write a codemod. I also felt a huge sigh of relief because I don't have to learn a new framework just to write a few codemods.    
+After I wrote my last blog post on **How to write a codemod**, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.0 churn. I felt that codemods could have prevented some of the pain in the upgrading process. So, I wanted to write codemods for ember to show the community that, they can really benefit from codemods. But, the problem, I have absolutely zero knowledge of ember. But somehow, I landed on this [ember deprecations][ember-depr] page and I was immediately excited. It's because they gave the code before deprecation and after deprecation i.e, all we need to do is to write a codemod. I also felt a huge sigh of relief because I don't have to learn a new framework just to write a few codemods.      
 
 In this blog post, we will write codemods for two of the deprecations listed ont that page. The first one is extremely simple and second one is slightly more complex and tricky. Let's start!
 
@@ -82,15 +82,15 @@ So, the algorithm will be as follows:
 
 ```js
 export default function (file, api) {
-  const j = api.jscodeshift
+  const j = api.jscodeshift;
 
   const isProperty = p => {
     return (
       p.parent.node.type === 'Property' &&
       p.parent.node.key.type === 'Identifier' &&
       p.parent.node.key.name === 'defaultLayout'
-    )
-  }
+    );
+  };
 
   const checkCallee = node => {
     const types = (
@@ -99,35 +99,37 @@ export default function (file, api) {
       node.object.object.type === 'Identifier' &&
       node.object.property.type === 'Identifier' &&
       node.property.type === 'Identifier'
-    )
+    );
 
     const identifiers = (
       node.object.object.name === 'Ember' &&
       node.object.property.name === 'Component' &&
       node.property.name === 'extend'
-    )
+    );
 
-    return types && identifiers
+    return types && identifiers;
   }
 
   const isArgument = p => {
     if (p.parent.parent.parent.node.type === 'CallExpression') {
-      const call = p.parent.parent.parent.node
-      return checkCallee(call.callee)
+      const call = p.parent.parent.parent.node;
+      return checkCallee(call.callee);
     }
   }
 
   const replaceDefaultLayout = p => {
-    p.node.name = 'layout'
-    return p.node
+    p.node.name = 'layout';
+    return p.node;
   }
 
-  return j(file.source)
-    .find(j.Identifier, { name: 'defaultLayout' })
-    .filter(isProperty)
-    .filter(isArgument)
-    .replaceWith(replaceDefaultLayout)
-    .toSource();
+  return (
+    j(file.source)
+      .find(j.Identifier, { name: 'defaultLayout' })
+      .filter(isProperty)
+      .filter(isArgument)
+      .replaceWith(replaceDefaultLayout)
+      .toSource()
+    );
 }
 ```
 
@@ -153,7 +155,7 @@ export function initialize(container, application) {
 export default {
   name: 'inject-session',
   initialize: initialize
-}
+};
 
 // Ember 2.1 and later
 
@@ -177,7 +179,7 @@ export default {
   initialize: function (container, application) {
     application.inject('route', 'service:session');
   }
-}
+};
 ```
 
 I wanted to handle this case too in my codemod.  
@@ -192,34 +194,34 @@ This is my first half of the solution:
 
 ```js
 export default function (file, api) {
-  const j = api.jscodeshift
+  const j = api.jscodeshift;
 
   const hasKey = (object, key) => {
-    const { properties } = object
-    return properties.some(property => property.key.name === key)
+    const { properties } = object;
+    return properties.some(property => property.key.name === key);
   }
 
   const transformArity = fnNode => {
     if (fnNode.params.length === 2) {
       if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
-        fnNode.params = [ fnNode.params[1] ]
+        fnNode.params = [ fnNode.params[1] ];
       }
     }
   }
 
   const changeArity = p => {
-    const { node } = p
+    const { node } = p;
     if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const initialize = node.properties.find(property => property.key.name === 'initialize')
+      const initialize = node.properties.find(property => property.key.name === 'initialize');
 
       if (initialize.value.type === 'FunctionExpression') {
-        transformArity(initialize.value)
+        transformArity(initialize.value);
       } else if (initialize.value.type === 'Identifier') {
         // todo  
       }
     }
 
-    return p.node
+    return p.node;
   }
 
   return (
@@ -227,7 +229,7 @@ export default function (file, api) {
       .find(j.ObjectExpression)
       .replaceWith(changeArity)
       .toSource()
-  )
+  );
 }
 ```
 
@@ -250,15 +252,15 @@ export default function (file, api) {
 
   // Some methods here
 
-  const didTransform1 = root.find(...).replaceWith(...).size()
+  const didTransform1 = root.find(...).replaceWith(...).size();
 
-  const didTransform2 = root.find(...).replaceWith(...).size()
+  const didTransform2 = root.find(...).replaceWith(...).size();
 
   if (didTransform1 + didTransform2 > 0) {
     return root.toSource();
   }
 
-  return null
+  return null;
 }
 ```
 
@@ -272,47 +274,46 @@ This is what the final code looks like:
 
 ```js
 export default function (file, api) {
-  const j = api.jscodeshift
-  const root = j(file.source)
+  const j = api.jscodeshift;
+  const root = j(file.source);
 
   const hasKey = (object, key) => {
-    const { properties } = object
-    return properties.some(property => property.key.name === key)
+    const { properties } = object;
+    return properties.some(property => property.key.name === key);
   }
 
   const transformArity = fnNode => {
     if (fnNode.params.length === 2) {
       if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
-        fnNode.params = [ fnNode.params[1] ]
+        fnNode.params = [ fnNode.params[1] ];
       }
     }
   }
 
   const changeArity = p => {
-    const { node } = p
+    const { node } = p;
     if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const [ initialize ] = node.properties.filter(property => property.key.name === 'initialize')
+      const [ initialize ] = node.properties.filter(property => property.key.name === 'initialize');
 
       if (initialize.value.type === 'FunctionExpression') {
-        transformArity(initialize.value)
+        transformArity(initialize.value);
       } else if (initialize.value.type === 'Identifier') {
-
         root.find(j.FunctionDeclaration, { id : { name:  initialize.value.name } })
           .replaceWith(p => {
             transformArity(p.node)
             return p.node;
-          })
+          });
       }
     }
 
-    return p.node
+    return p.node;
   }
 
   return (
     root.find(j.ObjectExpression)
       .replaceWith(changeArity)
       .toSource()
-  )
+  );
 }
 ```
 
@@ -335,15 +336,15 @@ export default function (file, api) {
 
   // Some methods here
 
-  const didTransform1 = root.find(...).replaceWith(...).size()
+  const didTransform1 = root.find(...).replaceWith(...).size();
 
-  const didTransform2 = root.find(...).replaceWith(...).size()
+  const didTransform2 = root.find(...).replaceWith(...).size();
 
   if (didTransform1 + didTransform2 > 0) {
     return root.toSource();
   }
 
-  return null
+  return null;
 }
 ```
 
@@ -358,7 +359,7 @@ Anyway before going into the second solution, I will introduce Extensions in **j
 ```js
 j.registerMethods({
   customMethod() {
-    return this.find(j.ObjectExpression).filter(isIntializer)
+    return this.find(j.ObjectExpression).filter(isIntializer);
   }
 })
 ```
@@ -371,52 +372,52 @@ This is what the final code looks like:
 
 ```js
 export default function (file, api) {
-  const j = api.jscodeshift
-  const root = j(file.source)
+  const j = api.jscodeshift;
+  const root = j(file.source);
 
   const transformArity = node => {
     if (node.params.length === 2) {
       if (j(node.body).find(j.Identifier, { name: node.params[0].name }).size() === 0) {
-        node.params = [ node.params[1] ]
+        node.params = [ node.params[1] ];
       }
     }
   }
 
   const hasKey = (object, key) => {
-    const { properties } = object
-    return properties.some(property => property.key.name === key)
+    const { properties } = object;
+    return properties.some(property => property.key.name === key);
   }
 
   const isIntializer = p => {
-    return hasKey(p.node, 'name') && hasKey(p.node, 'initialize')
+    return hasKey(p.node, 'name') && hasKey(p.node, 'initialize');
   }
 
   const findInitialize = p => {
-    const { properties } = p.node
-    const [ initialize ] = properties.filter(property => property.key.name === 'initialize')
+    const { properties } = p.node;
+    const [ initialize ] = properties.filter(property => property.key.name === 'initialize');
 
-    return initialize
+    return initialize;
   }
 
-  const isIntializeMethod = p => findInitialize(p).value.type === 'FunctionExpression'
+  const isIntializeMethod = p => findInitialize(p).value.type === 'FunctionExpression';
 
-  const isIntializeIdentifier = p => findInitialize(p).value.type = 'Identifier'
+  const isIntializeIdentifier = p => findInitialize(p).value.type = 'Identifier';
 
   const changeMethod = p => {
-    const method = findInitialize(p).value
-    transformArity(method)
+    const method = findInitialize(p).value;
+    transformArity(method);
 
-    return p.node
+    return p.node;
   }
 
   const changeIdentifierDeclaration = p => {
-    const name = findInitialize(p1).value.name
+    const name = findInitialize(p1).value.name;
     root.find(j.FunctionDeclaration, { id : { name } }).replaceWith(p => {
       transformArity(p.node)
       return p.node
-    })
+    });
 
-    return p.node
+    return p.node;
   }
 
   j.registerMethods({
@@ -425,26 +426,26 @@ export default function (file, api) {
         this.find(j.ObjectExpression)
           .filter(isIntializer)
           .filter(isIntializeMethod)
-      )
+      );
     },
     findInitializeIdentifier() {
       return (
         this.find(j.ObjectExpression)
           .filter(isIntializer)
           .filter(isIntializeIdentifier)
-      )
+      );
     }
   })
 
-  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size()
+  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size();
 
-  const didTransform2 = root.findInitializeIdentifier().replaceWith(changeIdentifierDeclaration).size()
+  const didTransform2 = root.findInitializeIdentifier().replaceWith(changeIdentifierDeclaration).size();
 
   if (didTransform1 + didTransform2 > 0) {
     return root.toSource();
   }
 
-  return null
+  return null;
 }
 ```
 
