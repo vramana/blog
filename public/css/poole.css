@@ -150,12 +150,12 @@ abbr[title] {
 /* Code */
 code,
 pre {
-  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-family: Menlo, Monaco, Inconsolata, 'Ubunto mono', monospace;
 }
 code {
   padding: .25em .5em;
   font-size: 85%;
-  color: #bf616a;
+  color: #1A237E;
   background-color: #f9f9f9;
   border-radius: 3px;
 }
