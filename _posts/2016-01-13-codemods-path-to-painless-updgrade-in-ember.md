@@ -346,6 +346,47 @@ export default function (file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
 
+  // Some methods here
+
+  const didTransform1 = root.find(...).replaceWith(...).size();
+
+  const didTransform2 = root.find(...).replaceWith(...).size();
+
+  if (didTransform1 + didTransform2 > 0) {
+   return root.toSource();
+  }
+
+  return null;
+}
+```
+
+Here, I treat `root.find(...).replaceWith(...)` as a single transform. If you look at the above snippet, we are actually doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The `.size()` calls at the end give no. of paths that have transformed in your transformation. So, the `didTransform1` and `didTransform2` give a sense of how many transformations occurred and this can be used to prevent errors.
+
+There are two kinds of errors that can happen while writing a codemod. The first kind is where you select an incorrect node type while finding the code you want to transform or even if you are finding the correct type, you may not be filtering it enough. The second kind is where you have a bug in your transformation logic. The `didTransform1` or `didTransform2` helps to avoid mistakes of the first kind.   
+
+Finally the if conditional at the end says if their sum is zero, then its unnecessary to convert an unmodified AST to back to JavaScript, we can just leave the file as is. So, we return `null` instead the `root.toSource()`.
+
+Anyway before going into the second solution, I will introduce Extensions in **jscodeshift** API. This allows us to add custom methods on the `Collection`'s prototype, so you use use these methods on `Collection`'s as if they were normal methods. Here is sample.
+
+```js
+j.registerMethods({
+ customMethod() {
+   return this.find(j.ObjectExpression).filter(isIntializer);
+ }
+})
+```
+
+If you don't like this, just simply write a function and it works too. There are reasons why you may want to use registerMethods but we won't cover it here.
+
+In our problem, we have two different styles of code which we have to codemod, one where value of `initialize` key is an `Identifier` node and the other where it's a `FunctionExpression` node. So, the idea is to solve them independently using didTransform pattern (I made this up) we just saw.  
+
+This is what the final code looks like:
+
+```js
+export default function (file, api) {
+  const j = api.jscodeshift;
+  const root = j(file.source);
+
   const transformArity = node => {
     if (node.params.length === 2) {
       if (j(node.body).find(j.Identifier, { name: 'container' }).size() === 0) {
