@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Codemods: Path to painless upgrades in Ember
+title: Codemods Path to painless upgrades in Ember
 published: true
 ---
 
