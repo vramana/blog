@@ -455,7 +455,7 @@ Currently, jscodeshift's documentation is in a poor state (not even an API refer
 
 Thanks for reading this till the end. I appreciate it. If you have any comments or feedback, tweet at [@_vramana][vramana]
 
-Also big thanks to @cpojer and @kentcdodds for reviewing this post.
+Also big thanks to [@cpojer](https://twitter.com/cpojer) and [@kentcdodds](https://twitter.com/kentcdodds) for reviewing this post.
 
 [tutorial]: https://vramana.github.io/blog/2015/12/21/codemod-tutorial/
 [ast]: http://astexplorer.net/
