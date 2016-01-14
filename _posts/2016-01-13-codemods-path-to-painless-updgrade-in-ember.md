@@ -12,7 +12,7 @@ published: true
 
 After I wrote my last blog post on **How to write a codemod**, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.0 churn. I felt that codemods could have prevented some of the pain in the upgrading process. So, I wanted to write codemods for ember to show the community that, they can really benefit from codemods. React already provides codemods for some of its breaking changes. In fact any framework/library can use codemods to reduce some of the churn. All that said, codemods by no means is silver bullet but they solve some trivial problems in a very effective way.
 
-Now the problem is I have absolutely zero knowledge of ember. But somehow, I landed on this [ember deprecations][ember-depr] page and I was immediately excited. It's because they gave the code before deprecation and after deprecation and that's exactly what we need to write a codemod. I also felt a huge sigh of relief because I don't have to learn a new framework just to write a few codemods.      
+Now the problem is I have absolutely zero knowledge of ember. But somehow, I landed on the [ember deprecations][ember-depr] page and I was immediately excited. It's because they gave the code before deprecation and after deprecation and that's exactly what we need to write a codemod. I also felt a huge sigh of relief because I don't have to learn a new framework just to write a few codemods.      
 
 In this blog post, we will write codemods for two of the deprecations listed on that page. The first one is extremely simple and second one is slightly more complex and tricky. Let's start!
 
