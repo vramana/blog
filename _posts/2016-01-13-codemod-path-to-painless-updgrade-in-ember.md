@@ -214,7 +214,8 @@ export default function (file, api) {
   const changeArity = p => {
     const { node } = p;
     if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const initialize = node.properties.find(property => property.key.name === 'initialize');
+      const initialize =
+        node.properties.find(property => property.key.name === 'initialize');
 
       if (initialize.value.type === 'FunctionExpression') {
         transformArity(initialize.value);
@@ -297,12 +298,15 @@ export default function (file, api) {
   const changeArity = p => {
     const { node } = p;
     if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const [ initialize ] = node.properties.filter(property => property.key.name === 'initialize');
+      const [ initialize ] =
+        node.properties.filter(property => property.key.name === 'initialize');
 
       if (initialize.value.type === 'FunctionExpression') {
         transformArity(initialize.value);
       } else if (initialize.value.type === 'Identifier') {
-        root.find(j.FunctionDeclaration, { id : { name:  initialize.value.name } })
+        root.find(j.FunctionDeclaration, {
+            id : { name:  initialize.value.name }
+          })
           .replaceWith(p => {
             transformArity(p.node)
             return p.node;
@@ -359,7 +363,8 @@ export default function (file, api) {
 
   const findInitialize = p => {
     const { properties } = p.node;
-    const [ initialize ] = properties.filter(property => property.key.name === 'initialize');
+    const [ initialize ] =
+      properties.filter(property => property.key.name === 'initialize');
 
     return initialize;
   };
@@ -394,19 +399,25 @@ export default function (file, api) {
   j.registerMethods({
     findInitializeMethod() {
       return (
-        this.find(j.ObjectExpression).filter(isIntializer).filter(isIntializeMethod)
+        this.find(j.ObjectExpression)
+          .filter(isIntializer)
+          .filter(isIntializeMethod)
       );
     },
     findInitializeIdentifier() {
       return (
-        this.find(j.ObjectExpression).filter(isIntializer).filter(isIntializeIdentifier)
+        this.find(j.ObjectExpression)
+          .filter(isIntializer)
+          .filter(isIntializeIdentifier)
       );
     }
   });
 
-  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size()
+  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size();
 
-  const didTransform2 = root.findInitializeIdentifier().replaceWith(changeIdentifierDeclaration).size()
+  const didTransform2 =
+    root.findInitializeIdentifier()
+      .replaceWith(changeIdentifierDeclaration).size();
 
   if (didTransform1 + didTransform2 > 0) {
     return root.toSource();
