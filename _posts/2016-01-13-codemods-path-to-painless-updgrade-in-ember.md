@@ -188,7 +188,7 @@ export default {
 
 I wanted to handle this case too in my codemod.  
 
-Although it may feel a bit overkill, this problem helped me understand that I knew nothing about jscodeshift. I went and read a lot of examples and jscodeshift's source to get understand how I can solve this problem. At the end, I got a few insights on how to write a codemod which is I want to share with you in this blog post.      
+Although it may feel a bit overkill, this problem helped me understand that I still had a lot to learn about jscodeshift. I went and read a lot of examples and jscodeshift's source to get understand how I can solve this problem. At the end, I got a few insights on how to write a codemod which is I want to share with you in this blog post.      
 
 ### Solution (Attempt 1)
 
