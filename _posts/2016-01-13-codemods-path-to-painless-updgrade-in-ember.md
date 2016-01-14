@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Codemods Path to painless upgrades in Ember
+title: Codemods: Path to painless upgrades in Ember
 published: true
 ---
 
@@ -346,7 +346,7 @@ export default function (file, api) {
 
   const transformArity = node => {
     if (node.params.length === 2) {
-      if (j(node.body).find(j.Identifier, { name: node.params[0].name }).size() === 0) {
+      if (j(node.body).find(j.Identifier, { name: 'container' }).size() === 0) {
         node.params = [ node.params[1] ];
       }
     }
