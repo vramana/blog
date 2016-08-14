@@ -12,7 +12,7 @@ For these tutorials (I plan to do more than one tutorial but we will see), we wi
 
 ## Problem:
 
-I looked to around a bit to find to good first problem, then it struck to me, now that we have template strings in ES2015, we don't have to write to have to concatenate using `+` operator. So our aim is to convert this
+I looked to around a bit to find to good first problem, then it struck to me, now that we have template strings in ES2015, we don't have to concatenate using `+` operator. So our aim is to convert this
 
 ```js
 'Yo ' + name + '! How are you doing?'  
