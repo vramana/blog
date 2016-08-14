@@ -3,7 +3,7 @@ markdown:         kramdown
 kramdown:
   input:          GFM
   use_coderay:    false
-highlighter:      pygments
+highlighter:      rouge
 
 # Permalinks
 permalink:        pretty
