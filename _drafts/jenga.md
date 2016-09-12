@@ -33,7 +33,7 @@ Example: a rule for linking
 
 Commonly, rules are split. framework + per-project config
 Dont want every developer to have to be a build system expert
-They should say: build all .ml in this dir into library ``foo'', making use of lib ``bar''
+They should say: build all .ml in this dir into library ''foo'', making use of lib ''bar''
 
 ----------------
 
@@ -100,7 +100,7 @@ Incremental
    clear inditement that the build system is broken
    Not acceptable when a full tree build takes 1--2 hours
 
-   Would be nice to avoid this explicit statement of deps. Dream system wold avoid it.
+   Would be nice to avoid this explicit statement of deps. Dream system would avoid it.
    Instead we focus on giving user means to make accurate specification of deps
    We need our build tool to to offer a language rich enough to express
    complex (& dynamic) dependencies for rules and rule generation,
@@ -243,7 +243,7 @@ Tenacious
    supports polling feature
 %
 Deferred
-   monad at heart of JS asyn library
+   monad at heart of JS async library
    support concurrent/parallel jenga builds
    "Co-operative multi threading"
 %
