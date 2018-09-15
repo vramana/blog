@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My Blog</title>
+    <link>https://vramana.github.io/blog/</link>
+    <description>Recent content on My Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 13 Jan 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Codemods - Path to painless upgrades in Ember</title>
+      <link>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</link>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</guid>
+      <description>Note: This post assumes some knowledge of JS features from ES2015
+This is blog post is continuation to the my other blog post on How to write a codemod
+Introduction After I wrote my last blog post on How to write a codemod, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.</description>
+    </item>
+    
+    <item>
+      <title>How to write a codemod</title>
+      <link>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</link>
+      <pubDate>Mon, 21 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</guid>
+      <description>Note: This post assumes some knowledge of JS features from ES2015
+If you don&amp;rsquo;t know what codemods are, go watch this talk by Christoph Pojer (cpojer). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again.</description>
+    </item>
+    
+  </channel>
+</rss>

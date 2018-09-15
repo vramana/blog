@@ -1,0 +1,9 @@
+title = "My Blog"
+
+theme = "tale"
+baseURL = "https://vramana.github.io/blog/"
+languageCode = "en-us"
+
+
+publishDir = "docs"
+
