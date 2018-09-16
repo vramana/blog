@@ -1,10 +1,10 @@
----
-date: '2016-01-13'
-published: true
-title: Codemods - Path to painless upgrades in Ember
-url: /2016/01/13/codemods-path-to-painless-updgrade-in-ember
----
++++
+date = "2016-01-13"
+published = true
+title = "Codemods: Path to painless upgrades in Ember"
+url = "/2016/01/13/codemods-path-to-painless-updgrade-in-ember"
 
++++
 
 *Note: This post assumes some knowledge of JS features from ES2015*
 
