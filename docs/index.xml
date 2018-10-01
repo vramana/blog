@@ -18,7 +18,8 @@
       
       <guid>https://vramana.github.io/blog/rust-debugging/</guid>
       <description>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&amp;rsquo;t know the solution yet.
- Don&amp;rsquo;t step in to standard library source code  This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.</description>
+Don&amp;rsquo;t step in to standard library source code
+This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.</description>
     </item>
     
     <item>
