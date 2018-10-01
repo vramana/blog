@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://vramana.github.io/blog/rust-debugging/</loc>
+    <lastmod>2018-09-30T14:58:48+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</loc>
     <lastmod>2016-01-13T00:00:00+00:00</lastmod>
   </url>
@@ -19,7 +24,7 @@
   
   <url>
     <loc>https://vramana.github.io/blog/</loc>
-    <lastmod>2016-01-13T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-30T14:58:48+05:30</lastmod>
     <priority>0</priority>
   </url>
   

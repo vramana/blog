@@ -6,10 +6,20 @@
     <description>Recent content on My Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 13 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 30 Sep 2018 14:58:48 +0530</lastBuildDate>
     
 	<atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Rust Debugging Paper Cuts</title>
+      <link>https://vramana.github.io/blog/rust-debugging/</link>
+      <pubDate>Sun, 30 Sep 2018 14:58:48 +0530</pubDate>
+      
+      <guid>https://vramana.github.io/blog/rust-debugging/</guid>
+      <description>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&amp;rsquo;t know the solution yet.
+ Don&amp;rsquo;t step in to standard library source code  This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.</description>
+    </item>
     
     <item>
       <title>Codemods: Path to painless upgrades in Ember</title>
