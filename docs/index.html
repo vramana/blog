@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-	<meta name="generator" content="Hugo 0.48" />
+<html lang="en-us">
+    <head>
+	<meta name="generator" content="Hugo 0.54.0" />
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
@@ -15,74 +14,78 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
 	
 		
-		<link rel="icon" type="image/png" sizes="32x32" href="https://vramana.github.io/blog/images/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="https://vramana.github.io/blog/images/favicon-16x16.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="https://vramana.github.io/blog/images/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
 	
 		
 		<link href="https://vramana.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="My Blog" />
 	</head>
 	
-
-  <body>
-		<nav class="nav">
+    <body>
+        		<nav class="nav">
 			<div class="nav-container">
-			<a href="https://vramana.github.io/blog//">
-				<h2 class="nav-title">My Blog</h2>
-			</a>
-			<ul>
-				<li><a href="https://vramana.github.io/blog/about">About</a></li>
-				<li><a href="https://vramana.github.io/blog/">Posts</a></li>
-			</ul>
+				<a href="/blog/">
+					<h2 class="nav-title">My Blog</h2>
+				</a>
+				<ul>
+    <li><a href="/blog/about">About</a></li>
+    <li><a href="/blog/">Posts</a></li>
+</ul>
 			</div>
 		</nav>
 
+        
+
 <main>
+	
+
+
 	<div class="catalogue">
 		
 			<a href="https://vramana.github.io/blog/rust-debugging/" class="catalogue-item">
-				<div>
-					<time datetime="2018-09-30 14:58:48 &#43;0530 IST" class="catalogue-time">September 30, 2018</time>
-					<h1 class="catalogue-title">Rust Debugging Paper Cuts</h1>
-					<div class="catalogue-line"></div>
-	
-					<p>
-						These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&rsquo;t know the solution yet.
+    <div>
+        <time datetime="2018-09-30 14:58:48 &#43;0530 IST" class="catalogue-time">September 30, 2018</time>
+        <h1 class="catalogue-title">Rust Debugging Paper Cuts</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&rsquo;t know the solution yet.
 Don&rsquo;t step in to standard library source code
 This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.
-					</p>
-	
-				</div>
-			</a>
+        </p>
+    </div>
+</a>
+
 		
 			<a href="https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/" class="catalogue-item">
-				<div>
-					<time datetime="2016-01-13 00:00:00 &#43;0000 UTC" class="catalogue-time">January 13, 2016</time>
-					<h1 class="catalogue-title">Codemods: Path to painless upgrades in Ember</h1>
-					<div class="catalogue-line"></div>
-	
-					<p>
-						Note: This post assumes some knowledge of JS features from ES2015
+    <div>
+        <time datetime="2016-01-13 00:00:00 &#43;0000 UTC" class="catalogue-time">January 13, 2016</time>
+        <h1 class="catalogue-title">Codemods: Path to painless upgrades in Ember</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            Note: This post assumes some knowledge of JS features from ES2015
 This is blog post is continuation to the my other blog post on How to write a codemod
 Introduction After I wrote my last blog post on How to write a codemod, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.
-					</p>
-	
-				</div>
-			</a>
+        </p>
+    </div>
+</a>
+
 		
 			<a href="https://vramana.github.io/blog/2015/12/21/codemod-tutorial/" class="catalogue-item">
-				<div>
-					<time datetime="2015-12-21 00:00:00 &#43;0000 UTC" class="catalogue-time">December 21, 2015</time>
-					<h1 class="catalogue-title">How to write a codemod</h1>
-					<div class="catalogue-line"></div>
-	
-					<p>
-						Note: This post assumes some knowledge of JS features from ES2015
+    <div>
+        <time datetime="2015-12-21 00:00:00 &#43;0000 UTC" class="catalogue-time">December 21, 2015</time>
+        <h1 class="catalogue-title">How to write a codemod</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            Note: This post assumes some knowledge of JS features from ES2015
 If you don&rsquo;t know what codemods are, go watch this talk by Christoph Pojer (cpojer). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again.
-					</p>
-	
-				</div>
-			</a>
+        </p>
+    </div>
+</a>
+
 		
 	</div>
 	
@@ -94,10 +97,12 @@ If you don&rsquo;t know what codemods are, go watch this talk by Christoph Pojer
 	</div>
 </main>
 
-		<footer>
+
+        		<footer>
 			<span>
-			&copy; <time datetime="2018-10-01 11:47:04.200755497 &#43;0530 IST m=&#43;0.194197002">2018</time> . Made with Hugo using the <a href="https://github.com/EmielH/tale-hugo/">Tale</a> theme.
+			&copy; <time datetime="2019-02-17 23:25:35.84986901 &#43;0530 IST m=&#43;0.209976004">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
-  </body>
+
+    </body>
 </html>

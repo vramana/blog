@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
+<html lang="en-us">
+    <head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
@@ -14,39 +13,41 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
 	
 		
-		<link rel="icon" type="image/png" sizes="32x32" href="https://vramana.github.io/blog/images/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="https://vramana.github.io/blog/images/favicon-16x16.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="https://vramana.github.io/blog/images/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
 	
 		
 		<link href="" rel="alternate" type="application/rss+xml" title="My Blog" />
 	</head>
 	
-
-  <body>
-		<nav class="nav">
+    <body>
+        		<nav class="nav">
 			<div class="nav-container">
-			<a href="https://vramana.github.io/blog//">
-				<h2 class="nav-title">My Blog</h2>
-			</a>
-			<ul>
-				<li><a href="https://vramana.github.io/blog/about">About</a></li>
-				<li><a href="https://vramana.github.io/blog/">Posts</a></li>
-			</ul>
+				<a href="/blog/">
+					<h2 class="nav-title">My Blog</h2>
+				</a>
+				<ul>
+    <li><a href="/blog/about">About</a></li>
+    <li><a href="/blog/">Posts</a></li>
+</ul>
 			</div>
 		</nav>
+
+        
 
 <main>
 	<div class="post">
 		<div class="post-info">
-		<span>Written by</span>
-			
-			<br>
-			<span>on&nbsp;</span><time datetime="2015-12-21 00:00:00 &#43;0000 UTC">December 21, 2015</time>
-		</div>
-
+    <span>Written by</span>
+        
+        <br>
+        <span>on&nbsp;</span><time datetime="2015-12-21 00:00:00 &#43;0000 UTC">December 21, 2015</time>
+</div>
 		<h1 class="post-title">How to write a codemod</h1>
-		<div class="post-line"></div>
+<div class="post-line"></div>
+
+		
 
 		
 
@@ -63,7 +64,6 @@
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">&#39;Yo &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;! How are you doing?&#39;</span>
@@ -76,7 +76,6 @@
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">`Yo </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">! How are you doing?`</span>
@@ -93,7 +92,6 @@
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">a</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">b</span>
@@ -106,7 +104,6 @@
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">a</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">b</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
@@ -157,7 +154,6 @@ explains these things.</p>
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -224,7 +220,6 @@ explains these things.</p>
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -261,7 +256,6 @@ explains these things.</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">a</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">b</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">c</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
@@ -304,7 +298,6 @@ explains these things.</p>
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -351,7 +344,6 @@ explains these things.</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#e6db74">&#39;Yo&#39;</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">name</span><span style="color:#e6db74">}${</span><span style="color:#e6db74">&#39;! How are you doing?&#39;</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
@@ -364,7 +356,6 @@ explains these things.</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">&#39;Y&#39;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;o&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;! How are you doing?&#39;</span>
@@ -377,7 +368,6 @@ explains these things.</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">`Yo </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">! How are you doing?`</span>
@@ -445,7 +435,6 @@ explains these things.</p>
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">52
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">53
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">55
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -522,16 +511,15 @@ explains these things.</p>
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">map</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">list</span>, <span style="color:#a6e22e">fn</span>, <span style="color:#a6e22e">acc</span> <span style="color:#f92672">=</span> []) {
@@ -550,6 +538,7 @@ explains these things.</p>
 <p>The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into <em>quasis</em> and <em>expressions</em> so we need an accumalator for each of them. But we also want to collect adjacent <code>Literal</code> so we will need another accumalator for that and that&rsquo;s how we end up with that function.</p>
 
 
+		
 	</div>
 
 	<div class="pagination">
@@ -557,10 +546,14 @@ explains these things.</p>
 
 		<a href="#" class="top">Top</a>
 	</div>
-</main>		<footer>
+</main>
+
+
+        		<footer>
 			<span>
-			&copy; <time datetime="2018-10-01 11:47:04.183991248 &#43;0530 IST m=&#43;0.177432632">2018</time> . Made with Hugo using the <a href="https://github.com/EmielH/tale-hugo/">Tale</a> theme.
+			&copy; <time datetime="2019-02-17 23:25:35.829068711 &#43;0530 IST m=&#43;0.189175334">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
-  </body>
+
+    </body>
 </html>
