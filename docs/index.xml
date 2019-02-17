@@ -6,10 +6,20 @@
     <description>Recent content on My Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 30 Sep 2018 14:58:48 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 17 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About Me</title>
+      <link>https://vramana.github.io/blog/about/</link>
+      <pubDate>Sun, 17 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://vramana.github.io/blog/about/</guid>
+      <description>My name is Venkata Ramana. I am currently working as a software engineer on both front-end and back-end. In my current job I am team leam for web application written React &amp;amp; Redux and bunch of small microservices in Go.
+My main interests are compilers and developer tools.</description>
+    </item>
     
     <item>
       <title>Rust Debugging Paper Cuts</title>
