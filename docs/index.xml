@@ -6,10 +6,21 @@
     <description>Recent content on My Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Most used Terminal Commands</title>
+      <link>https://vramana.github.io/blog/2019/02/20/terminal-commands/</link>
+      <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://vramana.github.io/blog/2019/02/20/terminal-commands/</guid>
+      <description>+
+Inspired by this article, I set out to find which are my most used commands.
+→ history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] &amp;quot; &amp;quot; i}}&#39; | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It&amp;rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit.</description>
+    </item>
     
     <item>
       <title>About Me</title>
@@ -23,11 +34,12 @@ My main interests are compilers and developer tools.</description>
     
     <item>
       <title>Rust Debugging Paper Cuts</title>
-      <link>https://vramana.github.io/blog/2018-09-30-rust-debugging/</link>
-      <pubDate>Sun, 30 Sep 2018 14:58:48 +0530</pubDate>
+      <link>https://vramana.github.io/blog/2018/09/30/rust-debugging/</link>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://vramana.github.io/blog/2018-09-30-rust-debugging/</guid>
-      <description>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&amp;rsquo;t know the solution yet.
+      <guid>https://vramana.github.io/blog/2018/09/30/rust-debugging/</guid>
+      <description>+
+These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&amp;rsquo;t know the solution yet.
 Don&amp;rsquo;t step in to standard library source code
 This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.</description>
     </item>

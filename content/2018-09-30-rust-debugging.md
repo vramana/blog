@@ -1,8 +1,9 @@
----
-title: "Rust Debugging Paper Cuts"
-date: 2018-09-30T14:58:48+05:30
-draft: false
----
++++
+title= "Rust Debugging Paper Cuts"
+published = true
+url = "/2018/09/30/rust-debugging"
+date= "2018-09-20"
+++++
 
 These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
 may be already solved problems but I don't know the solution yet.

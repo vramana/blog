@@ -43,6 +43,21 @@
 
 	<div class="catalogue">
 		
+			<a href="https://vramana.github.io/blog/2019/02/20/terminal-commands/" class="catalogue-item">
+    <div>
+        <time datetime="2019-02-20 00:00:00 &#43;0000 UTC" class="catalogue-time">February 20, 2019</time>
+        <h1 class="catalogue-title">Most used Terminal Commands</h1>
+        <div class="catalogue-line"></div>
+
+        <p>
+            +
+Inspired by this article, I set out to find which are my most used commands.
+→ history 0 $HISTSIZE | awk '{a[$2]++}END{for(i in a){print a[i] &quot; &quot; i}}' | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It&rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit.
+        </p>
+    </div>
+</a>
+
+		
 			<a href="https://vramana.github.io/blog/about/" class="catalogue-item">
     <div>
         <time datetime="2019-02-17 00:00:00 &#43;0000 UTC" class="catalogue-time">February 17, 2019</time>
@@ -57,14 +72,15 @@ My main interests are compilers and developer tools.
 </a>
 
 		
-			<a href="https://vramana.github.io/blog/2018-09-30-rust-debugging/" class="catalogue-item">
+			<a href="https://vramana.github.io/blog/2018/09/30/rust-debugging/" class="catalogue-item">
     <div>
-        <time datetime="2018-09-30 14:58:48 &#43;0530 IST" class="catalogue-time">September 30, 2018</time>
+        <time datetime="2018-09-20 00:00:00 &#43;0000 UTC" class="catalogue-time">September 20, 2018</time>
         <h1 class="catalogue-title">Rust Debugging Paper Cuts</h1>
         <div class="catalogue-line"></div>
 
         <p>
-            These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&rsquo;t know the solution yet.
+            +
+These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&rsquo;t know the solution yet.
 Don&rsquo;t step in to standard library source code
 This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.
         </p>
@@ -114,7 +130,7 @@ If you don&rsquo;t know what codemods are, go watch this talk by Christoph Pojer
 
         		<footer>
 			<span>
-			&copy; <time datetime="2019-02-20 12:25:10.754036405 &#43;0530 IST m=&#43;0.215496628">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2019-02-20 12:33:53.809549233 &#43;0530 IST m=&#43;0.218849153">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 

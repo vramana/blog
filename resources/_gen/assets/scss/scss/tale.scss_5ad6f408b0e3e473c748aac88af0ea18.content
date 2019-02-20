@@ -488,7 +488,7 @@ footer {
 .catalogue-item {
   border-bottom: 1px solid #e5e5e5;
   color: #555;
-  display: inline-block;
+  display: block;
   padding: 2rem 0; }
   .catalogue-item:hover .catalogue-line,
   .catalogue-item:focus .catalogue-line {

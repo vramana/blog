@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+		<title>
+				Most used Terminal Commands &middot; My Blog
+		</title>
+	
+		
+  		<link rel="stylesheet" href="/blog/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+	
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+	
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="My Blog" />
+	</head>
+	
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/blog/">
+					<h2 class="nav-title">My Blog</h2>
+				</a>
+				<ul>
+    <li><a href="/blog/about">About</a></li>
+    <li><a href="/blog/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        
+        <br>
+        <span>on&nbsp;</span><time datetime="2019-02-20 00:00:00 &#43;0000 UTC">February 20, 2019</time>
+</div>
+		<h1 class="post-title">Most used Terminal Commands</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>+</p>
+
+<p>Inspired by <a href="https://wincent.com/blog/frequently-used-terminal-commands">this article</a>, I set out to find which are my most used commands.</p>
+
+<pre><code>→ history 0 $HISTSIZE | awk '{a[$2]++}END{for(i in a){print a[i] &quot; &quot; i}}' | sort -rn | head
+
+1520 git
+616 cd
+611 yarn
+604 sudo
+601 curl
+349 rm
+264 docker
+232 heroku
+220 npm
+176 cat
+</code></pre>
+
+<p>It&rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of <a href="https://magit.vc">magit</a>. It
+would be nice to check what git subcommands I use the most. When I am working on any work related stuff.
+I tend to stick to magit. It&rsquo;s a bit surprise to not find <code>v</code> (my alias for neovim) in here. I need to
+debug this a bit more. <code>cat</code> is another surprise. I don&rsquo;t know when I used cat that much.</p>
+
+<p>It would be nice to see how my terminal command usages changes with month and how many commands I perform
+in a day and month. Silly things but I feel quite excited to do some more analysis this and generate graphs.</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/blog/about/" class="left arrow">&#8592;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-02-20 12:33:53.668750008 &#43;0530 IST m=&#43;0.078049838">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>
