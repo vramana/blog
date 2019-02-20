@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+		<title>
+				Rust Debugging Paper Cuts &middot; My Blog
+		</title>
+	
+		
+  		<link rel="stylesheet" href="/blog/css/style.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+	
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon.png">
+	
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="My Blog" />
+	</head>
+	
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/blog/">
+					<h2 class="nav-title">My Blog</h2>
+				</a>
+				<ul>
+    <li><a href="/blog/about">About</a></li>
+    <li><a href="/blog/">Posts</a></li>
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        
+        <br>
+        <span>on&nbsp;</span><time datetime="2018-09-30 14:58:48 &#43;0530 IST">September 30, 2018</time>
+</div>
+		<h1 class="post-title">Rust Debugging Paper Cuts</h1>
+<div class="post-line"></div>
+
+		
+
+		<p>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
+may be already solved problems but I don&rsquo;t know the solution yet.</p>
+
+<p><strong>Don&rsquo;t step in to standard library source code</strong></p>
+
+<p>This is a major issue step accidentally into rust std source code. Then do <code>next</code> command for few times
+till get out of it. More generally it would be nice to have command that will omit stepping into a few
+selected crates.</p>
+
+<p>While writing this post, I discovered <code>finish</code> which steps out the current stackframe. That is a neat
+workaround for now.</p>
+
+<p><strong>Enable gdb history by default for rust-gdb</strong></p>
+
+<p>I thought it&rsquo;s really weird that gdb does have history of commands of the last run. After typing the same
+commands again and again, I simply googled and found that gdb infact has history but it&rsquo;s just disabled
+by default.</p>
+
+<p><strong>Inspect return value of functions with expression as return value</strong></p>
+
+<p>I am usually at the end of the function defintion but I don&rsquo;t know how I can print the return value of the function.
+According to SO, again <code>finish</code> comes to the rescue. When you run it, it also gives the values returned by the
+last stack frame. The problem with this approach is we can&rsquo;t look at the locals variables and return value at the same time</p>
+
+<p><strong>The try operator dance</strong></p>
+
+<p>When the result of expression with try operator fails, then as you run <code>next</code> command first you jump to
+<code>}</code> at the end of function and then back to the <code>?</code> mark and then again back <code>}</code>.</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/2016/01/13/codemods-path-to-painless-updgrade-in-ember" class="left arrow">&#8592;</a>
+		<a href="/blog/about/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			<span>
+			&copy; <time datetime="2019-02-20 10:09:53.306041035 &#43;0530 IST m=&#43;0.138500121">2019</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>
