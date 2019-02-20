@@ -12,14 +12,13 @@
     
     
     <item>
-      <title>Most used Terminal Commands</title>
+      <title>My most used Terminal Commands</title>
       <link>https://vramana.github.io/blog/2019/02/20/terminal-commands/</link>
       <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://vramana.github.io/blog/2019/02/20/terminal-commands/</guid>
-      <description>+
-Inspired by this article, I set out to find which are my most used commands.
-→ history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] &amp;quot; &amp;quot; i}}&#39; | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It&amp;rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit.</description>
+      <description>Inspired by this article, I set out to find which are my most used commands.
+Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] &amp;quot; &amp;quot; i}}&#39; | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It&amp;rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit.</description>
     </item>
     
     <item>

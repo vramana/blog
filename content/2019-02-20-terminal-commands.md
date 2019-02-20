@@ -1,11 +1,15 @@
 +++
-title= "Most used Terminal Commands"
+title= "My most used Terminal Commands"
 published = true
 url = "/2019/02/20/terminal-commands"
 date= "2019-02-20"
-++++
++++
 
 Inspired by [this article][wincent-article], I set out to find which are my most used commands.
+
+
+## Feb 2019
+
 
 ```
 → history 0 $HISTSIZE | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
