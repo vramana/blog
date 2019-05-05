@@ -1,9 +1,24 @@
-title = "My Blog"
-
-theme = "tale"
+title = "Ramana Venkata"
+theme = "hugo-theme-yinyang"
 baseURL = "https://vramana.github.io/blog"
 languageCode = "en-us"
 
+[author]
+  name = "Ramana Venkata"
+  homepage = "https://vramana.github.io/blog"
 
 publishDir = "docs"
 
+[languages]
+  [languages.en]
+    contentDir = "content/posts"
+    languageName = "English"
+    weight = 1
+
+[[params.socials]]
+name = "About Me"
+link = "/about"
+
+[[params.socials]]
+name = "Github"
+link = "https://github.com/vramana"
