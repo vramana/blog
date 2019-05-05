@@ -1,0 +1,11 @@
+* IDEAS
+
+** TODO How to simple Form component
+** TODO Handle Errors in Form component 
+** TODO Handle Validation and Disable
+** TODO Form as a Hook aka useForm
+** TODO Rearchitecting our Login Flow (Ditching Sagas for React)
+
+* Maintenance
+
+** TODO Update Blog Theme 
