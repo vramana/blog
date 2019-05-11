@@ -1,0 +1,62 @@
+<head>
+  <meta charset="utf-8" />
+  {{ .Hugo.Generator }}
+
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="author" content="{{ .Site.Author.name }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <link rel="canonical" href="{{ .Permalink }}" />
+  {{- if .Site.Params.favicon -}}
+  <link rel="shortcut icon" href="{{ .Site.Params.favicon }}" type="image/x-png" />
+  {{- end -}}
+
+  <script type="application/ld+json">
+    {
+        "@context" : "http://schema.org",
+        "@type" : "BlogPosting",
+        "mainEntityOfPage": {
+             "@type": "WebPage",
+             "@id": "{{ .Site.BaseURL }}"
+        },
+        "articleSection" : "{{ .Section }}",
+        "name" : "{{ .Title }}",
+        "headline" : "{{ .Title }}",
+        {{ if .IsHome -}}
+        "description" : "{{ .Site.Params.description }}",
+        {{- else -}}
+        "description" : "{{ default .Summary .Description }}",
+        {{- end }}
+        "inLanguage" : "en-US",
+        "author" : "{{ .Site.Author.name }}",
+        "creator" : "{{ .Site.Author.name }}",
+        "publisher": "{{ .Site.Author.name }}",
+        "accountablePerson" : "{{ .Site.Author.name }}",
+        "copyrightHolder" : "{{ .Site.Author.name }}",
+        "copyrightYear" : "{{ .Date.Format "2006" }}",
+        "datePublished": "{{ .Date }}",
+        "dateModified" : "{{ .Date }}",
+        "url" : "{{ .Permalink }}"
+    }
+  </script>
+
+  {{- if .IsHome -}}
+  <title>{{ .Site.Title }}</title>
+  <meta property="og:title" content="{{ .Site.Title }}" />
+  <meta property="og:type" content="website" />
+  <meta name="description" content="{{ .Site.Params.description }}" />
+  {{- else -}}
+  <title>{{ .Title }} - {{ .Site.Title }}</title>
+  <meta property="og:title" content="{{ .Title }} - {{ .Site.Title }}" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="{{ default .Summary .Description }}" />
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  {{- end }}
+
+
+  <link rel="stylesheet" href="{{ "css/index.css" | relURL }}">
+</head>
+

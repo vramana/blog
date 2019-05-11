@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  {{ partial "head.html" }}
+
+  <body>
+    <div class="container">
+        {{ partial "header.html" }}
+
+        <article>
+
+          <header class="post-header">
+            <h3 class="post-title">{{ .Title }}</h3>
+            <div class="row">
+              <div class="col-6">
+                <time class="post-date" datetime="{{ .Date.Format "2006-01-02 15:04:05 MST" }}">
+                  {{ .Date.Format "02, Jan, 2006" }}
+                </time>
+              </div>
+              <div class="col-6">
+                <div class="post-author">
+                  <a target="_blank" href="{{ .Site.Author.homepage }}">@{{ .Site.Author.name }}</a>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <div class="post-content markdown-body">
+            {{ .Content }}
+          </div>
+        </article>
+
+    </div>
+    {{ partial "scripts.html" }}
+
+
+  </body>
+
+</html>

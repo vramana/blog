@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="site-footer-item">
+    <a href="/blog/about">About</a>
+  </div>
+  {{ range .Site.Params.socials }}
+  <div class="site-footer-item">
+    <a href="{{ .link }}" target="_blank">{{ .name }}</a>
+  </div>
+  {{ end }}
+</footer>

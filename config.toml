@@ -1,5 +1,4 @@
 title = "Ramana Venkata"
-theme = "hugo-theme-yinyang"
 baseURL = "https://vramana.github.io/blog"
 languageCode = "en-us"
 
@@ -9,15 +8,7 @@ languageCode = "en-us"
 
 publishDir = "docs"
 
-[languages]
-  [languages.en]
-    contentDir = "content"
-    languageName = "English"
-    weight = 1
 
-[[params.socials]]
-name = "About Me"
-link = "/blog/about"
 
 [[params.socials]]
 name = "Github"

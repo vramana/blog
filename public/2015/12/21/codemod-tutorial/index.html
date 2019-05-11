@@ -1,98 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+  <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.55.5" />
+  
+
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="Ramana Venkata" />
-  <meta property="og:url" content="https://vramana.github.io/blog/2015/12/21/codemod-tutorial/" />
-  <link rel="canonical" href="https://vramana.github.io/blog/2015/12/21/codemod-tutorial/" /><script type="application/ld+json">
-  {
-      "@context" : "http://schema.org",
-      "@type" : "BlogPosting",
-      "mainEntityOfPage": {
-           "@type": "WebPage",
-           "@id": "https:\/\/vramana.github.io\/blog"
-      },
-      "articleSection" : "posts",
-      "name" : "How to write a codemod",
-      "headline" : "How to write a codemod",
-      "description" : "Note: This post assumes some knowledge of JS features from ES2015\nIf you don\x26rsquo;t know what codemods are, go watch this talk by Christoph Pojer (cpojer). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again.",
-      "inLanguage" : "en-US",
-      "author" : "Ramana Venkata",
-      "creator" : "Ramana Venkata",
-      "publisher": "Ramana Venkata",
-      "accountablePerson" : "Ramana Venkata",
-      "copyrightHolder" : "Ramana Venkata",
-      "copyrightYear" : "2015",
-      "datePublished": "2015-12-21 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2015-12-21 00:00:00 \x2b0000 UTC",
-      "url" : "https:\/\/vramana.github.io\/blog\/2015\/12\/21\/codemod-tutorial\/",
-      "keywords" : [  ]
-  }
-</script>
-<title>How to write a codemod - Ramana Venkata</title>
-  <meta property="og:title" content="How to write a codemod - Ramana Venkata" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="" />
+  <link rel="canonical" href="" /><script type="application/ld+json">
+    {
+        "@context" : "http://schema.org",
+        "@type" : "BlogPosting",
+        "mainEntityOfPage": {
+             "@type": "WebPage",
+             "@id": ""
+        },
+        "articleSection" : "",
+        "name" : "",
+        "headline" : "",
+        "description" : "",
+        "inLanguage" : "en-US",
+        "author" : "",
+        "creator" : "",
+        "publisher": "",
+        "accountablePerson" : "",
+        "copyrightHolder" : "",
+        "copyrightYear" : "",
+        "datePublished": "",
+        "dateModified" : "",
+        "url" : ""
+    }
+  </script><title> - </title>
+  <meta property="og:title" content=" - " />
   <meta property="og:type" content="article" />
-  <meta name="description" content="Note: This post assumes some knowledge of JS features from ES2015
-If you don&rsquo;t know what codemods are, go watch this talk by Christoph Pojer (cpojer). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again." />
+  <meta name="description" content="" />
 
-  <link rel="stylesheet" href="https://unpkg.com/flexboxgrid@6.3.1/dist/flexboxgrid.min.css" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/tomorrow.min.css" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
   <link rel="stylesheet" href="/blog/css/index.css">
-  <link href="/blog/index.xml" rel="alternate" type="application/rss+xml" title="Ramana Venkata">
-  
-  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
-  
-  <script>
-    
-
-    (function (undefined) { }).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-  </script>
-
-  
 </head>
 
-<body>
-  <article class="post English" id="article">
-    <div class="row">
-      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
-        <div class="site-header">
-          
-<header>
-  <div class="signatures site-title">
-    <a href="/">Ramana Venkata</a>
-  </div>
-</header>
-<div class="row end-xs">
-  
-  
-</div>
-<div class="header-line"></div>
 
-        </div>
-        <header class="post-header">
-          <h1 class="post-title">How to write a codemod</h1>
-          <div class="row">
-            <div class="col-xs-6">
-              <time class="post-date" datetime="2015-12-21 00:00:00 UTC">
-                21, Dec, 2015
-              </time>
-            </div>
-            <div class="col-xs-6">
-              <div class="post-author">
-                <a target="_blank" href="https://vramana.github.io/blog">@Ramana Venkata</a>
+
+  <body>
+    <div class="container">
+        <nav>
+  <div class="signatures site-title">
+    <a href="">
+    <h1>Ramana Venkata</h1>
+    </a>
+  </div>
+</nav>
+
+<hr />
+
+
+        <article>
+
+          <header class="post-header">
+            <h3 class="post-title">How to write a codemod</h3>
+            <div class="row">
+              <div class="col-6">
+                <time class="post-date" datetime="2015-12-21 00:00:00 UTC">
+                  21, Dec, 2015
+                </time>
+              </div>
+              <div class="col-6">
+                <div class="post-author">
+                  <a target="_blank" href="https://vramana.github.io/blog">@Ramana Venkata</a>
+                </div>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        <div class="post-content markdown-body">
-          
+          <div class="post-content markdown-body">
+            
 
 <p><em>Note: This post assumes some knowledge of JS features from ES2015</em></p>
 
@@ -580,48 +567,16 @@ explains these things.</p>
 
 <p>The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into <em>quasis</em> and <em>expressions</em> so we need an accumalator for each of them. But we also want to collect adjacent <code>Literal</code> so we will need another accumalator for that and that&rsquo;s how we end up with that function.</p>
 
-        </div>
-        
-        
-        
-        <div class="site-footer">
-  
-  <div class="site-footer-item">
-    <a href="/blog/about" target="_blank">About Me</a>
-  </div>
-  
-  <div class="site-footer-item">
-    <a href="https://github.com/vramana" target="_blank">Github</a>
-  </div>
-  
-  <div class="site-footer-item">
-    <a href="https://twitter.com/_vramana" target="_blank">Twitter</a>
-  </div>
-  
-  <div class="site-footer-item">
-    <a href="https://github.com/joway/hugo-theme-yinyang" target="_blank">Theme</a>
-  </div>
-</div>
+          </div>
+        </article>
 
-      </div>
     </div>
-  </article>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <script src="/blog/js/highlight.pack.js"></script>
-<script src="https://unpkg.com/quicklink@0.1.1/dist/quicklink.umd.js"></script>
 
-<script>
-  hljs.initHighlightingOnLoad();
-  
-  var posts = document.getElementById('posts-list');
-  posts && quicklink({
-    el: posts,
-    priority: true,
-  });
-</script>
 
-  
-
-</body>
+  </body>
 
 </html>
