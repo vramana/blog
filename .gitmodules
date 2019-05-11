@@ -4,7 +4,3 @@
 [submodule "themes/tale"]
 	path = themes/tale
 	url = https://github.com/EmielH/tale-hugo.git
-[submodule "themes/hugo-theme-yinyang"]
-	path = themes/hugo-theme-yinyang
-	url = https://github.com/joway/hugo-theme-yinyang
-	branch = master
