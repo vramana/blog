@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ramana Venkata</title>
-    <link>https://vramana.github.io/blog/</link>
-    <description>Recent content on Ramana Venkata</description>
+    <title>Posts on Ramana Venkata</title>
+    <link>https://vramana.github.io/blog/posts/</link>
+    <description>Recent content in Posts on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://vramana.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -19,16 +19,6 @@
       <guid>https://vramana.github.io/blog/2019/02/20/terminal-commands/</guid>
       <description>Inspired by this article, I set out to find which are my most used commands.
 Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] &amp;quot; &amp;quot; i}}&#39; | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It&amp;rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit.</description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
-      <link>https://vramana.github.io/blog/about/</link>
-      <pubDate>Sun, 17 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://vramana.github.io/blog/about/</guid>
-      <description>My name is Venkata Ramana. I am currently working as a software engineer on both front-end and back-end. In my current job I am team leam for web application written React &amp;amp; Redux and bunch of small microservices in Go.
-My main interests are compilers and developer tools.</description>
     </item>
     
     <item>

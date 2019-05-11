@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.54.0" />
+  <meta name="generator" content="Hugo 0.55.5" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,15 +14,12 @@
       "@type" : "BlogPosting",
       "mainEntityOfPage": {
            "@type": "WebPage",
-           "@id": "https://vramana.github.io/blog"
+           "@id": "https:\/\/vramana.github.io\/blog"
       },
-      "articleSection" : "",
+      "articleSection" : "posts",
       "name" : "Rust Debugging Paper Cuts",
       "headline" : "Rust Debugging Paper Cuts",
-      "description" : "+
-These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&rsquo;t know the solution yet.
-Don&rsquo;t step in to standard library source code
-This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.",
+      "description" : "These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don\x26rsquo;t know the solution yet.\nDon\x26rsquo;t step in to standard library source code\nThis is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.",
       "inLanguage" : "en-US",
       "author" : "Ramana Venkata",
       "creator" : "Ramana Venkata",
@@ -30,17 +27,16 @@ This is a major issue step accidentally into rust std source code. Then do next 
       "accountablePerson" : "Ramana Venkata",
       "copyrightHolder" : "Ramana Venkata",
       "copyrightYear" : "2018",
-      "datePublished": "2018-09-20 00:00:00 &#43;0000 UTC",
-      "dateModified" : "2018-09-20 00:00:00 &#43;0000 UTC",
-      "url" : "https://vramana.github.io/blog/2018/09/30/rust-debugging/",
+      "datePublished": "2018-09-20 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2018-09-20 00:00:00 \x2b0000 UTC",
+      "url" : "https:\/\/vramana.github.io\/blog\/2018\/09\/30\/rust-debugging\/",
       "keywords" : [  ]
   }
 </script>
 <title>Rust Debugging Paper Cuts - Ramana Venkata</title>
   <meta property="og:title" content="Rust Debugging Paper Cuts - Ramana Venkata" />
   <meta property="og:type" content="article" />
-  <meta name="description" content="&#43;
-These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&rsquo;t know the solution yet.
+  <meta name="description" content="These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&rsquo;t know the solution yet.
 Don&rsquo;t step in to standard library source code
 This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates." />
 
@@ -97,9 +93,7 @@ This is a major issue step accidentally into rust std source code. Then do next 
         </header>
 
         <div class="post-content markdown-body">
-          <p>+</p>
-
-<p>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
+          <p>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
 may be already solved problems but I don&rsquo;t know the solution yet.</p>
 
 <p><strong>Don&rsquo;t step in to standard library source code</strong></p>
@@ -135,11 +129,15 @@ last stack frame. The problem with this approach is we can&rsquo;t look at the l
         <div class="site-footer">
   
   <div class="site-footer-item">
-    <a href="/about" target="_blank">About Me</a>
+    <a href="/blog/about" target="_blank">About Me</a>
   </div>
   
   <div class="site-footer-item">
     <a href="https://github.com/vramana" target="_blank">Github</a>
+  </div>
+  
+  <div class="site-footer-item">
+    <a href="https://twitter.com/_vramana" target="_blank">Twitter</a>
   </div>
   
   <div class="site-footer-item">

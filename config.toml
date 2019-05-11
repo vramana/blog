@@ -11,14 +11,19 @@ publishDir = "docs"
 
 [languages]
   [languages.en]
-    contentDir = "content/posts"
+    contentDir = "content"
     languageName = "English"
     weight = 1
 
 [[params.socials]]
 name = "About Me"
-link = "/about"
+link = "/blog/about"
 
 [[params.socials]]
 name = "Github"
 link = "https://github.com/vramana"
+
+
+[[params.socials]]
+name = "Twitter"
+link = "https://twitter.com/_vramana"

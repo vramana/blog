@@ -7,8 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="Ramana Venkata" />
-  <meta property="og:url" content="https://vramana.github.io/blog/2019/02/20/terminal-commands/" />
-  <link rel="canonical" href="https://vramana.github.io/blog/2019/02/20/terminal-commands/" /><script type="application/ld+json">
+  <meta property="og:url" content="https://vramana.github.io/blog/about/" />
+  <link rel="canonical" href="https://vramana.github.io/blog/about/" /><script type="application/ld+json">
   {
       "@context" : "http://schema.org",
       "@type" : "BlogPosting",
@@ -16,10 +16,10 @@
            "@type": "WebPage",
            "@id": "https:\/\/vramana.github.io\/blog"
       },
-      "articleSection" : "posts",
-      "name" : "My most used Terminal Commands",
-      "headline" : "My most used Terminal Commands",
-      "description" : "Inspired by this article, I set out to find which are my most used commands.\nFeb 2019 → history 0 $HISTSIZE | awk \x27{a[$2]\x2b\x2b}END{for(i in a){print a[i] \x26quot; \x26quot; i}}\x27 | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It\x26rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit.",
+      "articleSection" : "",
+      "name" : "About Me",
+      "headline" : "About Me",
+      "description" : "My name is Venkata Ramana. I am currently working as a software engineer on both front-end and back-end. In my current job I am team leam for web application written React \x26amp; Redux and bunch of small microservices in Go.\nMy main interests are compilers and developer tools.",
       "inLanguage" : "en-US",
       "author" : "Ramana Venkata",
       "creator" : "Ramana Venkata",
@@ -27,17 +27,17 @@
       "accountablePerson" : "Ramana Venkata",
       "copyrightHolder" : "Ramana Venkata",
       "copyrightYear" : "2019",
-      "datePublished": "2019-02-20 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2019-02-20 00:00:00 \x2b0000 UTC",
-      "url" : "https:\/\/vramana.github.io\/blog\/2019\/02\/20\/terminal-commands\/",
+      "datePublished": "2019-02-17 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2019-02-17 00:00:00 \x2b0000 UTC",
+      "url" : "https:\/\/vramana.github.io\/blog\/about\/",
       "keywords" : [  ]
   }
 </script>
-<title>My most used Terminal Commands - Ramana Venkata</title>
-  <meta property="og:title" content="My most used Terminal Commands - Ramana Venkata" />
+<title>About Me - Ramana Venkata</title>
+  <meta property="og:title" content="About Me - Ramana Venkata" />
   <meta property="og:type" content="article" />
-  <meta name="description" content="Inspired by this article, I set out to find which are my most used commands.
-Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]&#43;&#43;}END{for(i in a){print a[i] &quot; &quot; i}}&#39; | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It&rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit." />
+  <meta name="description" content="My name is Venkata Ramana. I am currently working as a software engineer on both front-end and back-end. In my current job I am team leam for web application written React &amp; Redux and bunch of small microservices in Go.
+My main interests are compilers and developer tools." />
 
   <link rel="stylesheet" href="https://unpkg.com/flexboxgrid@6.3.1/dist/flexboxgrid.min.css" />
   <link rel="stylesheet"
@@ -76,11 +76,11 @@ Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]&#43;&#43;}END{for(i in a){pri
 
         </div>
         <header class="post-header">
-          <h1 class="post-title">My most used Terminal Commands</h1>
+          <h1 class="post-title">About Me</h1>
           <div class="row">
             <div class="col-xs-6">
-              <time class="post-date" datetime="2019-02-20 00:00:00 UTC">
-                20, Feb, 2019
+              <time class="post-date" datetime="2019-02-17 00:00:00 UTC">
+                17, Feb, 2019
               </time>
             </div>
             <div class="col-xs-6">
@@ -92,33 +92,10 @@ Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]&#43;&#43;}END{for(i in a){pri
         </header>
 
         <div class="post-content markdown-body">
-          
+          <p>My name is Venkata Ramana. I am currently working as a software engineer on both front-end and back-end. In my current job
+I am team leam for web application written React &amp; Redux and bunch of small microservices in Go.</p>
 
-<p>Inspired by <a href="https://wincent.com/blog/frequently-used-terminal-commands">this article</a>, I set out to find which are my most used commands.</p>
-
-<h2 id="feb-2019">Feb 2019</h2>
-
-<pre><code>→ history 0 $HISTSIZE | awk '{a[$2]++}END{for(i in a){print a[i] &quot; &quot; i}}' | sort -rn | head
-
-1520 git
-616 cd
-611 yarn
-604 sudo
-601 curl
-349 rm
-264 docker
-232 heroku
-220 npm
-176 cat
-</code></pre>
-
-<p>It&rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of <a href="https://magit.vc">magit</a>. It
-would be nice to check what git subcommands I use the most. When I am working on any work related stuff.
-I tend to stick to magit. It&rsquo;s a bit surprise to not find <code>v</code> (my alias for neovim) in here. I need to
-debug this a bit more. <code>cat</code> is another surprise. I don&rsquo;t know when I used cat that much.</p>
-
-<p>It would be nice to see how my terminal command usages changes with month and how many commands I perform
-in a day and month. Silly things but I feel quite excited to do some more analysis this and generate graphs.</p>
+<p>My main interests are compilers and developer tools.</p>
 
         </div>
         
