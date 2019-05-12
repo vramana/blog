@@ -1,5 +1,5 @@
 title = "Ramana Venkata"
-baseURL = "https://vramana.github.io/blog"
+baseURL = "https://vramana.github.io/blog/"
 languageCode = "en-us"
 defaultContentLanguage = "en"
 publishDir = "docs"
