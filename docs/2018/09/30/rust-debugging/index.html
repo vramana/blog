@@ -1,85 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.55.5" />
 
-  <head>
-  <meta charset="utf-8" />
   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rust Debugging Paper Cuts &middot; Ramana Venkata</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="author" content="" />
-  <meta property="og:url" content="" />
-  <link rel="canonical" href="" /><script type="application/ld+json">
-    {
-        "@context" : "http://schema.org",
-        "@type" : "BlogPosting",
-        "mainEntityOfPage": {
-             "@type": "WebPage",
-             "@id": ""
-        },
-        "articleSection" : "",
-        "name" : "",
-        "headline" : "",
-        "description" : "",
-        "inLanguage" : "en-US",
-        "author" : "",
-        "creator" : "",
-        "publisher": "",
-        "accountablePerson" : "",
-        "copyrightHolder" : "",
-        "copyrightYear" : "",
-        "datePublished": "",
-        "dateModified" : "",
-        "url" : ""
-    }
-  </script><title> - </title>
-  <meta property="og:title" content=" - " />
-  <meta property="og:type" content="article" />
-  <meta name="description" content="" />
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
 
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-  <link rel="stylesheet" href="/blog/css/index.css">
+  
+  
 </head>
 
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://vramana.github.io/blog"><h1>Ramana Venkata</h1></a>
+      <p class="lead">
+       Remote Developer with interest Javascript and Go 
+      </p>
+    </div>
 
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://vramana.github.io/blog">Home</a> </li>
+        <li><a href="/blog/about/"> About Me </a></li>
+      </ul>
+    </nav>
 
-  <body>
-    <div class="container">
-        <nav>
-  <div class="signatures site-title">
-    <a href="">
-    <h1>Ramana Venkata</h1>
-    </a>
+    <p>&copy; 2019. All rights reserved. </p>
   </div>
-</nav>
+</aside>
 
-<hr />
-
-
-        <article>
-
-          <header class="post-header">
-            <h3 class="post-title">Rust Debugging Paper Cuts</h3>
-            <div class="row">
-              <div class="col-6">
-                <time class="post-date" datetime="2018-09-20 00:00:00 UTC">
-                  20, Sep, 2018
-                </time>
-              </div>
-              <div class="col-6">
-                <div class="post-author">
-                  <a target="_blank" href="https://vramana.github.io/blog">@Ramana Venkata</a>
-                </div>
-              </div>
-            </div>
-          </header>
-
-          <div class="post-content markdown-body">
-            <p>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
+    <main class="content container">
+    <div class="post">
+  <h1>Rust Debugging Paper Cuts</h1>
+  <time datetime=2018-09-20T00:00:00Z class="post-date">Thu, Sep 20, 2018</time>
+  <p>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
 may be already solved problems but I don&rsquo;t know the solution yet.</p>
 
 <p><strong>Don&rsquo;t step in to standard library source code</strong></p>
@@ -107,17 +79,11 @@ last stack frame. The problem with this approach is we can&rsquo;t look at the l
 
 <p>When the result of expression with try operator fails, then as you run <code>next</code> command first you jump to
 <code>}</code> at the end of function and then back to the <code>?</code> mark and then again back <code>}</code>.</p>
-
-          </div>
-        </article>
-
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
 
 
+    </main>
 
+    
   </body>
-
 </html>

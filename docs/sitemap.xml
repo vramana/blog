@@ -20,11 +20,6 @@
   </url>
   
   <url>
-    <loc>https://vramana.github.io/blog/about/</loc>
-    <lastmod>2019-02-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://vramana.github.io/blog/2018/09/30/rust-debugging/</loc>
     <lastmod>2018-09-20T00:00:00+00:00</lastmod>
   </url>
@@ -37,6 +32,10 @@
   <url>
     <loc>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</loc>
     <lastmod>2015-12-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vramana.github.io/blog/about/</loc>
   </url>
   
   <url>

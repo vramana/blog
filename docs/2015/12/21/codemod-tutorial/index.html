@@ -1,87 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.55.5" />
 
-  <head>
-  <meta charset="utf-8" />
   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>How to write a codemod &middot; Ramana Venkata</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="author" content="" />
-  <meta property="og:url" content="" />
-  <link rel="canonical" href="" /><script type="application/ld+json">
-    {
-        "@context" : "http://schema.org",
-        "@type" : "BlogPosting",
-        "mainEntityOfPage": {
-             "@type": "WebPage",
-             "@id": ""
-        },
-        "articleSection" : "",
-        "name" : "",
-        "headline" : "",
-        "description" : "",
-        "inLanguage" : "en-US",
-        "author" : "",
-        "creator" : "",
-        "publisher": "",
-        "accountablePerson" : "",
-        "copyrightHolder" : "",
-        "copyrightYear" : "",
-        "datePublished": "",
-        "dateModified" : "",
-        "url" : ""
-    }
-  </script><title> - </title>
-  <meta property="og:title" content=" - " />
-  <meta property="og:type" content="article" />
-  <meta name="description" content="" />
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
 
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-  <link rel="stylesheet" href="/blog/css/index.css">
+  
+  
 </head>
 
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://vramana.github.io/blog"><h1>Ramana Venkata</h1></a>
+      <p class="lead">
+       Remote Developer with interest Javascript and Go 
+      </p>
+    </div>
 
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://vramana.github.io/blog">Home</a> </li>
+        <li><a href="/blog/about/"> About Me </a></li>
+      </ul>
+    </nav>
 
-  <body>
-    <div class="container">
-        <nav>
-  <div class="signatures site-title">
-    <a href="">
-    <h1>Ramana Venkata</h1>
-    </a>
+    <p>&copy; 2019. All rights reserved. </p>
   </div>
-</nav>
+</aside>
 
-<hr />
-
-
-        <article>
-
-          <header class="post-header">
-            <h3 class="post-title">How to write a codemod</h3>
-            <div class="row">
-              <div class="col-6">
-                <time class="post-date" datetime="2015-12-21 00:00:00 UTC">
-                  21, Dec, 2015
-                </time>
-              </div>
-              <div class="col-6">
-                <div class="post-author">
-                  <a target="_blank" href="https://vramana.github.io/blog">@Ramana Venkata</a>
-                </div>
-              </div>
-            </div>
-          </header>
-
-          <div class="post-content markdown-body">
-            
-
-<p><em>Note: This post assumes some knowledge of JS features from ES2015</em></p>
+    <main class="content container">
+    <div class="post">
+  <h1>How to write a codemod</h1>
+  <time datetime=2015-12-21T00:00:00Z class="post-date">Mon, Dec 21, 2015</time>
+  <p><em>Note: This post assumes some knowledge of JS features from ES2015</em></p>
 
 <p>If you don&rsquo;t know what codemods are, go watch <a href="https://www.youtube.com/watch?v=d0pOgY8__JM">this talk</a> by Christoph Pojer (<a href="https://twitter.com/cpojer">cpojer</a>). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again. I wanted to write such codemods for my own projects but there is not whole lot of documentation or tutorial on how to write them. So, I am writing some tutorials for myself and you the reader. I will try to make this as self contained as possible (even if you are lazy to watch the above video).</p>
 
@@ -187,14 +157,14 @@ explains these things.</p>
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
 
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-    .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>)
-    .<span style="color:#a6e22e">replaceWith</span>(
-      <span style="color:#a6e22e">p</span> =&gt; <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">identifier</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;&#39;</span>).<span style="color:#a6e22e">reverse</span>().<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#39;&#39;</span>))
-    )
-    .<span style="color:#a6e22e">toSource</span>();
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
+.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>)
+.<span style="color:#a6e22e">replaceWith</span>(
+<span style="color:#a6e22e">p</span> =&gt; <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">identifier</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;&#39;</span>).<span style="color:#a6e22e">reverse</span>().<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#39;&#39;</span>))
+)
+.<span style="color:#a6e22e">toSource</span>();
 };
 </code></pre></td></tr></table>
 </div>
@@ -202,11 +172,11 @@ explains these things.</p>
 
 <p>This is the code for <em>jscodeshift</em> transformation which identifies all the <code>Identifier</code> in your code and reverses the <code>Identifier</code>&rsquo;s name (as you can see in the example). Let&rsquo;s understand the code here bit by bit.</p>
 
-<p>Our transform is function that takes two variables <code>file</code> and <code>api</code> where <code>file</code>    as the name suggests represents the file on which we perform the transform and <code>api</code> represents <em>jscodeshift</em>&rsquo;s API passed as the other variable. <code>api.jscodeshift</code> is the function that perform the transformation. Instead of writing writing <code>api.jscodeshift</code> every time we need it need we shorten to and assign to variable <code>j</code> (trust me we are going to use <code>j</code> a lot and it will make sense in the future).</p>
+<p>Our transform is function that takes two variables <code>file</code> and <code>api</code> where <code>file</code> as the name suggests represents the file on which we perform the transform and <code>api</code> represents <em>jscodeshift</em>&rsquo;s API passed as the other variable. <code>api.jscodeshift</code> is the function that perform the transformation. Instead of writing writing <code>api.jscodeshift</code> every time we need it need we shorten to and assign to variable <code>j</code> (trust me we are going to use <code>j</code> a lot and it will make sense in the future).</p>
 
 <p><strong>Overview</strong>: <code>j(file.source)</code> produces the AST for our javascript program. Next we find all the <code>Identifier</code> nodes in our program then we replace each of those nodes by a new <code>Identifier</code> node whose name is reverse of the original node. Then we convert the transformed AST back to a JavaScript program.</p>
 
-<p>In <code>.find(j.Identifier)</code>, <code>j.Identifier</code> is represents the type of an <code>Identifier</code> node, it is compared against all the nodes in the AST. In the <code>.replaceWith(...)</code> call  we are taking the node instance and creating a new node <code>Identifier</code> using the function <code>j.identifier</code> which takes name of the new <code>Identifier</code> that is being created. The <code>p</code> here represents the path of node and we are accessing the node by saying <code>p.node</code>. You may ask why do we need the path of the node, isn&rsquo;t the node itself sufficient? The path provides a reference to parent node, the scope which you can access by <code>p.parent</code>  and this is helpful in certain situations. Another <em>important observation</em> here is the pascal case version of node type (<code>Identifier</code>) is used for checking the type of the node and camel case version of node type (<code>identifier</code>) is used to create a node of that type.</p>
+<p>In <code>.find(j.Identifier)</code>, <code>j.Identifier</code> is represents the type of an <code>Identifier</code> node, it is compared against all the nodes in the AST. In the <code>.replaceWith(...)</code> call we are taking the node instance and creating a new node <code>Identifier</code> using the function <code>j.identifier</code> which takes name of the new <code>Identifier</code> that is being created. The <code>p</code> here represents the path of node and we are accessing the node by saying <code>p.node</code>. You may ask why do we need the path of the node, isn&rsquo;t the node itself sufficient? The path provides a reference to parent node, the scope which you can access by <code>p.parent</code> and this is helpful in certain situations. Another <em>important observation</em> here is the pascal case version of node type (<code>Identifier</code>) is used for checking the type of the node and camel case version of node type (<code>identifier</code>) is used to create a node of that type.</p>
 
 <p>How did I infer all of this stuff just by looking at it? The answer is I didn&rsquo;t infer them directly. I used a ton of <code>console.log</code> calls to understand various things. I tried reading documentation of <a href="https://github.com/facebook/jscodeshift">jscodeshift</a>, <a href="https://github.com/benjamn/recast">recast</a> and <a href="https://github.com/benjamn/ast-types">ast-types</a> but since it was my first time reading about AST &amp; stuff I felt it a bit difficult to find the stuff that answered my questions. The other important thing which I learned was, in cpojer&rsquo;s talk and with a bit of experimentation, you actually get really nice error messages helping you understand the shape of node you are trying to build. For example, when you remove the argument of <code>j.identifier</code> then we get this error.</p>
 
@@ -250,28 +220,30 @@ explains these things.</p>
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-  <span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">expression</span>, <span style="color:#a6e22e">statement</span>, <span style="color:#a6e22e">statements</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">template</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">expression</span>, <span style="color:#a6e22e">statement</span>, <span style="color:#a6e22e">statements</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">template</span>;
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">convertToTemplateString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">quasis</span> <span style="color:#f92672">=</span> [
-      <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateElement</span>({ <span style="color:#a6e22e">cooked</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">raw</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}, <span style="color:#66d9ef">false</span>),
-      <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateElement</span>({ <span style="color:#a6e22e">cooked</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">raw</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}, <span style="color:#66d9ef">false</span>),
-      <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateElement</span>({ <span style="color:#a6e22e">cooked</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">raw</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}, <span style="color:#66d9ef">true</span>)
-    ]
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">convertToTemplateString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">quasis</span> <span style="color:#f92672">=</span> [
+<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateElement</span>({ <span style="color:#a6e22e">cooked</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">raw</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}, <span style="color:#66d9ef">false</span>),
+<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateElement</span>({ <span style="color:#a6e22e">cooked</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">raw</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}, <span style="color:#66d9ef">false</span>),
+<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateElement</span>({ <span style="color:#a6e22e">cooked</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">raw</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>}, <span style="color:#66d9ef">true</span>)
+]
 
     <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">expressions</span> <span style="color:#f92672">=</span> [ <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span> ]
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateLiteral</span>(<span style="color:#a6e22e">quasis</span>, <span style="color:#a6e22e">expressions</span>)
-  }
 
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-    .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">BinaryExpression</span>, { <span style="color:#a6e22e">operator</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;+&#39;</span> })
-    .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">convertToTemplateString</span>)
-    .<span style="color:#a6e22e">toSource</span>();
+}
+
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
+.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">BinaryExpression</span>, { <span style="color:#a6e22e">operator</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;+&#39;</span> })
+.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">convertToTemplateString</span>)
+.<span style="color:#a6e22e">toSource</span>();
 };
 </code></pre></td></tr></table>
 </div>
@@ -281,7 +253,7 @@ explains these things.</p>
 
 <h3 id="step-4">Step 4:</h3>
 
-<p>At this point, I changed my input to <code>a+b+c</code> see how it works. The result is <code>${a+b}${c}</code>. Now it is clear our solution doesn&rsquo;t work but we make an important observation that <code>find</code> doesn&rsquo;t recursively traverse down and apply our  transform. If it did we would end up with this</p>
+<p>At this point, I changed my input to <code>a+b+c</code> see how it works. The result is <code>${a+b}${c}</code>. Now it is clear our solution doesn&rsquo;t work but we make an important observation that <code>find</code> doesn&rsquo;t recursively traverse down and apply our transform. If it did we would end up with this</p>
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -328,17 +300,18 @@ explains these things.</p>
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-  <span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">expression</span>, <span style="color:#a6e22e">statement</span>, <span style="color:#a6e22e">statements</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">template</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">expression</span>, <span style="color:#a6e22e">statement</span>, <span style="color:#a6e22e">statements</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">template</span>;
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">convertToTemplateString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">extractNodes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
-      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;BinaryExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">operator</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;+&#39;</span>) {
-        <span style="color:#66d9ef">return</span> [ ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>), ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)]
-      }
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">convertToTemplateString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">extractNodes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;BinaryExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">operator</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;+&#39;</span>) {
+<span style="color:#66d9ef">return</span> [ ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>), ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)]
+}
 
       <span style="color:#66d9ef">return</span> [ <span style="color:#a6e22e">node</span> ]
     }
@@ -354,12 +327,13 @@ explains these things.</p>
     ]
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateLiteral</span>(<span style="color:#a6e22e">quasis</span>, <span style="color:#a6e22e">expressions</span>)
-  }
 
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-    .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">BinaryExpression</span>, { <span style="color:#a6e22e">operator</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;+&#39;</span> })
-    .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">convertToTemplateString</span>)
-    .<span style="color:#a6e22e">toSource</span>();
+}
+
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
+.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">BinaryExpression</span>, { <span style="color:#a6e22e">operator</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;+&#39;</span> })
+.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">convertToTemplateString</span>)
+.<span style="color:#a6e22e">toSource</span>();
 };
 </code></pre></td></tr></table>
 </div>
@@ -405,7 +379,7 @@ explains these things.</p>
 </div>
 </div>
 
-<p>If you think about it, our constructed quasis will have 5 elements in the array. But there are only 2 elements in expected output&rsquo;s quasis. The remedy is collect adjacent <code>Literal</code> and  combine them.</p>
+<p>If you think about it, our constructed quasis will have 5 elements in the array. But there are only 2 elements in expected output&rsquo;s quasis. The remedy is collect adjacent <code>Literal</code> and combine them.</p>
 
 <p>Lastly, this is important, we should not convert <code>3 + 4</code> to <code>TemplateLiteral</code> <code>34</code> so we have to do little check to see whether we have at least one node that is of type <code>Literal</code> and it is a string. <code>Literal</code> node is both used for string and number. You can do a <code>typeof</code> check on the <code>Literal</code> node&rsquo;s value key&rsquo;s value to determine whether it&rsquo;s string or not.</p>
 
@@ -465,17 +439,18 @@ explains these things.</p>
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-  <span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">expression</span>, <span style="color:#a6e22e">statement</span>, <span style="color:#a6e22e">statements</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">template</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">expression</span>, <span style="color:#a6e22e">statement</span>, <span style="color:#a6e22e">statements</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">template</span>;
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">convertToTemplateString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">extractNodes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
-      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;BinaryExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">operator</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;+&#39;</span>) {
-        <span style="color:#66d9ef">return</span> [ ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>), ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)]
-      }
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">convertToTemplateString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">extractNodes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;BinaryExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">operator</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;+&#39;</span>) {
+<span style="color:#66d9ef">return</span> [ ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">left</span>), ...<span style="color:#a6e22e">extractNodes</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">right</span>)]
+}
 
       <span style="color:#66d9ef">return</span> [ <span style="color:#a6e22e">node</span> ]
     }
@@ -514,18 +489,19 @@ explains these things.</p>
     }
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">templateLiteral</span>(...<span style="color:#a6e22e">buildTL</span>(<span style="color:#a6e22e">tempNodes</span>))
-  }
 
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-    .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">BinaryExpression</span>, { <span style="color:#a6e22e">operator</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;+&#39;</span> })
-    .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">convertToTemplateString</span>)
-    .<span style="color:#a6e22e">toSource</span>();
+}
+
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
+.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">BinaryExpression</span>, { <span style="color:#a6e22e">operator</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;+&#39;</span> })
+.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">convertToTemplateString</span>)
+.<span style="color:#a6e22e">toSource</span>();
 };
 </code></pre></td></tr></table>
 </div>
 </div>
 
-<p>In the <code>buildTL</code> function, we wrote what has been described above (I explained more about this function in the <strong>Notes</strong> section at the end). Thus we have solved our original problem. I have intentionally left out the case where we  escaped characters in <code>Literal</code>s because it may introduce too much complexity.</p>
+<p>In the <code>buildTL</code> function, we wrote what has been described above (I explained more about this function in the <strong>Notes</strong> section at the end). Thus we have solved our original problem. I have intentionally left out the case where we escaped characters in <code>Literal</code>s because it may introduce too much complexity.</p>
 
 <p>I could have shown the final solution &amp; explained it and as consequence this tutorial would have been much shorter. But it would remove the learning experience from it. I had lot of fun writing this and discovered my solution at Step 5 was wrong so I had to rewrite. I hope there are no other glaring bugs. I encourage you to start writing your own blog. I firmly believe that trying to teach others is very good way to understand a subject deeply that you may or may have been familiar with.</p>
 
@@ -553,30 +529,24 @@ explains these things.</p>
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">map</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">list</span>, <span style="color:#a6e22e">fn</span>, <span style="color:#a6e22e">acc</span> <span style="color:#f92672">=</span> []) {
-  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">acc</span>
-  }
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">acc</span>
+}
 
-  <span style="color:#66d9ef">const</span> [ <span style="color:#a6e22e">a</span>, ...<span style="color:#a6e22e">as</span> ] <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>
+<span style="color:#66d9ef">const</span> [ <span style="color:#a6e22e">a</span>, ...<span style="color:#a6e22e">as</span> ] <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>
 
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">as</span>, <span style="color:#a6e22e">fn</span>, <span style="color:#a6e22e">acc</span>.<span style="color:#a6e22e">concat</span>(<span style="color:#a6e22e">fn</span>(<span style="color:#a6e22e">a</span>)))
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">as</span>, <span style="color:#a6e22e">fn</span>, <span style="color:#a6e22e">acc</span>.<span style="color:#a6e22e">concat</span>(<span style="color:#a6e22e">fn</span>(<span style="color:#a6e22e">a</span>)))
 }
 </code></pre></td></tr></table>
 </div>
 </div>
 
 <p>The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into <em>quasis</em> and <em>expressions</em> so we need an accumalator for each of them. But we also want to collect adjacent <code>Literal</code> so we will need another accumalator for that and that&rsquo;s how we end up with that function.</p>
-
-          </div>
-        </article>
-
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
 
 
+    </main>
 
+    
   </body>
-
 </html>

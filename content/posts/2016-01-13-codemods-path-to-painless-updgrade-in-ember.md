@@ -6,9 +6,11 @@ url = "/2016/01/13/codemods-path-to-painless-updgrade-in-ember"
 
 +++
 
-*Note: This post assumes some knowledge of JS features from ES2015*
+_Note: This post assumes some knowledge of JS features from ES2015_
 
-*This is blog post is continuation to the my other blog post on [How to write a codemod][tutorial]*
+_This is blog post is continuation to the my other blog post on [How to write a codemod][tutorial]_
+
+<!--more-->
 
 ### Introduction
 
@@ -46,7 +48,6 @@ These are the [jscodeshift][jscodeshift] APIs that we have learnt so far.
 
 - `.toSource()` converts the transformed AST into JavaScript code.
 
-
 ### Problem 1
 
 Let's look at the [first deprecation code][dep1] that we will transform.
@@ -57,7 +58,7 @@ Let's look at the [first deprecation code][dep1] that we will transform.
 import layout from '../templates/some-thing-lol';
 
 export default Ember.Component.extend({
-  defaultLayout: layout
+defaultLayout: layout
 });
 
 // Ember 2.1 and later
@@ -65,7 +66,7 @@ export default Ember.Component.extend({
 import layout from '../templates/some-thing-lol';
 
 export default Ember.Component.extend({
-  layout: layout
+layout: layout
 });
 
 {{< / highlight >}}
@@ -86,24 +87,24 @@ So, the algorithm will be as follows:
 
 {{< highlight js "linenos=table" >}}
 export default function (file, api) {
-  const j = api.jscodeshift;
+const j = api.jscodeshift;
 
-  const isProperty = p => {
-    return (
-      p.parent.node.type === 'Property' &&
-      p.parent.node.key.type === 'Identifier' &&
-      p.parent.node.key.name === 'defaultLayout'
-    );
-  };
+const isProperty = p => {
+return (
+p.parent.node.type === 'Property' &&
+p.parent.node.key.type === 'Identifier' &&
+p.parent.node.key.name === 'defaultLayout'
+);
+};
 
-  const checkCallee = node => {
-    const types = (
-      node.type === 'MemberExpression' &&
-      node.object.type === 'MemberExpression' &&
-      node.object.object.type === 'Identifier' &&
-      node.object.property.type === 'Identifier' &&
-      node.property.type === 'Identifier'
-    );
+const checkCallee = node => {
+const types = (
+node.type === 'MemberExpression' &&
+node.object.type === 'MemberExpression' &&
+node.object.object.type === 'Identifier' &&
+node.object.property.type === 'Identifier' &&
+node.property.type === 'Identifier'
+);
 
     const identifiers = (
       node.object.object.name === 'Ember' &&
@@ -112,28 +113,29 @@ export default function (file, api) {
     );
 
     return types && identifiers;
-  }
 
-  const isArgument = p => {
-    if (p.parent.parent.parent.node.type === 'CallExpression') {
-      const call = p.parent.parent.parent.node;
-      return checkCallee(call.callee);
-    }
-  }
+}
 
-  const replaceDefaultLayout = p => {
-    p.node.name = 'layout';
-    return p.node;
-  }
+const isArgument = p => {
+if (p.parent.parent.parent.node.type === 'CallExpression') {
+const call = p.parent.parent.parent.node;
+return checkCallee(call.callee);
+}
+}
 
-  return (
-    j(file.source)
-      .find(j.Identifier, { name: 'defaultLayout' })
-      .filter(isProperty)
-      .filter(isArgument)
-      .replaceWith(replaceDefaultLayout)
-      .toSource()
-    );
+const replaceDefaultLayout = p => {
+p.node.name = 'layout';
+return p.node;
+}
+
+return (
+j(file.source)
+.find(j.Identifier, { name: 'defaultLayout' })
+.filter(isProperty)
+.filter(isArgument)
+.replaceWith(replaceDefaultLayout)
+.toSource()
+);
 }
 {{< / highlight >}}
 
@@ -145,7 +147,7 @@ There is not much here to explain. The code here feels a bit long but most of it
 
 Also I should mention to those people who may want to try out this codemod on their own ember codebase that this codemod may not be complete. The reason being you may have code which relies on the `defaultLayout` property in other places. So, you may want to extend this codemod or write another codemod that complements this if you want achieve correct results.
 
-------
+---
 
 ### Problem 2
 
@@ -155,23 +157,23 @@ Here is the [second deprecation code][dep2] that we will transform.
 // Ember < 2.1
 
 export function initialize(container, application) {
-  application.inject('route', 'service:session');
+application.inject('route', 'service:session');
 }
 
 export default {
-  name: 'inject-session',
-  initialize: initialize
+name: 'inject-session',
+initialize: initialize
 };
 
 // Ember 2.1 and later
 
 export function initialize(application) {
-  application.inject('route', 'service:session');
+application.inject('route', 'service:session');
 }
 
 export default {
-  name: 'inject-session',
-  initialize: initialize
+name: 'inject-session',
+initialize: initialize
 }
 {{< / highlight >}}
 
@@ -181,10 +183,10 @@ While I was thinking about the problem, I wanted to find ember 2.0 codebase to m
 
 {{< highlight js "linenos=table" >}}
 export default {
-  name: 'inject-session',
-  initialize: function (container, application) {
-    application.inject('route', 'service:session');
-  }
+name: 'inject-session',
+initialize: function (container, application) {
+application.inject('route', 'service:session');
+}
 };
 {{< / highlight >}}
 
@@ -200,26 +202,26 @@ This is my first half of the solution:
 
 {{< highlight js "linenos=table" >}}
 export default function (file, api) {
-  const j = api.jscodeshift;
+const j = api.jscodeshift;
 
-  const hasKey = (object, key) => {
-    const { properties } = object;
-    return properties.some(property => property.key.name === key);
-  }
+const hasKey = (object, key) => {
+const { properties } = object;
+return properties.some(property => property.key.name === key);
+}
 
-  const transformArity = fnNode => {
-    if (fnNode.params.length === 2) {
-      if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
-        fnNode.params = [ fnNode.params[1] ];
-      }
-    }
-  }
+const transformArity = fnNode => {
+if (fnNode.params.length === 2) {
+if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
+fnNode.params = [ fnNode.params[1] ];
+}
+}
+}
 
-  const changeArity = p => {
-    const { node } = p;
-    if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const initialize =
-        node.properties.find(property => property.key.name === 'initialize');
+const changeArity = p => {
+const { node } = p;
+if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
+const initialize =
+node.properties.find(property => property.key.name === 'initialize');
 
       if (initialize.value.type === 'FunctionExpression') {
         transformArity(initialize.value);
@@ -229,14 +231,15 @@ export default function (file, api) {
     }
 
     return p.node;
-  }
 
-  return (
-    j(file.source)
-      .find(j.ObjectExpression)
-      .replaceWith(changeArity)
-      .toSource()
-  );
+}
+
+return (
+j(file.source)
+.find(j.ObjectExpression)
+.replaceWith(changeArity)
+.toSource()
+);
 }
 {{< / highlight >}}
 
@@ -256,20 +259,20 @@ So, the question is how to find this `FunctionDeclaration` node. The best way I 
 
 {{< highlight js "linenos=table" >}}
 export default function (file, api) {
-  const j = api.jscodeshift;
-  const root = j(file.source);
+const j = api.jscodeshift;
+const root = j(file.source);
 
-  // Some methods here
+// Some methods here
 
-  const didTransform1 = root.find(...).replaceWith(...).size();
+const didTransform1 = root.find(...).replaceWith(...).size();
 
-  const didTransform2 = root.find(...).replaceWith(...).size();
+const didTransform2 = root.find(...).replaceWith(...).size();
 
-  if (didTransform1 + didTransform2 > 0) {
-    return root.toSource();
-  }
+if (didTransform1 + didTransform2 > 0) {
+return root.toSource();
+}
 
-  return null;
+return null;
 }
 {{< / highlight >}}
 
@@ -283,27 +286,27 @@ This is what the final code looks like:
 
 {{< highlight js "linenos=table" >}}
 export default function (file, api) {
-  const j = api.jscodeshift;
-  const root = j(file.source);
+const j = api.jscodeshift;
+const root = j(file.source);
 
-  const hasKey = (object, key) => {
-    const { properties } = object;
-    return properties.some(property => property.key.name === key);
-  }
+const hasKey = (object, key) => {
+const { properties } = object;
+return properties.some(property => property.key.name === key);
+}
 
-  const transformArity = fnNode => {
-    if (fnNode.params.length === 2) {
-      if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
-        fnNode.params = [ fnNode.params[1] ];
-      }
-    }
-  }
+const transformArity = fnNode => {
+if (fnNode.params.length === 2) {
+if (j(fnNode.body).find(j.Identifier, { name: 'container' }).size() === 0) {
+fnNode.params = [ fnNode.params[1] ];
+}
+}
+}
 
-  const changeArity = p => {
-    const { node } = p;
-    if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
-      const [ initialize ] =
-        node.properties.filter(property => property.key.name === 'initialize');
+const changeArity = p => {
+const { node } = p;
+if (hasKey(node, 'name') && hasKey(node, 'initialize')) {
+const [ initialize ] =
+node.properties.filter(property => property.key.name === 'initialize');
 
       if (initialize.value.type === 'FunctionExpression') {
         transformArity(initialize.value);
@@ -319,13 +322,14 @@ export default function (file, api) {
     }
 
     return p.node;
-  }
 
-  return (
-    root.find(j.ObjectExpression)
-      .replaceWith(changeArity)
-      .toSource()
-  );
+}
+
+return (
+root.find(j.ObjectExpression)
+.replaceWith(changeArity)
+.toSource()
+);
 }
 {{< / highlight >}}
 
@@ -345,20 +349,20 @@ I am just re-pasting the above snippet for the sake of convenience. Let's dive m
 
 {{< highlight js "linenos=table" >}}
 export default function (file, api) {
-  const j = api.jscodeshift;
-  const root = j(file.source);
+const j = api.jscodeshift;
+const root = j(file.source);
 
-  // Some methods here
+// Some methods here
 
-  const didTransform1 = root.find(...).replaceWith(...).size();
+const didTransform1 = root.find(...).replaceWith(...).size();
 
-  const didTransform2 = root.find(...).replaceWith(...).size();
+const didTransform2 = root.find(...).replaceWith(...).size();
 
-  if (didTransform1 + didTransform2 > 0) {
-   return root.toSource();
-  }
+if (didTransform1 + didTransform2 > 0) {
+return root.toSource();
+}
 
-  return null;
+return null;
 }
 {{< / highlight >}}
 
@@ -372,9 +376,9 @@ Anyway before going into the second solution, I will introduce Extensions in **j
 
 {{< highlight js "linenos=table" >}}
 j.registerMethods({
- customMethod() {
-   return this.find(j.ObjectExpression).filter(isIntializer);
- }
+customMethod() {
+return this.find(j.ObjectExpression).filter(isIntializer);
+}
 })
 {{< / highlight >}}
 
@@ -386,89 +390,92 @@ This is what the final code looks like:
 
 {{< highlight js "linenos=table" >}}
 export default function (file, api) {
-  const j = api.jscodeshift;
-  const root = j(file.source);
+const j = api.jscodeshift;
+const root = j(file.source);
 
-  const transformArity = node => {
-    if (node.params.length === 2) {
-      if (j(node.body).find(j.Identifier, { name: 'container' }).size() === 0) {
-        node.params = [ node.params[1] ];
-      }
-    }
-  };
+const transformArity = node => {
+if (node.params.length === 2) {
+if (j(node.body).find(j.Identifier, { name: 'container' }).size() === 0) {
+node.params = [ node.params[1] ];
+}
+}
+};
 
-  const hasKey = (object, key) => {
-    const { properties } = object;
-    return properties.some(property => property.key.name === key);
-  };
+const hasKey = (object, key) => {
+const { properties } = object;
+return properties.some(property => property.key.name === key);
+};
 
-  const isIntializer = p => {
-    return hasKey(p.node, 'name') && hasKey(p.node, 'initialize');
-  };
+const isIntializer = p => {
+return hasKey(p.node, 'name') && hasKey(p.node, 'initialize');
+};
 
-  const findInitialize = p => {
-    const { properties } = p.node;
-    const [ initialize ] =
-      properties.filter(property => property.key.name === 'initialize');
+const findInitialize = p => {
+const { properties } = p.node;
+const [ initialize ] =
+properties.filter(property => property.key.name === 'initialize');
 
     return initialize;
-  };
 
-  const isIntializeMethod = p => {
-    const type = findInitialize(p).value.type;
-    return type === 'FunctionExpression';
-  };
+};
 
-  const isIntializeIdentifier = p => {
-    const type = findInitialize(p).value.type;
-    return type === 'Identifier';
-  };
+const isIntializeMethod = p => {
+const type = findInitialize(p).value.type;
+return type === 'FunctionExpression';
+};
 
-  const changeMethod = p => {
-    const method = findInitialize(p).value;
-    transformArity(method);
+const isIntializeIdentifier = p => {
+const type = findInitialize(p).value.type;
+return type === 'Identifier';
+};
 
-    return p.node;
-  };
-
-  const changeIdentifierDeclaration = p => {
-    const name = findInitialize(p).value.name;
-    root.find(j.FunctionDeclaration, { id : { name } }).replaceWith(p => {
-      transformArity(p.node);
-      return p.node;
-    })
+const changeMethod = p => {
+const method = findInitialize(p).value;
+transformArity(method);
 
     return p.node;
-  };
 
-  j.registerMethods({
-    findInitializeMethod() {
-      return (
-        this.find(j.ObjectExpression)
-          .filter(isIntializer)
-          .filter(isIntializeMethod)
-      );
-    },
-    findInitializeIdentifier() {
-      return (
-        this.find(j.ObjectExpression)
-          .filter(isIntializer)
-          .filter(isIntializeIdentifier)
-      );
-    }
-  });
+};
 
-  const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size();
+const changeIdentifierDeclaration = p => {
+const name = findInitialize(p).value.name;
+root.find(j.FunctionDeclaration, { id : { name } }).replaceWith(p => {
+transformArity(p.node);
+return p.node;
+})
 
-  const didTransform2 =
-    root.findInitializeIdentifier()
-      .replaceWith(changeIdentifierDeclaration).size();
+    return p.node;
 
-  if (didTransform1 + didTransform2 > 0) {
-    return root.toSource();
-  }
+};
 
-  return null;
+j.registerMethods({
+findInitializeMethod() {
+return (
+this.find(j.ObjectExpression)
+.filter(isIntializer)
+.filter(isIntializeMethod)
+);
+},
+findInitializeIdentifier() {
+return (
+this.find(j.ObjectExpression)
+.filter(isIntializer)
+.filter(isIntializeIdentifier)
+);
+}
+});
+
+const didTransform1 = root.findInitializeMethod().replaceWith(changeMethod).size();
+
+const didTransform2 =
+root.findInitializeIdentifier()
+.replaceWith(changeIdentifierDeclaration).size();
+
+if (didTransform1 + didTransform2 > 0) {
+return root.toSource();
+}
+
+return null;
 }
 {{< / highlight >}}
 
@@ -496,7 +503,7 @@ That is all we have learned but I hoped to illustrate the need for these powerfu
 
 Currently, jscodeshift's documentation is in a poor state (not even an API reference). I hope to improve it in the coming weeks as much as possible (I started it but I haven't done too much). Also, I want to find way another way to avoid calling a transformation inside another transformation. I have recently heard about Lenses in [this talk][drboolean] probably they are meant to solve this kind of problem I don't know I have to experiment with them.
 
-Thanks for reading this till the end. I appreciate it. If you have any comments or feedback, tweet at [@_vramana][vramana]
+Thanks for reading this till the end. I appreciate it. If you have any comments or feedback, tweet at [@\_vramana][vramana]
 
 Also big thanks to [@cpojer](https://twitter.com/cpojer) and [@kentcdodds](https://twitter.com/kentcdodds) for reviewing this post.
 

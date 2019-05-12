@@ -6,7 +6,9 @@ url = "/2015/12/21/codemod-tutorial"
 
 +++
 
-*Note: This post assumes some knowledge of JS features from ES2015*
+_Note: This post assumes some knowledge of JS features from ES2015_
+
+<!--more-->
 
 If you don't know what codemods are, go watch [this talk][cpojer-talk] by Christoph Pojer ([cpojer](https://twitter.com/cpojer)). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again. I wanted to write such codemods for my own projects but there is not whole lot of documentation or tutorial on how to write them. So, I am writing some tutorials for myself and you the reader. I will try to make this as self contained as possible (even if you are lazy to watch the above video).
 
@@ -58,41 +60,41 @@ Lets look at what the AST of `${a}${b}` looks like.
 
 ![Template Literal AST](https://i.imgur.com/C6obcyE.png?1)
 
-This time it is not as straightforward to understand. We have the `TemplateLiteral` node which represents our template string `${a}${b}`. `a` & `b` are represented by the `Identifier`'s in the value of *expressions* as key of this node. But what is the *quasis* key which has array of `TemplateElement`s? Hover the mouse over the first `TemplateElement`, we will see the `${` is highlighted in the editor i.e, whenever you hover over a node ASTExplorer highlights the corresponding code for that node. This is especially helpful when you encounter a new type of node or when there are multiple nodes of the same type and you want to see which corresponds to what etc., You can do this for other `TemplateElement`s as well. From that, we can observe that *quasis* represent the regions of a template string between the *expressions* (or simply variables `a` & `b` in our case) including the region of template string before the first expression and region of template string after the last expression and each of these regions is represented as a `TemplateElement` in the AST.
+This time it is not as straightforward to understand. We have the `TemplateLiteral` node which represents our template string `${a}${b}`. `a` & `b` are represented by the `Identifier`'s in the value of _expressions_ as key of this node. But what is the _quasis_ key which has array of `TemplateElement`s? Hover the mouse over the first `TemplateElement`, we will see the `${` is highlighted in the editor i.e, whenever you hover over a node ASTExplorer highlights the corresponding code for that node. This is especially helpful when you encounter a new type of node or when there are multiple nodes of the same type and you want to see which corresponds to what etc., You can do this for other `TemplateElement`s as well. From that, we can observe that _quasis_ represent the regions of a template string between the _expressions_ (or simply variables `a` & `b` in our case) including the region of template string before the first expression and region of template string after the last expression and each of these regions is represented as a `TemplateElement` in the AST.
 
-In the `TemplateElement` node highlighted in the above image, we have a *value* key which has *raw* & *cooked* keys to be empty strings. The following diagram
+In the `TemplateElement` node highlighted in the above image, we have a _value_ key which has _raw_ & _cooked_ keys to be empty strings. The following diagram
 explains these things.
 
 ![Diagram One](https://i.imgur.com/ZE47VaS.png)
 
-*raw* and *cooked* only differ when there are escape characters inside the `TemplateElement`.
+_raw_ and _cooked_ only differ when there are escape characters inside the `TemplateElement`.
 
 ### Step 2:
 
-*Note: Some of the explanation provided in this section are not entirely technically accurate and were simplified to make them easier to understand. One can revisit and fill the missing details or correctly understand the technically incorrect details once the big picture is clear.*
+_Note: Some of the explanation provided in this section are not entirely technically accurate and were simplified to make them easier to understand. One can revisit and fill the missing details or correctly understand the technically incorrect details once the big picture is clear._
 
-Now that we know ASTs of the initial code and final code, we will learn how to achieve this transformation using [jscodeshift][jscodeshift]. Open up ASTExplorer and choose *jscodeshift* under Transform option in the top menubar. Let's go over the transformation example given in the ASTExplorer by default.
+Now that we know ASTs of the initial code and final code, we will learn how to achieve this transformation using [jscodeshift][jscodeshift]. Open up ASTExplorer and choose _jscodeshift_ under Transform option in the top menubar. Let's go over the transformation example given in the ASTExplorer by default.
 
 {{< highlight js "linenos=table" >}}
 export default function(file, api) {
-  const j = api.jscodeshift;
+const j = api.jscodeshift;
 
-  return j(file.source)
-    .find(j.Identifier)
-    .replaceWith(
-      p => j.identifier(p.node.name.split('').reverse().join(''))
-    )
-    .toSource();
+return j(file.source)
+.find(j.Identifier)
+.replaceWith(
+p => j.identifier(p.node.name.split('').reverse().join(''))
+)
+.toSource();
 };
 {{< / highlight >}}
 
-This is the code for *jscodeshift* transformation which identifies all the `Identifier` in your code and reverses the `Identifier`'s name (as you can see in the example). Let's understand the code here bit by bit.
+This is the code for _jscodeshift_ transformation which identifies all the `Identifier` in your code and reverses the `Identifier`'s name (as you can see in the example). Let's understand the code here bit by bit.
 
-Our transform is function that takes two variables `file` and `api` where `file`    as the name suggests represents the file on which we perform the transform and `api` represents *jscodeshift*'s API passed as the other variable. `api.jscodeshift` is the function that perform the transformation. Instead of writing writing `api.jscodeshift` every time we need it need we shorten to and assign to variable `j` (trust me we are going to use `j` a lot and it will make sense in the future).
+Our transform is function that takes two variables `file` and `api` where `file` as the name suggests represents the file on which we perform the transform and `api` represents _jscodeshift_'s API passed as the other variable. `api.jscodeshift` is the function that perform the transformation. Instead of writing writing `api.jscodeshift` every time we need it need we shorten to and assign to variable `j` (trust me we are going to use `j` a lot and it will make sense in the future).
 
 **Overview**: `j(file.source)` produces the AST for our javascript program. Next we find all the `Identifier` nodes in our program then we replace each of those nodes by a new `Identifier` node whose name is reverse of the original node. Then we convert the transformed AST back to a JavaScript program.
 
-In `.find(j.Identifier)`, `j.Identifier` is represents the type of an `Identifier` node, it is compared against all the nodes in the AST. In the `.replaceWith(...)` call  we are taking the node instance and creating a new node `Identifier` using the function `j.identifier` which takes name of the new `Identifier` that is being created. The `p` here represents the path of node and we are accessing the node by saying `p.node`. You may ask why do we need the path of the node, isn't the node itself sufficient? The path provides a reference to parent node, the scope which you can access by `p.parent`  and this is helpful in certain situations. Another *important observation* here is the pascal case version of node type (`Identifier`) is used for checking the type of the node and camel case version of node type (`identifier`) is used to create a node of that type.
+In `.find(j.Identifier)`, `j.Identifier` is represents the type of an `Identifier` node, it is compared against all the nodes in the AST. In the `.replaceWith(...)` call we are taking the node instance and creating a new node `Identifier` using the function `j.identifier` which takes name of the new `Identifier` that is being created. The `p` here represents the path of node and we are accessing the node by saying `p.node`. You may ask why do we need the path of the node, isn't the node itself sufficient? The path provides a reference to parent node, the scope which you can access by `p.parent` and this is helpful in certain situations. Another _important observation_ here is the pascal case version of node type (`Identifier`) is used for checking the type of the node and camel case version of node type (`identifier`) is used to create a node of that type.
 
 How did I infer all of this stuff just by looking at it? The answer is I didn't infer them directly. I used a ton of `console.log` calls to understand various things. I tried reading documentation of [jscodeshift][jscodeshift], [recast][recast] and [ast-types][ast-types] but since it was my first time reading about AST & stuff I felt it a bit difficult to find the stuff that answered my questions. The other important thing which I learned was, in cpojer's talk and with a bit of experimentation, you actually get really nice error messages helping you understand the shape of node you are trying to build. For example, when you remove the argument of `j.identifier` then we get this error.
 
@@ -109,40 +111,39 @@ We have learned about ASTs and how to transform them in very primitive manner. A
 Now I'll go over how the solution works to our simplified problem and then show the actual code.
 
 1. Since `a+b` is a `BinaryExpression` find the `BinaryExpression` expression node.
-2. Collect the values of *left* and *right* keys of the chosen node.
-3. Create a `TemplateLiteral` node with appropriate *quasis* and *expressions* i.e, quasis will be an array simply three `TemplateElement`'s with *cooked* & *raw* keys set to `''` and expressions is an array of *left* and *right* values collected earlier.
-
+2. Collect the values of _left_ and _right_ keys of the chosen node.
+3. Create a `TemplateLiteral` node with appropriate _quasis_ and _expressions_ i.e, quasis will be an array simply three `TemplateElement`'s with _cooked_ & _raw_ keys set to `''` and expressions is an array of _left_ and _right_ values collected earlier.
 
 {{< highlight js "linenos=table" >}}
 export default function(file, api) {
-  const j = api.jscodeshift;
-  const {expression, statement, statements} = j.template;
+const j = api.jscodeshift;
+const {expression, statement, statements} = j.template;
 
-  const convertToTemplateString = p => {
-    const quasis = [
-      j.templateElement({ cooked: '', raw: ''}, false),
-      j.templateElement({ cooked: '', raw: ''}, false),
-      j.templateElement({ cooked: '', raw: ''}, true)
-    ]
+const convertToTemplateString = p => {
+const quasis = [
+j.templateElement({ cooked: '', raw: ''}, false),
+j.templateElement({ cooked: '', raw: ''}, false),
+j.templateElement({ cooked: '', raw: ''}, true)
+]
 
     const expressions = [ p.node.left, p.node.right ]
 
     return j.templateLiteral(quasis, expressions)
-  }
 
-  return j(file.source)
-    .find(j.BinaryExpression, { operator: '+' })
-    .replaceWith(convertToTemplateString)
-    .toSource();
+}
+
+return j(file.source)
+.find(j.BinaryExpression, { operator: '+' })
+.replaceWith(convertToTemplateString)
+.toSource();
 };
 {{< / highlight >}}
 
 Yay!! We have solved our simplified problem. I just want to make true quick remark before we continue to solving our original problem. You may have noticed that there is second argument in `find` call, we are restricting to the `BinaryExpression` nodes with operator `+` i.e, the second argument contains information about data that is should be present inside our node. The other remark is in the `j.templateElement` the second argument tells whether it is the last `TemplateElement` node in the `TemplateLiteral` or not.
 
-
 ### Step 4:
 
-At this point, I changed my input to `a+b+c` see how it works. The result is `${a+b}${c}`. Now it is clear our solution doesn't work but we make an important observation that `find` doesn't recursively traverse down and apply our  transform. If it did we would end up with this
+At this point, I changed my input to `a+b+c` see how it works. The result is `${a+b}${c}`. Now it is clear our solution doesn't work but we make an important observation that `find` doesn't recursively traverse down and apply our transform. If it did we would end up with this
 
 {{< highlight js "linenos=table" >}}
 `${`${a}${b}`}${c}`
@@ -152,14 +153,14 @@ But somehow it didn't and we get `${a}${b}${c}` as our solution. In fact our inp
 
 {{< highlight js "linenos=table" >}}
 export default function(file, api) {
-  const j = api.jscodeshift;
-  const {expression, statement, statements} = j.template;
+const j = api.jscodeshift;
+const {expression, statement, statements} = j.template;
 
-  const convertToTemplateString = p => {
-    const extractNodes = node => {
-      if (node.type === 'BinaryExpression' && node.operator === '+') {
-        return [ ...extractNodes(node.left), ...extractNodes(node.right)]
-      }
+const convertToTemplateString = p => {
+const extractNodes = node => {
+if (node.type === 'BinaryExpression' && node.operator === '+') {
+return [ ...extractNodes(node.left), ...extractNodes(node.right)]
+}
 
       return [ node ]
     }
@@ -175,17 +176,17 @@ export default function(file, api) {
     ]
 
     return j.templateLiteral(quasis, expressions)
-  }
 
-  return j(file.source)
-    .find(j.BinaryExpression, { operator: '+' })
-    .replaceWith(convertToTemplateString)
-    .toSource();
+}
+
+return j(file.source)
+.find(j.BinaryExpression, { operator: '+' })
+.replaceWith(convertToTemplateString)
+.toSource();
 };
 {{< / highlight >}}
 
-Here, `extractNodes` recursively traverses through the `BinaryExpression` node we have and gives us a list of *left* and *right* values in our node (in our case `a`, `b`, `c`) which is exactly what we need for *expressions* in our `TemplateLiteral` node. Now we are left with constructing *quasis*. We just create `TemplateElement` node for every expression we have and add `j.templateElement({ cooked: '', raw: ''}, true)` at the end of the array.
-
+Here, `extractNodes` recursively traverses through the `BinaryExpression` node we have and gives us a list of _left_ and _right_ values in our node (in our case `a`, `b`, `c`) which is exactly what we need for _expressions_ in our `TemplateLiteral` node. Now we are left with constructing _quasis_. We just create `TemplateElement` node for every expression we have and add `j.templateElement({ cooked: '', raw: ''}, true)` at the end of the array.
 
 ### Step 5:
 
@@ -195,7 +196,7 @@ Our current solution looks promising but we are not exactly done yet, but we are
 `${'Yo'}${name}${'! How are you doing?'}`
 {{< / highlight >}}
 
-Sigh! The mistake we are making here is we are assuming that all the nodes we extracted are expressions. We need to filter out our string and put them in `TemplateElement`'s *raw* and *cooked* keys. There is another problem, consider this input
+Sigh! The mistake we are making here is we are assuming that all the nodes we extracted are expressions. We need to filter out our string and put them in `TemplateElement`'s _raw_ and _cooked_ keys. There is another problem, consider this input
 
 {{< highlight js "linenos=table" >}}
 'Y' + 'o' + name + '! How are you doing?'
@@ -207,20 +208,20 @@ and the expected output is
 `Yo ${name}! How are you doing?`
 {{< / highlight >}}
 
-If you think about it, our constructed quasis will have 5 elements in the array. But there are only 2 elements in expected output's quasis. The remedy is collect adjacent `Literal` and  combine them.
+If you think about it, our constructed quasis will have 5 elements in the array. But there are only 2 elements in expected output's quasis. The remedy is collect adjacent `Literal` and combine them.
 
 Lastly, this is important, we should not convert `3 + 4` to `TemplateLiteral` `34` so we have to do little check to see whether we have at least one node that is of type `Literal` and it is a string. `Literal` node is both used for string and number. You can do a `typeof` check on the `Literal` node's value key's value to determine whether it's string or not.
 
 {{< highlight js "linenos=table" >}}
 export default function(file, api) {
-  const j = api.jscodeshift;
-  const {expression, statement, statements} = j.template;
+const j = api.jscodeshift;
+const {expression, statement, statements} = j.template;
 
-  const convertToTemplateString = p => {
-    const extractNodes = node => {
-      if (node.type === 'BinaryExpression' && node.operator === '+') {
-        return [ ...extractNodes(node.left), ...extractNodes(node.right)]
-      }
+const convertToTemplateString = p => {
+const extractNodes = node => {
+if (node.type === 'BinaryExpression' && node.operator === '+') {
+return [ ...extractNodes(node.left), ...extractNodes(node.right)]
+}
 
       return [ node ]
     }
@@ -259,23 +260,23 @@ export default function(file, api) {
     }
 
     return j.templateLiteral(...buildTL(tempNodes))
-  }
 
-  return j(file.source)
-    .find(j.BinaryExpression, { operator: '+' })
-    .replaceWith(convertToTemplateString)
-    .toSource();
+}
+
+return j(file.source)
+.find(j.BinaryExpression, { operator: '+' })
+.replaceWith(convertToTemplateString)
+.toSource();
 };
 {{< / highlight >}}
 
-In the `buildTL` function, we wrote what has been described above (I explained more about this function in the **Notes** section at the end). Thus we have solved our original problem. I have intentionally left out the case where we  escaped characters in `Literal`s because it may introduce too much complexity.
+In the `buildTL` function, we wrote what has been described above (I explained more about this function in the **Notes** section at the end). Thus we have solved our original problem. I have intentionally left out the case where we escaped characters in `Literal`s because it may introduce too much complexity.
 
 I could have shown the final solution & explained it and as consequence this tutorial would have been much shorter. But it would remove the learning experience from it. I had lot of fun writing this and discovered my solution at Step 5 was wrong so I had to rewrite. I hope there are no other glaring bugs. I encourage you to start writing your own blog. I firmly believe that trying to teach others is very good way to understand a subject deeply that you may or may have been familiar with.
 
-Next I hope to tackle more challenging problems of converting ES5 style React.createClass to ES6 style *class* syntax for React components. This is already a solved problem. This problem is interesting to me because it has lot of unique constraints which I hope to explain. The codemod is already available in this [react-codemod](react-codemod) repository. But I think this is problem may not appeal to everybody so I am open to suggestions.
+Next I hope to tackle more challenging problems of converting ES5 style React.createClass to ES6 style _class_ syntax for React components. This is already a solved problem. This problem is interesting to me because it has lot of unique constraints which I hope to explain. The codemod is already available in this [react-codemod](react-codemod) repository. But I think this is problem may not appeal to everybody so I am open to suggestions.
 
-
-Thanks for reading! If you have any suggestions and comments, tweet me at [@_vramana](https://twitter.com/_vramana).
+Thanks for reading! If you have any suggestions and comments, tweet me at [@\_vramana](https://twitter.com/_vramana).
 
 Big shoutout to [@cpojer](https://twitter.com/cpojer) who carefully reviewed this post.
 
@@ -285,18 +286,17 @@ Initially when I was solving **Step 5**, I could think of a solution that uses i
 
 {{< highlight js "linenos=table" >}}
 const map = (list, fn, acc = []) {
-  if (list.length === 0) {
-    return acc
-  }
+if (list.length === 0) {
+return acc
+}
 
-  const [ a, ...as ] = list
+const [ a, ...as ] = list
 
-  return map(as, fn, acc.concat(fn(a)))
+return map(as, fn, acc.concat(fn(a)))
 }
 {{< / highlight >}}
 
-The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into *quasis* and *expressions* so we need an accumalator for each of them. But we also want to collect adjacent `Literal` so we will need another accumalator for that and that's how we end up with that function.
-
+The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into _quasis_ and _expressions_ so we need an accumalator for each of them. But we also want to collect adjacent `Literal` so we will need another accumalator for that and that's how we end up with that function.
 
 [cpojer-talk]: https://www.youtube.com/watch?v=d0pOgY8__JM
 [ast]: https://astexplorer.net/

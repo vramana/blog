@@ -17,8 +17,7 @@
       <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://vramana.github.io/blog/2019/02/20/terminal-commands/</guid>
-      <description>Inspired by this article, I set out to find which are my most used commands.
-Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] &amp;quot; &amp;quot; i}}&#39; | sort -rn | head 1520 git 616 cd 611 yarn 604 sudo 601 curl 349 rm 264 docker 232 heroku 220 npm 176 cat  It&amp;rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of magit.</description>
+      <description>&lt;p&gt;Inspired by &lt;a href=&#34;https://wincent.com/blog/frequently-used-terminal-commands&#34;&gt;this article&lt;/a&gt;, I set out to find which are my most used commands.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -27,9 +26,8 @@ Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] 
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://vramana.github.io/blog/2018/09/30/rust-debugging/</guid>
-      <description>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&amp;rsquo;t know the solution yet.
-Don&amp;rsquo;t step in to standard library source code
-This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.</description>
+      <description>&lt;p&gt;These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
+may be already solved problems but I don&amp;rsquo;t know the solution yet.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -38,9 +36,9 @@ This is a major issue step accidentally into rust std source code. Then do next 
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</guid>
-      <description>Note: This post assumes some knowledge of JS features from ES2015
-This is blog post is continuation to the my other blog post on How to write a codemod
-Introduction After I wrote my last blog post on How to write a codemod, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.</description>
+      <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;This is blog post is continuation to the my other blog post on &lt;a href=&#34;https://vramana.github.io/blog/2015/12/21/codemod-tutorial/&#34;&gt;How to write a codemod&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -49,8 +47,7 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
       <pubDate>Mon, 21 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</guid>
-      <description>Note: This post assumes some knowledge of JS features from ES2015
-If you don&amp;rsquo;t know what codemods are, go watch this talk by Christoph Pojer (cpojer). Codemods allow you to transform your code to make breaking changes but without breaking the code. Codemods take a JS file as input and turn them into Abstract Syntax Trees (AST) and apply transformations on this AST later converting them back to JS again.</description>
+      <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

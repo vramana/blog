@@ -1,87 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.55.5" />
 
-  <head>
-  <meta charset="utf-8" />
   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Codemods: Path to painless upgrades in Ember &middot; Ramana Venkata</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://vramana.github.io/blogcss/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="author" content="" />
-  <meta property="og:url" content="" />
-  <link rel="canonical" href="" /><script type="application/ld+json">
-    {
-        "@context" : "http://schema.org",
-        "@type" : "BlogPosting",
-        "mainEntityOfPage": {
-             "@type": "WebPage",
-             "@id": ""
-        },
-        "articleSection" : "",
-        "name" : "",
-        "headline" : "",
-        "description" : "",
-        "inLanguage" : "en-US",
-        "author" : "",
-        "creator" : "",
-        "publisher": "",
-        "accountablePerson" : "",
-        "copyrightHolder" : "",
-        "copyrightYear" : "",
-        "datePublished": "",
-        "dateModified" : "",
-        "url" : ""
-    }
-  </script><title> - </title>
-  <meta property="og:title" content=" - " />
-  <meta property="og:type" content="article" />
-  <meta name="description" content="" />
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
 
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-  <link rel="stylesheet" href="/blog/css/index.css">
+  
+  
 </head>
 
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://vramana.github.io/blog"><h1>Ramana Venkata</h1></a>
+      <p class="lead">
+       Remote Developer with interest Javascript and Go 
+      </p>
+    </div>
 
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://vramana.github.io/blog">Home</a> </li>
+        <li><a href="/blog/about/"> About Me </a></li>
+      </ul>
+    </nav>
 
-  <body>
-    <div class="container">
-        <nav>
-  <div class="signatures site-title">
-    <a href="">
-    <h1>Ramana Venkata</h1>
-    </a>
+    <p>&copy; 2019. All rights reserved. </p>
   </div>
-</nav>
+</aside>
 
-<hr />
-
-
-        <article>
-
-          <header class="post-header">
-            <h3 class="post-title">Codemods: Path to painless upgrades in Ember</h3>
-            <div class="row">
-              <div class="col-6">
-                <time class="post-date" datetime="2016-01-13 00:00:00 UTC">
-                  13, Jan, 2016
-                </time>
-              </div>
-              <div class="col-6">
-                <div class="post-author">
-                  <a target="_blank" href="https://vramana.github.io/blog">@Ramana Venkata</a>
-                </div>
-              </div>
-            </div>
-          </header>
-
-          <div class="post-content markdown-body">
-            
-
-<p><em>Note: This post assumes some knowledge of JS features from ES2015</em></p>
+    <main class="content container">
+    <div class="post">
+  <h1>Codemods: Path to painless upgrades in Ember</h1>
+  <time datetime=2016-01-13T00:00:00Z class="post-date">Wed, Jan 13, 2016</time>
+  <p><em>Note: This post assumes some knowledge of JS features from ES2015</em></p>
 
 <p><em>This is blog post is continuation to the my other blog post on <a href="https://vramana.github.io/blog/2015/12/21/codemod-tutorial/">How to write a codemod</a></em></p>
 
@@ -153,7 +123,7 @@
 <span style="color:#66d9ef">import</span> <span style="color:#a6e22e">layout</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;../templates/some-thing-lol&#39;</span>;
 
 <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">Ember</span>.<span style="color:#a6e22e">Component</span>.<span style="color:#a6e22e">extend</span>({
-  <span style="color:#a6e22e">defaultLayout</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">layout</span>
+<span style="color:#a6e22e">defaultLayout</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">layout</span>
 });
 
 <span style="color:#75715e">// Ember 2.1 and later
@@ -161,7 +131,7 @@
 <span style="color:#66d9ef">import</span> <span style="color:#a6e22e">layout</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;../templates/some-thing-lol&#39;</span>;
 
 <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">Ember</span>.<span style="color:#a6e22e">Component</span>.<span style="color:#a6e22e">extend</span>({
-  <span style="color:#a6e22e">layout</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">layout</span>
+<span style="color:#a6e22e">layout</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">layout</span>
 });
 </code></pre></td></tr></table>
 </div>
@@ -235,27 +205,28 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isProperty</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">return</span> (
-      <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Property&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-      <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-      <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;defaultLayout&#39;</span>
-    );
-  };
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isProperty</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">return</span> (
+<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Property&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
+<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
+<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;defaultLayout&#39;</span>
+);
+};
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">checkCallee</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">types</span> <span style="color:#f92672">=</span> (
-      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;MemberExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;MemberExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>
-    );
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">checkCallee</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">types</span> <span style="color:#f92672">=</span> (
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;MemberExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;MemberExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>
+);
 
     <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">identifiers</span> <span style="color:#f92672">=</span> (
       <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Ember&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
@@ -264,28 +235,29 @@
     );
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">types</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">identifiers</span>;
-  }
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isArgument</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;CallExpression&#39;</span>) {
-      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">call</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>;
-      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">checkCallee</span>(<span style="color:#a6e22e">call</span>.<span style="color:#a6e22e">callee</span>);
-    }
-  }
+}
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">replaceDefaultLayout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;layout&#39;</span>;
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-  }
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isArgument</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;CallExpression&#39;</span>) {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">call</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">checkCallee</span>(<span style="color:#a6e22e">call</span>.<span style="color:#a6e22e">callee</span>);
+}
+}
 
-  <span style="color:#66d9ef">return</span> (
-    <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-      .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;defaultLayout&#39;</span> })
-      .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isProperty</span>)
-      .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isArgument</span>)
-      .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">replaceDefaultLayout</span>)
-      .<span style="color:#a6e22e">toSource</span>()
-    );
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">replaceDefaultLayout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;layout&#39;</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+}
+
+<span style="color:#66d9ef">return</span> (
+<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
+.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;defaultLayout&#39;</span> })
+.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isProperty</span>)
+.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isArgument</span>)
+.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">replaceDefaultLayout</span>)
+.<span style="color:#a6e22e">toSource</span>()
+);
 }
 </code></pre></td></tr></table>
 </div>
@@ -333,23 +305,23 @@
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// Ember &lt; 2.1
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initialize</span>(<span style="color:#a6e22e">container</span>, <span style="color:#a6e22e">application</span>) {
-  <span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
+<span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
 }
 
 <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
-  <span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">initialize</span>
+<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
+<span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">initialize</span>
 };
 
 <span style="color:#75715e">// Ember 2.1 and later
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initialize</span>(<span style="color:#a6e22e">application</span>) {
-  <span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
+<span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
 }
 
 <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
-  <span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">initialize</span>
+<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
+<span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">initialize</span>
 }
 </code></pre></td></tr></table>
 </div>
@@ -370,10 +342,10 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
-  <span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">container</span>, <span style="color:#a6e22e">application</span>) {
-    <span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
-  }
+<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
+<span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">container</span>, <span style="color:#a6e22e">application</span>) {
+<span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
+}
 };
 </code></pre></td></tr></table>
 </div>
@@ -430,29 +402,30 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
-    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
-  }
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
+<span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
+}
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fnNode</span> =&gt; {
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
-      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
-        <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [ <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>] ];
-      }
-    }
-  }
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fnNode</span> =&gt; {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [ <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>] ];
+}
+}
+}
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">node</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>;
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>)) {
-      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">initialize</span> <span style="color:#f92672">=</span>
-        <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">node</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>;
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>)) {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">initialize</span> <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>);
 
       <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;FunctionExpression&#39;</span>) {
         <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>);
@@ -462,14 +435,15 @@
     }
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-  }
 
-  <span style="color:#66d9ef">return</span> (
-    <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-      .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
-      .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeArity</span>)
-      .<span style="color:#a6e22e">toSource</span>()
-  );
+}
+
+<span style="color:#66d9ef">return</span> (
+<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
+.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
+.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeArity</span>)
+.<span style="color:#a6e22e">toSource</span>()
+);
 }
 </code></pre></td></tr></table>
 </div>
@@ -510,20 +484,20 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
 
-  <span style="color:#75715e">// Some methods here
+<span style="color:#75715e">// Some methods here
 </span><span style="color:#75715e"></span>
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
 
-  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
-  }
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
+}
 
-  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
 }
 </code></pre></td></tr></table>
 </div>
@@ -584,30 +558,31 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
-    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
-  }
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
+<span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
+}
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fnNode</span> =&gt; {
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
-      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
-        <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [ <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>] ];
-      }
-    }
-  }
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fnNode</span> =&gt; {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [ <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>] ];
+}
+}
+}
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">node</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>;
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>)) {
-      <span style="color:#66d9ef">const</span> [ <span style="color:#a6e22e">initialize</span> ] <span style="color:#f92672">=</span>
-        <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">node</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>;
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>)) {
+<span style="color:#66d9ef">const</span> [ <span style="color:#a6e22e">initialize</span> ] <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>);
 
       <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;FunctionExpression&#39;</span>) {
         <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>);
@@ -623,13 +598,14 @@
     }
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-  }
 
-  <span style="color:#66d9ef">return</span> (
-    <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
-      .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeArity</span>)
-      .<span style="color:#a6e22e">toSource</span>()
-  );
+}
+
+<span style="color:#66d9ef">return</span> (
+<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
+.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeArity</span>)
+.<span style="color:#a6e22e">toSource</span>()
+);
 }
 </code></pre></td></tr></table>
 </div>
@@ -670,20 +646,20 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
 
-  <span style="color:#75715e">// Some methods here
+<span style="color:#75715e">// Some methods here
 </span><span style="color:#75715e"></span>
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
 
-  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-   <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
-  }
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
+}
 
-  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
 }
 </code></pre></td></tr></table>
 </div>
@@ -707,9 +683,9 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">registerMethods</span>({
- <span style="color:#a6e22e">customMethod</span>() {
-   <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>).<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>);
- }
+<span style="color:#a6e22e">customMethod</span>() {
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>).<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>);
+}
 })
 </code></pre></td></tr></table>
 </div>
@@ -808,92 +784,98 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">83
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">84
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">85
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">86
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">87
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">88
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
-      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
-        <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [ <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>] ];
-      }
-    }
-  };
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [ <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>] ];
+}
+}
+};
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
-    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
-  };
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
+<span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
+};
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>);
-  };
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>);
+};
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">findInitialize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-    <span style="color:#66d9ef">const</span> [ <span style="color:#a6e22e">initialize</span> ] <span style="color:#f92672">=</span>
-      <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">findInitialize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+<span style="color:#66d9ef">const</span> [ <span style="color:#a6e22e">initialize</span> ] <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>);
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">initialize</span>;
-  };
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializeMethod</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span>;
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;FunctionExpression&#39;</span>;
-  };
+};
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializeIdentifier</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span>;
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>;
-  };
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializeMethod</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;FunctionExpression&#39;</span>;
+};
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeMethod</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">method</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>;
-    <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">method</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializeIdentifier</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span>;
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>;
+};
 
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-  };
-
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeIdentifierDeclaration</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">name</span>;
-    <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">FunctionDeclaration</span>, { <span style="color:#a6e22e">id</span> <span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span> } }).<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">p</span> =&gt; {
-      <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>);
-      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-    })
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeMethod</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">method</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>;
+<span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">method</span>);
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-  };
 
-  <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">registerMethods</span>({
-    <span style="color:#a6e22e">findInitializeMethod</span>() {
-      <span style="color:#66d9ef">return</span> (
-        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
-          .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>)
-          .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializeMethod</span>)
-      );
-    },
-    <span style="color:#a6e22e">findInitializeIdentifier</span>() {
-      <span style="color:#66d9ef">return</span> (
-        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
-          .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>)
-          .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializeIdentifier</span>)
-      );
-    }
-  });
+};
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">findInitializeMethod</span>().<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeMethod</span>).<span style="color:#a6e22e">size</span>();
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeIdentifierDeclaration</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">name</span>;
+<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">FunctionDeclaration</span>, { <span style="color:#a6e22e">id</span> <span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span> } }).<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">p</span> =&gt; {
+<span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>);
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+})
 
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span>
-    <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">findInitializeIdentifier</span>()
-      .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeIdentifierDeclaration</span>).<span style="color:#a6e22e">size</span>();
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
 
-  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
-  }
+};
 
-  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">registerMethods</span>({
+<span style="color:#a6e22e">findInitializeMethod</span>() {
+<span style="color:#66d9ef">return</span> (
+<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
+.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>)
+.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializeMethod</span>)
+);
+},
+<span style="color:#a6e22e">findInitializeIdentifier</span>() {
+<span style="color:#66d9ef">return</span> (
+<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
+.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>)
+.<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializeIdentifier</span>)
+);
+}
+});
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">findInitializeMethod</span>().<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeMethod</span>).<span style="color:#a6e22e">size</span>();
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">findInitializeIdentifier</span>()
+.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeIdentifierDeclaration</span>).<span style="color:#a6e22e">size</span>();
+
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
+}
+
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
 }
 </code></pre></td></tr></table>
 </div>
@@ -928,17 +910,11 @@
 <p>Thanks for reading this till the end. I appreciate it. If you have any comments or feedback, tweet at <a href="https://twitter.com/_vramana">@_vramana</a></p>
 
 <p>Also big thanks to <a href="https://twitter.com/cpojer">@cpojer</a> and <a href="https://twitter.com/kentcdodds">@kentcdodds</a> for reviewing this post.</p>
-
-          </div>
-        </article>
-
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
 
 
+    </main>
 
+    
   </body>
-
 </html>
