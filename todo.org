@@ -9,4 +9,5 @@
 
 * Maintenance
 
-** TODO Update Blog Theme 
+** DONE Update Blog Theme
+   CLOSED: [2019-05-12 Sun 17:44]
