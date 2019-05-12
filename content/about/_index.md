@@ -1,10 +1,9 @@
 +++
-title = "About Me"
+title = "About"
 menu = "main"
-url = "/about"
 +++
 
-My name is Venkata Ramana. I am currently working as a software engineer on both front-end and back-end. In my current job
-I am team leam for web application written React & Redux and bunch of small microservices in Go.
+My name is Ramana Venkata. I am currently working as a software engineer on both front-end and back-end. In my current job,
+I am team lead for web application written React & Redux and bunch of microservices in Go.
 
-My main interests are compilers and developer tools.
+My main interests are compilers, developer tools and low level graphics APIs.
