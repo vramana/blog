@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My Blog</title>
+    <title>Ramana Venkata</title>
     <link>https://vramana.github.io/blog/</link>
-    <description>Recent content on My Blog</description>
+    <description>Recent content on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate>
@@ -22,23 +22,12 @@ Feb 2019 → history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] 
     </item>
     
     <item>
-      <title>About Me</title>
-      <link>https://vramana.github.io/blog/about/</link>
-      <pubDate>Sun, 17 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://vramana.github.io/blog/about/</guid>
-      <description>My name is Venkata Ramana. I am currently working as a software engineer on both front-end and back-end. In my current job I am team leam for web application written React &amp;amp; Redux and bunch of small microservices in Go.
-My main interests are compilers and developer tools.</description>
-    </item>
-    
-    <item>
       <title>Rust Debugging Paper Cuts</title>
       <link>https://vramana.github.io/blog/2018/09/30/rust-debugging/</link>
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://vramana.github.io/blog/2018/09/30/rust-debugging/</guid>
-      <description>+
-These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&amp;rsquo;t know the solution yet.
+      <description>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them may be already solved problems but I don&amp;rsquo;t know the solution yet.
 Don&amp;rsquo;t step in to standard library source code
 This is a major issue step accidentally into rust std source code. Then do next command for few times till get out of it. More generally it would be nice to have command that will omit stepping into a few selected crates.</description>
     </item>

@@ -1,101 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+  <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.54.0" />
+  
+
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="author" content="" />
-  <meta property="og:url" content="https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/" />
-  <link rel="canonical" href="https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/" /><script type="application/ld+json">
-  {
-      "@context" : "http://schema.org",
-      "@type" : "BlogPosting",
-      "mainEntityOfPage": {
-           "@type": "WebPage",
-           "@id": "https://vramana.github.io/blog"
-      },
-      "articleSection" : "",
-      "name" : "Codemods: Path to painless upgrades in Ember",
-      "headline" : "Codemods: Path to painless upgrades in Ember",
-      "description" : "Note: This post assumes some knowledge of JS features from ES2015
-This is blog post is continuation to the my other blog post on How to write a codemod
-Introduction After I wrote my last blog post on How to write a codemod, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2.",
-      "inLanguage" : "en-US",
-      "author" : "",
-      "creator" : "",
-      "publisher": "",
-      "accountablePerson" : "",
-      "copyrightHolder" : "",
-      "copyrightYear" : "2016",
-      "datePublished": "2016-01-13 00:00:00 &#43;0000 UTC",
-      "dateModified" : "2016-01-13 00:00:00 &#43;0000 UTC",
-      "url" : "https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/",
-      "keywords" : [  ]
-  }
-</script>
-<title>Codemods: Path to painless upgrades in Ember - My Blog</title>
-  <meta property="og:title" content="Codemods: Path to painless upgrades in Ember - My Blog" />
+  <meta property="og:url" content="" />
+  <link rel="canonical" href="" /><script type="application/ld+json">
+    {
+        "@context" : "http://schema.org",
+        "@type" : "BlogPosting",
+        "mainEntityOfPage": {
+             "@type": "WebPage",
+             "@id": ""
+        },
+        "articleSection" : "",
+        "name" : "",
+        "headline" : "",
+        "description" : "",
+        "inLanguage" : "en-US",
+        "author" : "",
+        "creator" : "",
+        "publisher": "",
+        "accountablePerson" : "",
+        "copyrightHolder" : "",
+        "copyrightYear" : "",
+        "datePublished": "",
+        "dateModified" : "",
+        "url" : ""
+    }
+  </script><title> - </title>
+  <meta property="og:title" content=" - " />
   <meta property="og:type" content="article" />
-  <meta name="description" content="Note: This post assumes some knowledge of JS features from ES2015
-This is blog post is continuation to the my other blog post on How to write a codemod
-Introduction After I wrote my last blog post on How to write a codemod, I was searching for problems that I can use for this blog post to talk more about codemods and I remembered about a blog post complaining the Ember 2." />
+  <meta name="description" content="" />
 
-  <link rel="stylesheet" href="https://unpkg.com/flexboxgrid@6.3.1/dist/flexboxgrid.min.css" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/tomorrow.min.css" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
   <link rel="stylesheet" href="/blog/css/index.css">
-  <link href="/blog/index.xml" rel="alternate" type="application/rss+xml" title="My Blog">
-  
-  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
-  
-  <script>
-    
-
-    (function (undefined) { }).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-  </script>
-
-  
 </head>
 
-<body>
-  <article class="post " id="article">
-    <div class="row">
-      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
-        <div class="site-header">
-          
-<header>
-  <div class="signatures site-title">
-    <a href="/"></a>
-  </div>
-</header>
-<div class="row end-xs">
-  
-  
-</div>
-<div class="header-line"></div>
 
-        </div>
-        <header class="post-header">
-          <h1 class="post-title">Codemods: Path to painless upgrades in Ember</h1>
-          <div class="row">
-            <div class="col-xs-6">
-              <time class="post-date" datetime="2016-01-13 00:00:00 UTC">
-                13, Jan, 2016
-              </time>
-            </div>
-            <div class="col-xs-6">
-              <div class="post-author">
-                <a target="_blank" href="">@</a>
+
+  <body>
+    <div class="container">
+        <nav>
+  <div class="signatures site-title">
+    <a href="">
+    <h1>Ramana Venkata</h1>
+    </a>
+  </div>
+</nav>
+
+<hr />
+
+
+        <article>
+
+          <header class="post-header">
+            <h3 class="post-title">Codemods: Path to painless upgrades in Ember</h3>
+            <div class="row">
+              <div class="col-6">
+                <time class="post-date" datetime="2016-01-13 00:00:00 UTC">
+                  13, Jan, 2016
+                </time>
+              </div>
+              <div class="col-6">
+                <div class="post-author">
+                  <a target="_blank" href="https://vramana.github.io/blog">@Ramana Venkata</a>
+                </div>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        <div class="post-content markdown-body">
-          
+          <div class="post-content markdown-body">
+            
 
 <p><em>Note: This post assumes some knowledge of JS features from ES2015</em></p>
 
@@ -147,21 +131,21 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// Ember &lt; 2.1
@@ -201,56 +185,56 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">50
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -323,27 +307,27 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// Ember &lt; 2.1
@@ -377,12 +361,12 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
@@ -407,45 +391,45 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -507,22 +491,22 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -555,51 +539,51 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">45
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -667,22 +651,22 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -715,11 +699,11 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">registerMethods</span>({
@@ -739,91 +723,91 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">53
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">55
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">56
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">57
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">58
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">59
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">60
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">61
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">62
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">63
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">64
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">65
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">66
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">67
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">68
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">69
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">70
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">71
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">72
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">73
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">74
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">75
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">76
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">77
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">78
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">79
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">80
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">81
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">82
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">83
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">84
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">85
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">81
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">82
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">83
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">84
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">85
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
@@ -945,36 +929,16 @@ Introduction After I wrote my last blog post on How to write a codemod, I was se
 
 <p>Also big thanks to <a href="https://twitter.com/cpojer">@cpojer</a> and <a href="https://twitter.com/kentcdodds">@kentcdodds</a> for reviewing this post.</p>
 
-        </div>
-        
-        
-        
-        <div class="site-footer">
-  
-  <div class="site-footer-item">
-    <a href="https://github.com/joway/hugo-theme-yinyang" target="_blank">Theme</a>
-  </div>
-</div>
+          </div>
+        </article>
 
-      </div>
     </div>
-  </article>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <script src="/blog/js/highlight.pack.js"></script>
-<script src="https://unpkg.com/quicklink@0.1.1/dist/quicklink.umd.js"></script>
 
-<script>
-  hljs.initHighlightingOnLoad();
-  
-  var posts = document.getElementById('posts-list');
-  posts && quicklink({
-    el: posts,
-    priority: true,
-  });
-</script>
 
-  
-
-</body>
+  </body>
 
 </html>

@@ -1,14 +1,11 @@
 title = "Ramana Venkata"
 baseURL = "https://vramana.github.io/blog"
 languageCode = "en-us"
+publishDir = "docs"
 
 [author]
   name = "Ramana Venkata"
   homepage = "https://vramana.github.io/blog"
-
-publishDir = "docs"
-
-
 
 [[params.socials]]
 name = "Github"
