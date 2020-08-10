@@ -6,10 +6,19 @@
     <description>Recent content on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Aug 2020 18:28:57 +0530</lastBuildDate>
     
 	<atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Week 31, 2020 Update</title>
+      <link>https://vramana.github.io/blog/posts/week-31-update/</link>
+      <pubDate>Mon, 10 Aug 2020 18:28:57 +0530</pubDate>
+      
+      <guid>https://vramana.github.io/blog/posts/week-31-update/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>My most used Terminal Commands</title>
