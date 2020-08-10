@@ -3,7 +3,7 @@ date = "2015-12-21"
 published = true
 title = "How to write a codemod"
 url = "/2015/12/21/codemod-tutorial"
-
+layout = "post"
 +++
 
 _Note: This post assumes some knowledge of JS features from ES2015_
@@ -18,15 +18,15 @@ For these tutorials (I plan to do more than one tutorial but we will see), we wi
 
 I looked to around a bit to find to good first problem, then it struck to me, now that we have template strings in ES2015, we don't have to concatenate using `+` operator. So our aim is to convert this
 
-{{< highlight js "linenos=table" >}}
+```js
 'Yo ' + name + '! How are you doing?'
-{{< / highlight >}}
+```
 
 to this
 
-{{< highlight js "linenos=table" >}}
+```js
 `Yo ${name}! How are you doing?`
-{{< / highlight >}}
+```
 
 ## Solution:
 
@@ -34,15 +34,15 @@ In this section of this tutorial, I will teach to how to use [ASTExplorer][ast] 
 
 Whenever I try to solve a problem, my first approach is to break down the problem into smaller pieces and solve them one by one. To explain this bit more, you don't need to solve problem in its full generality in the first go, solve for a specific case it may give you insights on how to solve the original problem. I think that converting this
 
-{{< highlight js "linenos=table" >}}
+```js
 a + b
-{{< / highlight >}}
+```
 
 to this
 
-{{< highlight js "linenos=table" >}}
+```js
 `${a}${b}`
-{{< / highlight >}}
+```
 
 is a nice way to begin solving this problem.
 
@@ -75,7 +75,7 @@ _Note: Some of the explanation provided in this section are not entirely technic
 
 Now that we know ASTs of the initial code and final code, we will learn how to achieve this transformation using [jscodeshift][jscodeshift]. Open up ASTExplorer and choose _jscodeshift_ under Transform option in the top menubar. Let's go over the transformation example given in the ASTExplorer by default.
 
-{{< highlight js "linenos=table" >}}
+```js
 export default function(file, api) {
 const j = api.jscodeshift;
 
@@ -86,7 +86,7 @@ p => j.identifier(p.node.name.split('').reverse().join(''))
 )
 .toSource();
 };
-{{< / highlight >}}
+```
 
 This is the code for _jscodeshift_ transformation which identifies all the `Identifier` in your code and reverses the `Identifier`'s name (as you can see in the example). Let's understand the code here bit by bit.
 
@@ -114,30 +114,29 @@ Now I'll go over how the solution works to our simplified problem and then show 
 2. Collect the values of _left_ and _right_ keys of the chosen node.
 3. Create a `TemplateLiteral` node with appropriate _quasis_ and _expressions_ i.e, quasis will be an array simply three `TemplateElement`'s with _cooked_ & _raw_ keys set to `''` and expressions is an array of _left_ and _right_ values collected earlier.
 
-{{< highlight js "linenos=table" >}}
-export default function(file, api) {
-const j = api.jscodeshift;
-const {expression, statement, statements} = j.template;
+```js
+export default function (file, api) {
+  const j = api.jscodeshift;
+  const { expression, statement, statements } = j.template;
 
-const convertToTemplateString = p => {
-const quasis = [
-j.templateElement({ cooked: '', raw: ''}, false),
-j.templateElement({ cooked: '', raw: ''}, false),
-j.templateElement({ cooked: '', raw: ''}, true)
-]
+  const convertToTemplateString = p => {
+    const quasis = [
+      j.templateElement({ cooked: '', raw: '' }, false),
+      j.templateElement({ cooked: '', raw: '' }, false),
+      j.templateElement({ cooked: '', raw: '' }, true)
+    ];
 
-    const expressions = [ p.node.left, p.node.right ]
+    const expressions = [p.node.left, p.node.right];
 
-    return j.templateLiteral(quasis, expressions)
+    return j.templateLiteral(quasis, expressions);
+  };
 
+  return j(file.source)
+    .find(j.BinaryExpression, { operator: '+' })
+    .replaceWith(convertToTemplateString)
+    .toSource();
 }
-
-return j(file.source)
-.find(j.BinaryExpression, { operator: '+' })
-.replaceWith(convertToTemplateString)
-.toSource();
-};
-{{< / highlight >}}
+```
 
 Yay!! We have solved our simplified problem. I just want to make true quick remark before we continue to solving our original problem. You may have noticed that there is second argument in `find` call, we are restricting to the `BinaryExpression` nodes with operator `+` i.e, the second argument contains information about data that is should be present inside our node. The other remark is in the `j.templateElement` the second argument tells whether it is the last `TemplateElement` node in the `TemplateLiteral` or not.
 
@@ -145,46 +144,47 @@ Yay!! We have solved our simplified problem. I just want to make true quick rema
 
 At this point, I changed my input to `a+b+c` see how it works. The result is `${a+b}${c}`. Now it is clear our solution doesn't work but we make an important observation that `find` doesn't recursively traverse down and apply our transform. If it did we would end up with this
 
-{{< highlight js "linenos=table" >}}
+```js
 `${`${a}${b}`}${c}`
-{{< / highlight >}}
+```
 
 But somehow it didn't and we get `${a}${b}${c}` as our solution. In fact our input `a+b+c` is actually `(a + b) + c`. So, it is clear that we need to do flatten the node to get our desired output.
 
-{{< highlight js "linenos=table" >}}
-export default function(file, api) {
-const j = api.jscodeshift;
-const {expression, statement, statements} = j.template;
+```js
+export default function (file, api) {
+  const j = api.jscodeshift;
+  const { expression, statement, statements } = j.template;
 
-const convertToTemplateString = p => {
-const extractNodes = node => {
-if (node.type === 'BinaryExpression' && node.operator === '+') {
-return [ ...extractNodes(node.left), ...extractNodes(node.right)]
-}
+  const convertToTemplateString = p => {
+    const extractNodes = node => {
+      if (node.type === 'BinaryExpression' && node.operator === '+') {
+        return [...extractNodes(node.left), ...extractNodes(node.right)];
+      }
 
-      return [ node ]
-    }
+      return [node];
+    };
 
-    const expressions = extractNodes(p.node)
+    const expressions = extractNodes(p.node);
 
-    const buildQuasis =
-      expressions.map(_ => j.templateElement({ cooked: '', raw: ''}, false))
+    const buildQuasis = expressions.map(_ =>
+      j.templateElement({ cooked: '', raw: '' }, false)
+    );
 
     const quasis = [
       ...buildQuasis,
-      j.templateElement({ cooked: '', raw: ''}, true)
-    ]
+      j.templateElement({ cooked: '', raw: '' }, true)
+    ];
 
-    return j.templateLiteral(quasis, expressions)
+    return j.templateLiteral(quasis, expressions);
+  };
 
+  return j(file.source)
+    .find(j.BinaryExpression, { operator: '+' })
+    .replaceWith(convertToTemplateString)
+    .toSource();
 }
 
-return j(file.source)
-.find(j.BinaryExpression, { operator: '+' })
-.replaceWith(convertToTemplateString)
-.toSource();
-};
-{{< / highlight >}}
+```
 
 Here, `extractNodes` recursively traverses through the `BinaryExpression` node we have and gives us a list of _left_ and _right_ values in our node (in our case `a`, `b`, `c`) which is exactly what we need for _expressions_ in our `TemplateLiteral` node. Now we are left with constructing _quasis_. We just create `TemplateElement` node for every expression we have and add `j.templateElement({ cooked: '', raw: ''}, true)` at the end of the array.
 
@@ -192,83 +192,85 @@ Here, `extractNodes` recursively traverses through the `BinaryExpression` node w
 
 Our current solution looks promising but we are not exactly done yet, but we are almost done. If you pass our original input `'Yo' + name + '! How are you doing?'` then we get this
 
-{{< highlight js "linenos=table" >}}
+```js
 `${'Yo'}${name}${'! How are you doing?'}`
-{{< / highlight >}}
+```
 
 Sigh! The mistake we are making here is we are assuming that all the nodes we extracted are expressions. We need to filter out our string and put them in `TemplateElement`'s _raw_ and _cooked_ keys. There is another problem, consider this input
 
-{{< highlight js "linenos=table" >}}
+```js
 'Y' + 'o' + name + '! How are you doing?'
-{{< / highlight >}}
+```
 
 and the expected output is
 
-{{< highlight js "linenos=table" >}}
+```js
 `Yo ${name}! How are you doing?`
-{{< / highlight >}}
+```
 
 If you think about it, our constructed quasis will have 5 elements in the array. But there are only 2 elements in expected output's quasis. The remedy is collect adjacent `Literal` and combine them.
 
 Lastly, this is important, we should not convert `3 + 4` to `TemplateLiteral` `34` so we have to do little check to see whether we have at least one node that is of type `Literal` and it is a string. `Literal` node is both used for string and number. You can do a `typeof` check on the `Literal` node's value key's value to determine whether it's string or not.
 
-{{< highlight js "linenos=table" >}}
-export default function(file, api) {
-const j = api.jscodeshift;
-const {expression, statement, statements} = j.template;
+```js
+export default function (file, api) {
+  const j = api.jscodeshift;
+  const { expression, statement, statements } = j.template;
 
-const convertToTemplateString = p => {
-const extractNodes = node => {
-if (node.type === 'BinaryExpression' && node.operator === '+') {
-return [ ...extractNodes(node.left), ...extractNodes(node.right)]
-}
+  const convertToTemplateString = p => {
+    const extractNodes = node => {
+      if (node.type === 'BinaryExpression' && node.operator === '+') {
+        return [...extractNodes(node.left), ...extractNodes(node.right)];
+      }
 
-      return [ node ]
-    }
+      return [node];
+    };
 
-    const tempNodes = extractNodes(p.node)
+    const tempNodes = extractNodes(p.node);
 
     const isStringNode = node =>
-      node.type === 'Literal' && (typeof node.value === 'string')
+      node.type === 'Literal' && typeof node.value === 'string';
 
     if (!tempNodes.some(isStringNode)) {
-      return p.node
+      return p.node;
     }
 
     const buildTL = (nodes, quasis = [], expressions = [], temp = '') => {
       if (nodes.length === 0) {
         const newQuasis = [
           ...quasis,
-          j.templateElement({ cooked: temp, raw: temp}, true)
-        ]
+          j.templateElement({ cooked: temp, raw: temp }, true)
+        ];
 
-        return [ newQuasis, expressions ]
+        return [newQuasis, expressions];
       }
 
-      const [ a, ...rest ] = nodes;
+      const [a, ...rest] = nodes;
 
       if (a.type === 'Literal') {
-        return buildTL(rest, quasis, expressions, temp + a.value)
+        return buildTL(rest, quasis, expressions, temp + a.value);
       }
 
-      const nextTemplateElement = j.templateElement({ cooked: temp, raw: temp }, false)
+      const nextTemplateElement = j.templateElement(
+        { cooked: temp, raw: temp },
+        false
+      );
 
-      const newQuasis = quasis.concat(nextTemplateElement)
-      const newExpressions = expressions.concat(a)
+      const newQuasis = quasis.concat(nextTemplateElement);
+      const newExpressions = expressions.concat(a);
 
-      return buildTL(rest, newQuasis, newExpressions, '')
-    }
+      return buildTL(rest, newQuasis, newExpressions, '');
+    };
 
-    return j.templateLiteral(...buildTL(tempNodes))
+    return j.templateLiteral(...buildTL(tempNodes));
+  };
 
+  return j(file.source)
+    .find(j.BinaryExpression, { operator: '+' })
+    .replaceWith(convertToTemplateString)
+    .toSource();
 }
-
-return j(file.source)
-.find(j.BinaryExpression, { operator: '+' })
-.replaceWith(convertToTemplateString)
-.toSource();
-};
-{{< / highlight >}}
+```
 
 In the `buildTL` function, we wrote what has been described above (I explained more about this function in the **Notes** section at the end). Thus we have solved our original problem. I have intentionally left out the case where we escaped characters in `Literal`s because it may introduce too much complexity.
 
@@ -284,17 +286,17 @@ Big shoutout to [@cpojer](https://twitter.com/cpojer) who carefully reviewed thi
 
 Initially when I was solving **Step 5**, I could think of a solution that uses imperative logic but I wanted to write it in functional style. That's how I ended up with `buildTL` function. Some of the readers will notice that it is very familiar. It is a standard functional way to iterate through an list of items. For example `Array.map` will be implemented as
 
-{{< highlight js "linenos=table" >}}
+```js
 const map = (list, fn, acc = []) {
-if (list.length === 0) {
-return acc
-}
+  if (list.length === 0) {
+  return acc
+  }
 
-const [ a, ...as ] = list
+  const [ a, ...as ] = list
 
-return map(as, fn, acc.concat(fn(a)))
+  return map(as, fn, acc.concat(fn(a)))
 }
-{{< / highlight >}}
+```
 
 The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into _quasis_ and _expressions_ so we need an accumalator for each of them. But we also want to collect adjacent `Literal` so we will need another accumalator for that and that's how we end up with that function.
 

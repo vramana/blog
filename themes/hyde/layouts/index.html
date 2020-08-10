@@ -1,6 +1,7 @@
 {{ define "main" -}}
 <div class="posts">
-{{ range .Data.Pages -}}
+{{ $pag := .Paginate (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) }}
+{{ range $pag.Pages }}
 <article class="post">
   <h1 class="post-title">
     <a href="{{ .Permalink }}">{{ .Title }}</a>

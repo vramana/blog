@@ -1,6 +1,7 @@
 +++
 title = "About"
 menu = "main"
+date = "2011-08-01"
 +++
 
 My name is Ramana Venkata. I am currently working as a software engineer on both front-end and back-end. In my current job,

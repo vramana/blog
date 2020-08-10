@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ramana Venkata</title>
@@ -37,7 +37,6 @@ may be already solved problems but I don&amp;rsquo;t know the solution yet.&lt;/
       
       <guid>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</guid>
       <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;
-
 &lt;p&gt;&lt;em&gt;This is blog post is continuation to the my other blog post on &lt;a href=&#34;https://vramana.github.io/blog/2015/12/21/codemod-tutorial/&#34;&gt;How to write a codemod&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
@@ -48,6 +47,16 @@ may be already solved problems but I don&amp;rsquo;t know the solution yet.&lt;/
       
       <guid>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</guid>
       <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://vramana.github.io/blog/about/</link>
+      <pubDate>Mon, 01 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://vramana.github.io/blog/about/</guid>
+      <description>My name is Ramana Venkata. I am currently working as a software engineer on both front-end and back-end. In my current job, I am team lead for web application written React &amp;amp; Redux and bunch of microservices in Go.
+My main interests are compilers, developer tools and low level graphics APIs.</description>
     </item>
     
   </channel>

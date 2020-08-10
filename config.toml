@@ -4,15 +4,18 @@ languageCode = "en-us"
 defaultContentLanguage = "en"
 publishDir = "docs"
 enableEmoji = true
+pygmentsCodefences = true
+pygmentsUseClasses = true
 
 theme = "hyde"
 
 [author]
-  name = "Ramana Venkata"
-  homepage = "https://vramana.github.io/blog"
+name = "Ramana Venkata"
+homepage = "https://vramana.github.io/blog"
 
 [params]
 description = "Remote Developer with interest Javascript and Go"
+themeColor = "theme-base-08"
 
 [[params.socials]]
 name = "Github"
@@ -22,3 +25,4 @@ link = "https://github.com/vramana"
 [[params.socials]]
 name = "Twitter"
 link = "https://twitter.com/_vramana"
+

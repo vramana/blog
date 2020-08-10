@@ -3,6 +3,7 @@ title= "Rust Debugging Paper Cuts"
 published = true
 url = "/2018/09/30/rust-debugging"
 date= "2018-09-20"
+layout = "post"
 +++
 
 These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them

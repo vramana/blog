@@ -3,6 +3,7 @@ title= "My most used Terminal Commands"
 published = true
 url = "/2019/02/20/terminal-commands"
 date= "2019-02-20"
+layout = "post"
 +++
 
 Inspired by [this article][wincent-article], I set out to find which are my most used commands.
