@@ -1,6 +1,6 @@
 +++
-title= "Week 31, 2020 Update"
-date= 2020-08-10T18:28:57+05:30
+title = "Week 32, 2020 Update"
+date = 2020-08-10T18:28:57+05:30
 tags = []
 published = true
 layout = "post"
@@ -8,7 +8,6 @@ layout = "post"
 +++
 
 <!--more-->
-
 
 I want to start writing weekly updates and track my progress. Hence the blog post.
 
