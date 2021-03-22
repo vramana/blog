@@ -6,56 +6,7 @@
     <description>Recent content on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Sep 2020 23:23:40 +0530</lastBuildDate>
-    
-	<atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Week 36, 2020 Update</title>
-      <link>https://vramana.github.io/blog/posts/week-36-update/</link>
-      <pubDate>Mon, 07 Sep 2020 23:23:40 +0530</pubDate>
-      
-      <guid>https://vramana.github.io/blog/posts/week-36-update/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Week 35, 2020 Update</title>
-      <link>https://vramana.github.io/blog/posts/week-35-update/</link>
-      <pubDate>Wed, 02 Sep 2020 00:18:36 +0530</pubDate>
-      
-      <guid>https://vramana.github.io/blog/posts/week-35-update/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Week 34, 2020 Update</title>
-      <link>https://vramana.github.io/blog/posts/week-34-update/</link>
-      <pubDate>Tue, 25 Aug 2020 02:41:44 +0530</pubDate>
-      
-      <guid>https://vramana.github.io/blog/posts/week-34-update/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Week 33, 2020 Update</title>
-      <link>https://vramana.github.io/blog/posts/week-33-update/</link>
-      <pubDate>Mon, 17 Aug 2020 21:40:40 +0530</pubDate>
-      
-      <guid>https://vramana.github.io/blog/posts/week-33-update/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Week 32, 2020 Update</title>
-      <link>https://vramana.github.io/blog/posts/week-32-update/</link>
-      <pubDate>Mon, 10 Aug 2020 18:28:57 +0530</pubDate>
-      
-      <guid>https://vramana.github.io/blog/posts/week-32-update/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vramana.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My most used Terminal Commands</title>
       <link>https://vramana.github.io/blog/2019/02/20/terminal-commands/</link>

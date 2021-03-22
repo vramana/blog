@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,7 @@
       </ul>
     </nav>
 
-    <p>&copy; 2020. All rights reserved. </p>
+    <p>&copy; 2021. All rights reserved. </p>
   </div>
 </aside>
 
@@ -108,13 +108,13 @@
 <p>So, the algorithm will be as follows:</p>
 <ul>
 <li>
-<p>Find all instances of <code>Identifier</code>'s whose name is <code>defaultLayout</code> and this will give us paths to all such nodes.</p>
+<p>Find all instances of <code>Identifier</code>&rsquo;s whose name is <code>defaultLayout</code> and this will give us paths to all such nodes.</p>
 </li>
 <li>
 <p>Go to the path of parent node (<code>p.parent</code>) and check if it&rsquo;s a <code>Property</code> node and the <code>defaultLayout</code> is the key of this property. This also confirms <code>Property</code> node parent is an <code>ObjectExpression</code> node.</p>
 </li>
 <li>
-<p>Check if the parent of <code>ObjectExpression</code> node is <code>CallExpression</code> and the <code>CallExpression</code>'s callee is <code>Ember.Component.extend</code>.</p>
+<p>Check if the parent of <code>ObjectExpression</code> node is <code>CallExpression</code> and the <code>CallExpression</code>&rsquo;s callee is <code>Ember.Component.extend</code>.</p>
 </li>
 <li>
 <p>If path a satisfies these properties, then replace the <code>defaultLayout</code> identifier with <code>layout</code> identifier.</p>
@@ -171,7 +171,7 @@
   <span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/bq5fA4afqR">http://astexplorer.net/#/bq5fA4afqR</a></p>
-<p>There is not much here to explain. The code here feels a bit long but most of it is checking types of nodes and the <code>Identifier</code>'s name. Just look at return value of our transform, it gives the gist of what the codemod is. Each line follows the steps we have described above with the exception of first and last line which are common to every codemod. <code>filter</code> method here behaves exactly similar to <code>Array.filter</code>.</p>
+<p>There is not much here to explain. The code here feels a bit long but most of it is checking types of nodes and the <code>Identifier</code>&rsquo;s name. Just look at return value of our transform, it gives the gist of what the codemod is. Each line follows the steps we have described above with the exception of first and last line which are common to every codemod. <code>filter</code> method here behaves exactly similar to <code>Array.filter</code>.</p>
 <p><strong>Note</strong>: I am not trying to write the most efficient code but I am trying to write modular code. The emphasis here is on teaching you how to write the codemod you want. Writing the most optimal code is left to you, the reader, as an exercise.</p>
 <p>Also I should mention to those people who may want to try out this codemod on their own ember codebase that this codemod may not be complete. The reason being you may have code which relies on the <code>defaultLayout</code> property in other places. So, you may want to extend this codemod or write another codemod that complements this if you want achieve correct results.</p>
 <hr>
@@ -350,7 +350,7 @@
 </code></pre></div><p>Here, I treat <code>root.find(...).replaceWith(...)</code> as a single transform. If you look at the above snippet, we are actually doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The <code>.size()</code> calls at the end give no. of paths that have transformed in your transformation. So, the <code>didTransform1</code> and <code>didTransform2</code> give a sense of how many transformations occurred and this can be used to prevent errors.</p>
 <p>There are two kinds of errors that can happen while writing a codemod. The first kind is where you select an incorrect node type while finding the code you want to transform or even if you are finding the correct type, you may not be filtering it enough. The second kind is where you have a bug in your transformation logic. The <code>didTransform1</code> or <code>didTransform2</code> helps to avoid mistakes of the first kind.</p>
 <p>Finally the if conditional at the end says if their sum is zero, then its unnecessary to convert an unmodified AST to back to JavaScript, we can just leave the file as is. So, we return <code>null</code> instead the <code>root.toSource()</code>.</p>
-<p>Anyway before going into the second solution, I will introduce Extensions in <strong>jscodeshift</strong> API. This allows us to add custom methods on the <code>Collection</code>'s prototype, so you use use these methods on <code>Collection</code>'s as if they were normal methods. Here is sample.</p>
+<p>Anyway before going into the second solution, I will introduce Extensions in <strong>jscodeshift</strong> API. This allows us to add custom methods on the <code>Collection</code>&rsquo;s prototype, so you use use these methods on <code>Collection</code>&rsquo;s as if they were normal methods. Here is sample.</p>
 <div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">j</span><span class="p">.</span><span class="nx">registerMethods</span><span class="p">({</span>
   <span class="nx">customMethod</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializer</span><span class="p">);</span>
@@ -449,8 +449,8 @@
 </code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z/2">http://astexplorer.net/#/K0xJ26FT0Z/2</a></p>
 <p>This looks a lot longer than the previous solution but don&rsquo;t worry you have already seen most it and the difference lies in the organization of the code.</p>
 <p>Let&rsquo;s start reading the code from bottom to top. First thing to notice is using the didTransform pattern, we divided the transform into two sub-transforms which are simpler to reason about (Divide and Conquer FTW!!).</p>
-<p>Without reading the implementation details, lets look at what <code>didTransform1</code> and <code>didTransform2</code> are doing. The <code>didTransform1</code> handles the case where <code>initialize</code> is a <code>FunctionExpression</code> node and <code>didTransform2</code> handles the case where <code>initialize</code> is an <code>Identifier</code> node. Here,<code>findInitializeMethod</code> and <code>findInitializeIdentifier</code> are extensions which return the path of the <code>ObjectExpression</code>'s that have <code>initialize</code> defined as <code>FunctionExpression</code> and <code>Identifier</code> respectively. We transform both the collections using <code>changeMethod</code> and <code>changeIdentifierDeclaration</code> functions respectively. Then we check if there any changes and convert the AST to JavaScript if something changes.</p>
-<p>The implementation of <code>findInitializeMethod</code> is make a collection of <code>ObjectExpression</code>'s and filter the Initializer objects and check if the value of <code>initialize</code> key is actually a <code>FunctionExpression</code>. The implementation of <code>findInitializeIdentifier</code> is similar to <code>findInitializeMethod</code> except in the last step, instead of filtering <code>FunctionExpression</code> we filter <code>Identifier</code> nodes.</p>
+<p>Without reading the implementation details, lets look at what <code>didTransform1</code> and <code>didTransform2</code> are doing. The <code>didTransform1</code> handles the case where <code>initialize</code> is a <code>FunctionExpression</code> node and <code>didTransform2</code> handles the case where <code>initialize</code> is an <code>Identifier</code> node. Here,<code>findInitializeMethod</code> and <code>findInitializeIdentifier</code> are extensions which return the path of the <code>ObjectExpression</code>&rsquo;s that have <code>initialize</code> defined as <code>FunctionExpression</code> and <code>Identifier</code> respectively. We transform both the collections using <code>changeMethod</code> and <code>changeIdentifierDeclaration</code> functions respectively. Then we check if there any changes and convert the AST to JavaScript if something changes.</p>
+<p>The implementation of <code>findInitializeMethod</code> is make a collection of <code>ObjectExpression</code>&rsquo;s and filter the Initializer objects and check if the value of <code>initialize</code> key is actually a <code>FunctionExpression</code>. The implementation of <code>findInitializeIdentifier</code> is similar to <code>findInitializeMethod</code> except in the last step, instead of filtering <code>FunctionExpression</code> we filter <code>Identifier</code> nodes.</p>
 <p><code>changeMethod</code> and <code>changeIdentifierDeclaration</code> code is already presented in Solution 1. We just repackaged it under a different name here so I am not explaining it again. We are still doing a transformation call inside another transformation call in <code>changeIdentifierDeclaration</code>. I currently don&rsquo;t know any way around it. But the point of writing this approach is to learn a way to write a codemod that targets two different styles of writing code at the same time i.e, it does two different kind of transforms at the same time. I also think it&rsquo;s a bit more declaritive but it&rsquo;s purely subjective opinion.</p>
 <h3 id="summary">Summary</h3>
 <p>Let&rsquo;s summarize quickly, the important things what we have learned so far.</p>

@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.81.0" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,7 @@
       </ul>
     </nav>
 
-    <p>&copy; 2020. All rights reserved. </p>
+    <p>&copy; 2021. All rights reserved. </p>
   </div>
 </aside>
 
@@ -73,7 +73,7 @@
 <p>Next let&rsquo;s look at <code>ExpressionStatement</code>: again kind of obvious it refers to <code>a + b</code> here. Other examples of <code>ExpressionStatement</code> would be a value like <code>4</code> or function call like <code>f(a)</code> (just these terms on an isolated line because JS automatically inserts <code>;</code> for us). <code>BinaryExpression</code> is easy to infer from the name it refers to our expression <code>a + b</code>. The two <code>Identifier</code> nodes refer to the variables <code>a</code> and <code>b</code>. <code>Identifier</code> is used for names of variables, functions, methods, object keys, etc.,</p>
 <p>Lets look at what the AST of <code>${a}${b}</code> looks like.</p>
 <p><img src="https://i.imgur.com/C6obcyE.png?1" alt="Template Literal AST"></p>
-<p>This time it is not as straightforward to understand. We have the <code>TemplateLiteral</code> node which represents our template string <code>${a}${b}</code>. <code>a</code> &amp; <code>b</code> are represented by the <code>Identifier</code>'s in the value of <em>expressions</em> as key of this node. But what is the <em>quasis</em> key which has array of <code>TemplateElement</code>s? Hover the mouse over the first <code>TemplateElement</code>, we will see the <code>${</code> is highlighted in the editor i.e, whenever you hover over a node ASTExplorer highlights the corresponding code for that node. This is especially helpful when you encounter a new type of node or when there are multiple nodes of the same type and you want to see which corresponds to what etc., You can do this for other <code>TemplateElement</code>s as well. From that, we can observe that <em>quasis</em> represent the regions of a template string between the <em>expressions</em> (or simply variables <code>a</code> &amp; <code>b</code> in our case) including the region of template string before the first expression and region of template string after the last expression and each of these regions is represented as a <code>TemplateElement</code> in the AST.</p>
+<p>This time it is not as straightforward to understand. We have the <code>TemplateLiteral</code> node which represents our template string <code>${a}${b}</code>. <code>a</code> &amp; <code>b</code> are represented by the <code>Identifier</code>&rsquo;s in the value of <em>expressions</em> as key of this node. But what is the <em>quasis</em> key which has array of <code>TemplateElement</code>s? Hover the mouse over the first <code>TemplateElement</code>, we will see the <code>${</code> is highlighted in the editor i.e, whenever you hover over a node ASTExplorer highlights the corresponding code for that node. This is especially helpful when you encounter a new type of node or when there are multiple nodes of the same type and you want to see which corresponds to what etc., You can do this for other <code>TemplateElement</code>s as well. From that, we can observe that <em>quasis</em> represent the regions of a template string between the <em>expressions</em> (or simply variables <code>a</code> &amp; <code>b</code> in our case) including the region of template string before the first expression and region of template string after the last expression and each of these regions is represented as a <code>TemplateElement</code> in the AST.</p>
 <p>In the <code>TemplateElement</code> node highlighted in the above image, we have a <em>value</em> key which has <em>raw</em> &amp; <em>cooked</em> keys to be empty strings. The following diagram
 explains these things.</p>
 <p><img src="https://i.imgur.com/ZE47VaS.png" alt="Diagram One"></p>
@@ -91,7 +91,7 @@ explains these things.</p>
 <span class="p">)</span>
 <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
 <span class="p">};</span>
-</code></pre></div><p>This is the code for <em>jscodeshift</em> transformation which identifies all the <code>Identifier</code> in your code and reverses the <code>Identifier</code>'s name (as you can see in the example). Let&rsquo;s understand the code here bit by bit.</p>
+</code></pre></div><p>This is the code for <em>jscodeshift</em> transformation which identifies all the <code>Identifier</code> in your code and reverses the <code>Identifier</code>&rsquo;s name (as you can see in the example). Let&rsquo;s understand the code here bit by bit.</p>
 <p>Our transform is function that takes two variables <code>file</code> and <code>api</code> where <code>file</code> as the name suggests represents the file on which we perform the transform and <code>api</code> represents <em>jscodeshift</em>&rsquo;s API passed as the other variable. <code>api.jscodeshift</code> is the function that perform the transformation. Instead of writing writing <code>api.jscodeshift</code> every time we need it need we shorten to and assign to variable <code>j</code> (trust me we are going to use <code>j</code> a lot and it will make sense in the future).</p>
 <p><strong>Overview</strong>: <code>j(file.source)</code> produces the AST for our javascript program. Next we find all the <code>Identifier</code> nodes in our program then we replace each of those nodes by a new <code>Identifier</code> node whose name is reverse of the original node. Then we convert the transformed AST back to a JavaScript program.</p>
 <p>In <code>.find(j.Identifier)</code>, <code>j.Identifier</code> is represents the type of an <code>Identifier</code> node, it is compared against all the nodes in the AST. In the <code>.replaceWith(...)</code> call we are taking the node instance and creating a new node <code>Identifier</code> using the function <code>j.identifier</code> which takes name of the new <code>Identifier</code> that is being created. The <code>p</code> here represents the path of node and we are accessing the node by saying <code>p.node</code>. You may ask why do we need the path of the node, isn&rsquo;t the node itself sufficient? The path provides a reference to parent node, the scope which you can access by <code>p.parent</code> and this is helpful in certain situations. Another <em>important observation</em> here is the pascal case version of node type (<code>Identifier</code>) is used for checking the type of the node and camel case version of node type (<code>identifier</code>) is used to create a node of that type.</p>
@@ -104,7 +104,7 @@ explains these things.</p>
 <ol>
 <li>Since <code>a+b</code> is a <code>BinaryExpression</code> find the <code>BinaryExpression</code> expression node.</li>
 <li>Collect the values of <em>left</em> and <em>right</em> keys of the chosen node.</li>
-<li>Create a <code>TemplateLiteral</code> node with appropriate <em>quasis</em> and <em>expressions</em> i.e, quasis will be an array simply three <code>TemplateElement</code>'s with <em>cooked</em> &amp; <em>raw</em> keys set to <code>''</code> and expressions is an array of <em>left</em> and <em>right</em> values collected earlier.</li>
+<li>Create a <code>TemplateLiteral</code> node with appropriate <em>quasis</em> and <em>expressions</em> i.e, quasis will be an array simply three <code>TemplateElement</code>&rsquo;s with <em>cooked</em> &amp; <em>raw</em> keys set to <code>''</code> and expressions is an array of <em>left</em> and <em>right</em> values collected earlier.</li>
 </ol>
 <div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
@@ -169,7 +169,7 @@ explains these things.</p>
 <h3 id="step-5">Step 5:</h3>
 <p>Our current solution looks promising but we are not exactly done yet, but we are almost done. If you pass our original input <code>'Yo' + name + '! How are you doing?'</code> then we get this</p>
 <div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="sb">`</span><span class="si">${</span><span class="s1">&#39;Yo&#39;</span><span class="si">}${</span><span class="nx">name</span><span class="si">}${</span><span class="s1">&#39;! How are you doing?&#39;</span><span class="si">}</span><span class="sb">`</span>
-</code></pre></div><p>Sigh! The mistake we are making here is we are assuming that all the nodes we extracted are expressions. We need to filter out our string and put them in <code>TemplateElement</code>'s <em>raw</em> and <em>cooked</em> keys. There is another problem, consider this input</p>
+</code></pre></div><p>Sigh! The mistake we are making here is we are assuming that all the nodes we extracted are expressions. We need to filter out our string and put them in <code>TemplateElement</code>&rsquo;s <em>raw</em> and <em>cooked</em> keys. There is another problem, consider this input</p>
 <div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="s1">&#39;Y&#39;</span> <span class="o">+</span> <span class="s1">&#39;o&#39;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;! How are you doing?&#39;</span>
 </code></pre></div><p>and the expected output is</p>
 <div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="sb">`Yo </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">! How are you doing?`</span>

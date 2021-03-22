@@ -1,73 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://vramana.github.io/blog/posts/</loc>
-    <lastmod>2020-09-07T23:23:40+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vramana.github.io/blog/</loc>
-    <lastmod>2020-09-07T23:23:40+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vramana.github.io/blog/posts/week-36-update/</loc>
-    <lastmod>2020-09-07T23:23:40+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vramana.github.io/blog/posts/week-35-update/</loc>
-    <lastmod>2020-09-02T00:18:36+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vramana.github.io/blog/posts/week-34-update/</loc>
-    <lastmod>2020-08-25T02:41:44+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vramana.github.io/blog/posts/week-33-update/</loc>
-    <lastmod>2020-08-17T21:40:40+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vramana.github.io/blog/posts/week-32-update/</loc>
-    <lastmod>2020-08-10T18:28:57+05:30</lastmod>
-  </url>
-  
   <url>
     <loc>https://vramana.github.io/blog/2019/02/20/terminal-commands/</loc>
     <lastmod>2019-02-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://vramana.github.io/blog/posts/</loc>
+    <lastmod>2019-02-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://vramana.github.io/blog/</loc>
+    <lastmod>2019-02-20T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://vramana.github.io/blog/2018/09/30/rust-debugging/</loc>
     <lastmod>2018-09-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</loc>
     <lastmod>2016-01-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</loc>
     <lastmod>2015-12-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://vramana.github.io/blog/about/</loc>
     <lastmod>2011-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://vramana.github.io/blog/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://vramana.github.io/blog/tags/</loc>
   </url>
-  
 </urlset>
