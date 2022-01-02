@@ -2,29 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://vramana.github.io/blog/2019/02/20/terminal-commands/</loc>
+    <loc>https://blog.vramana.com/2019/02/20/terminal-commands/</loc>
     <lastmod>2019-02-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://vramana.github.io/blog/posts/</loc>
+    <loc>https://blog.vramana.com/posts/</loc>
     <lastmod>2019-02-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://vramana.github.io/blog/</loc>
+    <loc>https://blog.vramana.com/</loc>
     <lastmod>2019-02-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://vramana.github.io/blog/2018/09/30/rust-debugging/</loc>
+    <loc>https://blog.vramana.com/2018/09/30/rust-debugging/</loc>
     <lastmod>2018-09-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</loc>
+    <loc>https://blog.vramana.com/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</loc>
     <lastmod>2016-01-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</loc>
+    <loc>https://blog.vramana.com/2015/12/21/codemod-tutorial/</loc>
     <lastmod>2015-12-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://vramana.github.io/blog/about/</loc>
+    <loc>https://blog.vramana.com/about/</loc>
     <lastmod>2011-08-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://vramana.github.io/blog/categories/</loc>
+    <loc>https://blog.vramana.com/categories/</loc>
   </url><url>
-    <loc>https://vramana.github.io/blog/tags/</loc>
+    <loc>https://blog.vramana.com/tags/</loc>
   </url>
 </urlset>

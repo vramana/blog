@@ -1,5 +1,5 @@
 title = "Ramana Venkata"
-baseURL = "https://vramana.github.io/blog/"
+baseURL = "https://blog.vramana.com/"
 languageCode = "en-us"
 defaultContentLanguage = "en"
 publishDir = "docs"
@@ -11,7 +11,7 @@ theme = "hyde"
 
 [author]
 name = "Ramana Venkata"
-homepage = "https://vramana.github.io/blog"
+homepage = "https://blog.vramana.com"
 
 [params]
 description = "Remote Developer with interest Javascript and Go"

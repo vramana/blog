@@ -2,46 +2,46 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Ramana Venkata</title>
-    <link>https://vramana.github.io/blog/posts/</link>
+    <link>https://blog.vramana.com/posts/</link>
     <description>Recent content in Posts on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vramana.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.vramana.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My most used Terminal Commands</title>
-      <link>https://vramana.github.io/blog/2019/02/20/terminal-commands/</link>
+      <link>https://blog.vramana.com/2019/02/20/terminal-commands/</link>
       <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://vramana.github.io/blog/2019/02/20/terminal-commands/</guid>
+      <guid>https://blog.vramana.com/2019/02/20/terminal-commands/</guid>
       <description>&lt;p&gt;Inspired by &lt;a href=&#34;https://wincent.com/blog/frequently-used-terminal-commands&#34;&gt;this article&lt;/a&gt;, I set out to find which are my most used commands.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Rust Debugging Paper Cuts</title>
-      <link>https://vramana.github.io/blog/2018/09/30/rust-debugging/</link>
+      <link>https://blog.vramana.com/2018/09/30/rust-debugging/</link>
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://vramana.github.io/blog/2018/09/30/rust-debugging/</guid>
+      <guid>https://blog.vramana.com/2018/09/30/rust-debugging/</guid>
       <description>&lt;p&gt;These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
 may be already solved problems but I don&amp;rsquo;t know the solution yet.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Codemods: Path to painless upgrades in Ember</title>
-      <link>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</link>
+      <link>https://blog.vramana.com/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</link>
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://vramana.github.io/blog/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</guid>
+      <guid>https://blog.vramana.com/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</guid>
       <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;This is blog post is continuation to the my other blog post on &lt;a href=&#34;https://vramana.github.io/blog/2015/12/21/codemod-tutorial/&#34;&gt;How to write a codemod&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>How to write a codemod</title>
-      <link>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</link>
+      <link>https://blog.vramana.com/2015/12/21/codemod-tutorial/</link>
       <pubDate>Mon, 21 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://vramana.github.io/blog/2015/12/21/codemod-tutorial/</guid>
+      <guid>https://blog.vramana.com/2015/12/21/codemod-tutorial/</guid>
       <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
