@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.vramana.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.vramana.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Short anatomy of node-redis client</title>
+      <link>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</link>
+      <pubDate>Thu, 23 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</guid>
+      <description>&lt;p&gt;I am trying to write simple redis-client in rust. As part of that exercise, I have read the source code of
+Node.js Redis Client. I want to jot down some notes on how it works.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>My most used Terminal Commands</title>
       <link>https://blog.vramana.com/2019/02/20/terminal-commands/</link>

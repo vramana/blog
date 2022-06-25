@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.101.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Short anatomy of node-redis client &middot; Ramana Venkata</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class="theme-base-0d ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.vramana.com/"><h1>Ramana Venkata</h1></a>
+      <p class="lead">
+       Senior Software Engineer with interest Javascript and Rust 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://blog.vramana.com/">Home</a> </li>
+        <li><a href="/about/"> About </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2022. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Short anatomy of node-redis client</h1>
+  <time datetime=2022-06-23T00:00:00Z class="post-date">Thu, Jun 23, 2022</time>
+  <p>I am trying to write simple redis-client in rust. As part of that exercise, I have read the source code of
+Node.js Redis Client. I want to jot down some notes on how it works.</p>
+<p>A Redis Client opens a TCP connection and it writes and reads over that connection.
+We will to examine these 3 things in detail. Opening a connection, writing a command and reading a reponse.</p>
+<h3 id="opening-a-connection">Opening a connection</h3>
+<p><code>RedisClient</code> definition in <a href="https://github.dev/redis/node-redis/blob/bf80c163b1305a859baa3dbc0bd6488c300e7a4f/packages/client/lib/client/index.ts#L74">this file</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">RedisClient</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">constructor</span><span class="p">(</span><span class="nx">options?</span>: <span class="kt">RedisClientOptions</span><span class="p">&lt;</span><span class="nt">M</span><span class="err">,</span> <span class="na">F</span><span class="err">,</span> <span class="na">S</span><span class="p">&gt;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">super</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">initiateOptions</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">initiateQueue</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">initiateSocket</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>In the constructor, we see that <code>RedisClient</code> object has two private variables <code>this.#queue</code> &amp; <code>this.#socket</code> that are relevant to us.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">RedisClient</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">#</span><span class="nx">initiateSocket</span><span class="p">()</span><span class="o">:</span> <span class="nx">RedisSocket</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">socketInitiator</span> <span class="o">=</span> <span class="kr">async</span> <span class="p">()</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">promises</span> <span class="o">=</span> <span class="p">[];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">selectedDB</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">promises</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">addCommand</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">[</span><span class="s1">&#39;SELECT&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">selectedDB</span><span class="p">.</span><span class="nx">toString</span><span class="p">()],</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span> <span class="nx">asap</span>: <span class="kt">true</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="kr">readonly</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">promises</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">addCommand</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="nx">COMMANDS</span><span class="p">.</span><span class="nx">READONLY</span><span class="p">.</span><span class="nx">transformArguments</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span> <span class="nx">asap</span>: <span class="kt">true</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">promises</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">addCommand</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="nx">COMMANDS</span><span class="p">.</span><span class="nx">CLIENT_SETNAME</span><span class="p">.</span><span class="nx">transformArguments</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">name</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span> <span class="nx">asap</span>: <span class="kt">true</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">username</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">promises</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">addCommand</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="nx">COMMANDS</span><span class="p">.</span><span class="nx">AUTH</span><span class="p">.</span><span class="nx">transformArguments</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">                            <span class="nx">username</span>: <span class="kt">this.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                            <span class="nx">password</span>: <span class="kt">this.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">password</span> <span class="o">??</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}),</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span> <span class="nx">asap</span>: <span class="kt">true</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">resubscribePromise</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">resubscribe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">resubscribePromise</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">promises</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">resubscribePromise</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">promises</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">tick</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">await</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="nx">promises</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="nx">RedisSocket</span><span class="p">(</span><span class="nx">socketInitiator</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">socket</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">chunk</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">onReplyChunk</span><span class="p">(</span><span class="nx">chunk</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">isOpen</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">disableOfflineQueue</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">flushWaitingForReply</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">flushAll</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">})</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;ready&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;ready&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">tick</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">})</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;reconnecting&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;reconnecting&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;drain&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">tick</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p><code>initiateSocket</code> method returns a <code>RedisSocket</code> object which is turn an <code>EventEmitter</code>.
+The method also pushes some commands onto <code>this.#queue</code>.
+<code>RedisSocket</code> definition is in <a href="https://github.dev/redis/node-redis/blob/23b65133c9610c44f336199a1ea73e77a9b73bc7/packages/client/lib/client/socket.ts#L32">this file</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">class</span> <span class="nx">RedisSocket</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">async</span> <span class="err">#</span><span class="nx">connect</span><span class="p">(</span><span class="nx">retries</span>: <span class="kt">number</span><span class="p">,</span> <span class="nx">hadError?</span>: <span class="kt">boolean</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nx">retries</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">hadError</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;reconnecting&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">isOpen</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">createSocket</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">writableNeedDrain</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">initiator</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">isReady</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;ready&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">retryIn</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">reconnectStrategy</span> <span class="o">??</span> <span class="nx">RedisSocket</span><span class="p">.</span><span class="err">#</span><span class="nx">defaultReconnectStrategy</span><span class="p">)(</span><span class="nx">retries</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">retryIn</span> <span class="k">instanceof</span> <span class="nb">Error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">isOpen</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">throw</span> <span class="k">new</span> <span class="nx">ReconnectStrategyError</span><span class="p">(</span><span class="nx">retryIn</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">await</span> <span class="nx">promiseTimeout</span><span class="p">(</span><span class="nx">retryIn</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">connect</span><span class="p">(</span><span class="nx">retries</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="nx">createSocket</span><span class="p">()</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">net.Socket</span> <span class="err">|</span> <span class="na">tls.TLSSocket</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="p">{</span><span class="nx">connectEvent</span><span class="p">,</span> <span class="nx">socket</span><span class="p">}</span> <span class="o">=</span> <span class="nx">RedisSocket</span><span class="p">.</span><span class="err">#</span><span class="nx">isTlsSocket</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="p">)</span> <span class="o">?</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">createTlsSocket</span><span class="p">()</span> <span class="o">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">createNetSocket</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">connectTimeout</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">socket</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">connectTimeout</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">socket</span><span class="p">.</span><span class="nx">destroy</span><span class="p">(</span><span class="k">new</span> <span class="nx">ConnectionTimeoutError</span><span class="p">()));</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="nx">socket</span>
+</span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="nx">setNoDelay</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">noDelay</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="nx">connectEvent</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">socket</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// https://github.com/nodejs/node/issues/31663
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="p">.</span><span class="nx">setKeepAlive</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">keepAlive</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="p">.</span><span class="nx">keepAlive</span> <span class="o">||</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span>: <span class="kt">Error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">onSocketError</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="s1">&#39;close&#39;</span><span class="p">,</span> <span class="nx">hadError</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">hadError</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">isOpen</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span> <span class="o">===</span> <span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">onSocketError</span><span class="p">(</span><span class="k">new</span> <span class="nx">SocketClosedUnexpectedlyError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;drain&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">writableNeedDrain</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;drain&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">data</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="nx">resolve</span><span class="p">(</span><span class="nx">socket</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="nx">createNetSocket</span><span class="p">()</span><span class="o">:</span> <span class="nx">CreateSocketReturn</span><span class="p">&lt;</span><span class="nt">net.Socket</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">connectEvent</span><span class="o">:</span> <span class="s1">&#39;connect&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">socket</span>: <span class="kt">net.connect</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span> <span class="kr">as</span> <span class="nx">net</span><span class="p">.</span><span class="nx">NetConnectOpts</span><span class="p">)</span> <span class="c1">// TODO
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>The <code>#createSocket</code> &amp; <code>#createNetSocket</code> method finally lead us to TCP connection logic we are looking for.</p>
+<p>From Node.js documentation, <code>net</code> module</p>
+<blockquote>
+<p>The net module provides an asynchronous network API for creating stream-based TCP or IPC servers (net.createServer()) and clients (net.createConnection()).</p>
+</blockquote>
+<h3 id="writing-commands">Writing commands</h3>
+<p>Once the connection is established, we trigger several callbacks that we have setup so far.
+The <code>socket</code> connected is stored in <code>this.#socket</code> and the <code>this.#initiator</code> callback is called (<a href="https://github.dev/redis/node-redis/blob/23b65133c9610c44f336199a1ea73e77a9b73bc7/packages/client/lib/client/socket.ts#L108">socket.ts L108</a>) which is passed
+as the argument to be <code>RedisSocket</code> constructor.</p>
+<p>There are several commands queued from the initiator callback ([socket.ts L224-261]).
+Let&rsquo;s look at <code>this.#queue</code> from <code>RedisClient</code>. <code>this.#queue</code> is an instance of <code>RedisCommandQueue</code>.
+<code>RedisCommandQueue</code> definition is in <a href="https://github.dev/redis/node-redis/blob/0752f143a6dbc83df0a5db987907e8794aabe9db/packages/client/lib/client/commands-queue.ts#L53">this file</a>.</p>
+<p><code>RedisCommandQueue</code> is backed by two doubly-linked lists (<a href="https://www.npmjs.com/package/yallist">yallist</a>) <code>#waitingToBeSent</code> and <code>#waitingForReply</code>.
+The names are self explanatory, one queue for keep commands yet to sent and the other for response yet to be recieved.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">    <span class="nx">addCommand</span><span class="p">&lt;</span><span class="nt">T</span> <span class="err">=</span> <span class="na">RedisCommandRawReply</span><span class="p">&gt;(</span><span class="nx">args</span>: <span class="kt">RedisCommandArguments</span><span class="p">,</span> <span class="nx">options?</span>: <span class="kt">QueueCommandOptions</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">pubSubState</span><span class="p">.</span><span class="nx">isActive</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">ignorePubSubMode</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Cannot send commands in PubSub mode&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">maxLength</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingToBeSent</span><span class="p">.</span><span class="nx">length</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingForReply</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">maxLength</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;The queue is full&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">signal</span><span class="o">?</span><span class="p">.</span><span class="nx">aborted</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nx">AbortError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">Node</span><span class="p">&lt;</span><span class="nt">CommandWaitingToBeSent</span><span class="p">&gt;({</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">args</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">chainId</span>: <span class="kt">options?.chainId</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">returnBuffers</span>: <span class="kt">options?.returnBuffers</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">resolve</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">reject</span>
+</span></span><span class="line"><span class="cl">            <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">signal</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kr">const</span> <span class="nx">listener</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingToBeSent</span><span class="p">.</span><span class="nx">removeNode</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">node</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nx">AbortError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">                <span class="p">};</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">node</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">abort</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">signal</span>: <span class="kt">options.signal</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">listener</span>
+</span></span><span class="line"><span class="cl">                <span class="p">};</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// AbortSignal type is incorrent
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">signal</span> <span class="kr">as</span> <span class="kt">any</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;abort&#39;</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">once</span>: <span class="kt">true</span>
+</span></span><span class="line"><span class="cl">                <span class="p">});</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">asap</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingToBeSent</span><span class="p">.</span><span class="nx">unshiftNode</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingToBeSent</span><span class="p">.</span><span class="nx">pushNode</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p>Every command enqueued returns a Promise so it&rsquo;s caller can recieve the response asynchronously.
+The command is stored as an object along with the promise&rsquo;s resolve and reject functions.</p>
+<p>One thing to note the queues are using doubly-linked lists so commands if need be can be added to the front of the queue.
+All the commands in the socket initiator pass an additional argument <code>{ asap: true }</code>.
+The authentication command is the last command enqueued from socket initiator with <code>{ asap: true }</code> so it will be exectued first.</p>
+<p>So far we queued commands, Let&rsquo;s examine how they are sent.</p>
+<p><code>RedisSocket.#socket</code> will emit a <code>ready</code> event and <code>RedisSocket</code> will in turn emit <code>ready</code> event too.
+In <code>RedisClient.#initiateSocket</code>, <code>RedisSocket</code> has a callback for <code>ready</code> event.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="nx">RedisSocket</span><span class="p">(</span><span class="nx">socketInitiator</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">socket</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">chunk</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">onReplyChunk</span><span class="p">(</span><span class="nx">chunk</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">isOpen</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">disableOfflineQueue</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">flushWaitingForReply</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">flushAll</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">})</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;ready&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;ready&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">tick</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">})</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;reconnecting&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;reconnecting&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;drain&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">tick</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">));</span>
+</span></span></code></pre></div><p>Let&rsquo;s examine <code>RedisClient.#tick</code> method and related methods</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">    <span class="err">#</span><span class="nx">tick</span><span class="p">(</span><span class="nx">force</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">writableNeedDrain</span> <span class="o">||</span> <span class="p">(</span><span class="o">!</span><span class="nx">force</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">isReady</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">cork</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">writableNeedDrain</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">getCommandToSend</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">args</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">writeCommand</span><span class="p">(</span><span class="nx">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">    <span class="nx">getCommandToSend</span><span class="p">()</span><span class="o">:</span> <span class="nx">RedisCommandArguments</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">toSend</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingToBeSent</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">toSend</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nx">encoded</span>: <span class="kt">RedisCommandArguments</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">encoded</span> <span class="o">=</span> <span class="nx">encodeCommand</span><span class="p">(</span><span class="nx">toSend</span><span class="p">.</span><span class="nx">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">toSend</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingForReply</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">resolve</span>: <span class="kt">toSend.resolve</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">reject</span>: <span class="kt">toSend.reject</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">channelsCounter</span>: <span class="kt">toSend.channelsCounter</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">returnBuffers</span>: <span class="kt">toSend.returnBuffers</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">chainInExecution</span> <span class="o">=</span> <span class="nx">toSend</span><span class="p">.</span><span class="nx">chainId</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">encoded</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">    <span class="nx">writeCommand</span><span class="p">(</span><span class="nx">args</span>: <span class="kt">RedisCommandArguments</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="nx">ClientClosedError</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">toWrite</span> <span class="k">of</span> <span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">writableNeedDrain</span> <span class="o">=</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">socket</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">toWrite</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p><code>this.#socket.cork()</code> is a rabbit hole on it&rsquo;s own. This <a href="https://baus.net/on-tcp_cork/">blog post</a> explains it in a good detail.</p>
+<p><code>RedisCommandQueue.getCommandToSend</code> method will pop the first command off the the queue and encode the command in RESP2 protocol.
+<code>RedisCommandQueue.#waitingForReply</code> queue is enqueued with node containing <code>RedisCommandQueue.addCommand</code> return value promise&rsquo;s
+<code>resolve</code> and <code>reject</code> so they can be called once a response is recieved.</p>
+<p>The encoded command is written to the socket in <code>RedisSocket.writeCommand</code> with <code>this.#socket.write</code>.
+<code>RedisSocket.#writableNeedDrain</code> tracks if the TCP socket&rsquo;s buffer is full and stops <code>RedisClient.#tick</code> from enqueueing more commands.</p>
+<blockquote>
+<p>Returns true if the entire data was flushed successfully to the kernel buffer. Returns false if all or part of the data was queued in user memory. &lsquo;drain&rsquo; will be emitted when the buffer is again free.</p>
+</blockquote>
+<p><a href="https://nodejs.org/api/net.html#socketwritedata-encoding-callback">socket.write documentation</a></p>
+<p>Is this handling backpressure? Yep. It seems so. Read this great <a href="https://ey3ball.github.io/posts/2014/07/17/node-streams-back-pressure/">blog post</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;drain&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">tick</span><span class="p">())</span>
+</span></span></code></pre></div><p><code>RedisClient.#tick</code> will enqueue command until <code>RedisSocket.#writableNeedDrain</code> is true.
+<code>RedisClient.#tick</code> will be called again when <code>RedisSocket</code> will emit <code>drain</code>.</p>
+<h3 id="reading-a-response">Reading a response</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="nx">RedisSocket</span><span class="p">(</span><span class="nx">socketInitiator</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">options</span><span class="o">?</span><span class="p">.</span><span class="nx">socket</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">chunk</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">queue</span><span class="p">.</span><span class="nx">onReplyChunk</span><span class="p">(</span><span class="nx">chunk</span><span class="p">))</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">    <span class="nx">onReplyChunk</span><span class="p">(</span><span class="nx">chunk</span>: <span class="kt">Buffer</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">decoder</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></div><p><code>RedisSocket</code> will queue data coming from the TCP socket to <code>RedisCommandQueue.onReplyChunk</code> method.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl">    <span class="err">#</span><span class="nx">decoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RESP2Decoder</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">returnStringsAsBuffers</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="o">!!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingForReply</span><span class="p">.</span><span class="nx">head</span><span class="o">?</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">returnBuffers</span> <span class="o">||</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">pubSubState</span><span class="p">.</span><span class="nx">isActive</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">onReply</span>: <span class="kt">reply</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">handlePubSubReply</span><span class="p">(</span><span class="nx">reply</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingForReply</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Got an unexpected reply from Redis&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="kr">const</span> <span class="p">{</span> <span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="err">#</span><span class="nx">waitingForReply</span><span class="p">.</span><span class="nx">shift</span><span class="p">()</span><span class="o">!</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nx">reply</span> <span class="k">instanceof</span> <span class="nx">ErrorReply</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">reject</span><span class="p">(</span><span class="nx">reply</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">resolve</span><span class="p">(</span><span class="nx">reply</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span></code></pre></div><p><code>RESP2Decoder</code> will decode the response and call <code>onReply</code>.
+<code>RedisCommandQueue.#waitingForReply</code> will pop a node so that it can finally settle to the Promise that was created in <code>RedisCommandQueue.addCommand</code>.</p>
+<p>What a journey! I feel great understanding how all this works.</p>
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>

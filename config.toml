@@ -14,8 +14,8 @@ name = "Ramana Venkata"
 homepage = "https://blog.vramana.com"
 
 [params]
-description = "Remote Developer with interest Javascript and Go"
-themeColor = "theme-base-08"
+description = "Senior Software Engineer with interest Javascript and Rust"
+themeColor = "theme-base-0d"
 
 [[params.socials]]
 name = "Github"

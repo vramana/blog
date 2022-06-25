@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.90.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,13 +26,13 @@
   
 </head>
 
-  <body class="theme-base-08 ">
+  <body class="theme-base-0d ">
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <a href="https://blog.vramana.com/"><h1>Ramana Venkata</h1></a>
       <p class="lead">
-       Remote Developer with interest Javascript and Go 
+       Senior Software Engineer with interest Javascript and Rust 
       </p>
     </div>
 
@@ -87,23 +87,22 @@
 </ul>
 <h3 id="problem-1">Problem 1</h3>
 <p>Let&rsquo;s look at the <a href="http://emberjs.com/deprecations/v2.x/#toc_ember-component-defaultlayout">first deprecation code</a> that we will transform.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="c1">// Ember &lt; 2.1
-</span><span class="c1"></span>
-<span class="kr">import</span> <span class="nx">layout</span> <span class="nx">from</span> <span class="s1">&#39;../templates/some-thing-lol&#39;</span><span class="p">;</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-  <span class="nx">defaultLayout</span><span class="o">:</span> <span class="nx">layout</span>
-<span class="p">});</span>
-
-<span class="c1">// Ember 2.1 and later
-</span><span class="c1"></span>
-<span class="kr">import</span> <span class="nx">layout</span> <span class="nx">from</span> <span class="s1">&#39;../templates/some-thing-lol&#39;</span><span class="p">;</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-  <span class="nx">layout</span><span class="o">:</span> <span class="nx">layout</span>
-<span class="p">});</span>
-
-</code></pre></div><h3 id="solution">Solution</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// Ember &lt; 2.1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">layout</span> <span class="nx">from</span> <span class="s1">&#39;../templates/some-thing-lol&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">defaultLayout</span><span class="o">:</span> <span class="nx">layout</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Ember 2.1 and later
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">layout</span> <span class="nx">from</span> <span class="s1">&#39;../templates/some-thing-lol&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">layout</span><span class="o">:</span> <span class="nx">layout</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></div><h3 id="solution">Solution</h3>
 <p>The simplest solution is to replace <code>defaultLayout</code> identifier by <code>layout</code> identifier. But it may do some false positives transformations. We can avoid this problem by looking for some more context i.e, <code>defaultLayout</code> is key of an object literal and that object itself is an argument to <code>Ember.Component.extend</code> function call. So we will use this context to avoid any false positives.</p>
 <p>So, the algorithm will be as follows:</p>
 <ul>
@@ -120,333 +119,332 @@
 <p>If path a satisfies these properties, then replace the <code>defaultLayout</code> identifier with <code>layout</code> identifier.</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-
-  <span class="kr">const</span> <span class="nx">isProperty</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="p">(</span>
-    <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Property&#39;</span> <span class="o">&amp;&amp;</span>
-    <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span> <span class="o">&amp;&amp;</span>
-    <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;defaultLayout&#39;</span>
-    <span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">checkCallee</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">types</span> <span class="o">=</span> <span class="p">(</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;MemberExpression&#39;</span> <span class="o">&amp;&amp;</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;MemberExpression&#39;</span> <span class="o">&amp;&amp;</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span> <span class="o">&amp;&amp;</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span> <span class="o">&amp;&amp;</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span>
-    <span class="p">);</span>
-
-    <span class="kr">const</span> <span class="nx">identifiers</span> <span class="o">=</span> <span class="p">(</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;Ember&#39;</span> <span class="o">&amp;&amp;</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;Component&#39;</span> <span class="o">&amp;&amp;</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;extend&#39;</span>
-    <span class="p">);</span>
-
-    <span class="k">return</span> <span class="nx">types</span> <span class="o">&amp;&amp;</span> <span class="nx">identifiers</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="kr">const</span> <span class="nx">isArgument</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;CallExpression&#39;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kr">const</span> <span class="nx">call</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-      <span class="k">return</span> <span class="nx">checkCallee</span><span class="p">(</span><span class="nx">call</span><span class="p">.</span><span class="nx">callee</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="kr">const</span> <span class="nx">replaceDefaultLayout</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;layout&#39;</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">return</span> <span class="p">(</span>
-    <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;defaultLayout&#39;</span> <span class="p">})</span>
-    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isProperty</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isArgument</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">replaceDefaultLayout</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">toSource</span><span class="p">()</span>
-  <span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/bq5fA4afqR">http://astexplorer.net/#/bq5fA4afqR</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">isProperty</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Property&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;defaultLayout&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">checkCallee</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">types</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;MemberExpression&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;MemberExpression&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">identifiers</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;Ember&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;Component&#39;</span> <span class="o">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">property</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;extend&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">types</span> <span class="o">&amp;&amp;</span> <span class="nx">identifiers</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">isArgument</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;CallExpression&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">call</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">checkCallee</span><span class="p">(</span><span class="nx">call</span><span class="p">.</span><span class="nx">callee</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">replaceDefaultLayout</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;layout&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;defaultLayout&#39;</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isProperty</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isArgument</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">replaceDefaultLayout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">toSource</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/bq5fA4afqR">http://astexplorer.net/#/bq5fA4afqR</a></p>
 <p>There is not much here to explain. The code here feels a bit long but most of it is checking types of nodes and the <code>Identifier</code>&rsquo;s name. Just look at return value of our transform, it gives the gist of what the codemod is. Each line follows the steps we have described above with the exception of first and last line which are common to every codemod. <code>filter</code> method here behaves exactly similar to <code>Array.filter</code>.</p>
 <p><strong>Note</strong>: I am not trying to write the most efficient code but I am trying to write modular code. The emphasis here is on teaching you how to write the codemod you want. Writing the most optimal code is left to you, the reader, as an exercise.</p>
 <p>Also I should mention to those people who may want to try out this codemod on their own ember codebase that this codemod may not be complete. The reason being you may have code which relies on the <code>defaultLayout</code> property in other places. So, you may want to extend this codemod or write another codemod that complements this if you want achieve correct results.</p>
 <hr>
 <h3 id="problem-2">Problem 2</h3>
 <p>Here is the <a href="http://emberjs.com/deprecations/v2.x/#toc_initializer-arity">second deprecation code</a> that we will transform.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="c1">// Ember &lt; 2.1
-</span><span class="c1"></span>
-<span class="kr">export</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
-  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;inject-session&#39;</span><span class="p">,</span>
-  <span class="nx">initialize</span><span class="o">:</span> <span class="nx">initialize</span>
-<span class="p">};</span>
-
-<span class="c1">// Ember 2.1 and later
-</span><span class="c1"></span>
-<span class="kr">export</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
-  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;inject-session&#39;</span><span class="p">,</span>
-  <span class="nx">initialize</span><span class="o">:</span> <span class="nx">initialize</span>
-<span class="p">}</span>
-</code></pre></div><p>The solution I had in my mind was find the <code>initialize</code> function declaration and see if <code>container</code> was being inside it and if not just remove that variable. Here conveniently both key and value have same name but for the sake of learning let&rsquo;s assume a slightly pathetic case where the initialize function is named something else other than <code>initialize</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// Ember &lt; 2.1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;inject-session&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">initialize</span><span class="o">:</span> <span class="nx">initialize</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Ember 2.1 and later
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;inject-session&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">initialize</span><span class="o">:</span> <span class="nx">initialize</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The solution I had in my mind was find the <code>initialize</code> function declaration and see if <code>container</code> was being inside it and if not just remove that variable. Here conveniently both key and value have same name but for the sake of learning let&rsquo;s assume a slightly pathetic case where the initialize function is named something else other than <code>initialize</code>.</p>
 <p>While I was thinking about the problem, I wanted to find ember 2.0 codebase to my apply previous transform. I came across a few repos in which I saw another pattern for ember initializers.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
-  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;inject-session&#39;</span><span class="p">,</span>
-  <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-</code></pre></div><p>I wanted to handle this case too in my codemod.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;inject-session&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">application</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">application</span><span class="p">.</span><span class="nx">inject</span><span class="p">(</span><span class="s1">&#39;route&#39;</span><span class="p">,</span> <span class="s1">&#39;service:session&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>I wanted to handle this case too in my codemod.</p>
 <p>Although it may feel a bit overkill, this problem helped me understand that I still had a lot to learn about jscodeshift. I went and read a lot of examples and jscodeshift&rsquo;s source to get understand how I can solve this problem. At the end, I got a few insights on how to write a codemod which is I want to share with you in this blog post.</p>
 <h3 id="solution-attempt-1">Solution (Attempt 1)</h3>
 <p>The outline of my first solution is to find the object which has <code>name</code> &amp; <code>initialize</code> keys and depending the type of value of <code>initialize</code> key we can apply a suitable transform. The case where <code>initialize</code> key&rsquo;s value is a <code>FunctionExpression</code> seemed easier to handle. If you don&rsquo;t know what a <code>FunctionExpression</code> is, a function is called <code>FunctionExpression</code> if it is passed around as value for example to initialize a variable, passed as argument to function etc.,</p>
 <p>This is my first half of the solution:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-
-  <span class="kr">const</span> <span class="nx">hasKey</span> <span class="o">=</span> <span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">key</span><span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">transformArity</span> <span class="o">=</span> <span class="nx">fnNode</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span>
-        <span class="nx">j</span><span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;container&#39;</span> <span class="p">}).</span><span class="nx">size</span><span class="p">()</span> <span class="o">===</span> <span class="mi">0</span>
-      <span class="p">)</span> <span class="p">{</span>
-        <span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span> <span class="o">=</span> <span class="p">[</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">changeArity</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="p">{</span> <span class="nx">node</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">p</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;initialize&#39;</span><span class="p">))</span> <span class="p">{</span>
-      <span class="kr">const</span> <span class="nx">initialize</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">properties</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span>
-        <span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;initialize&#39;</span>
-      <span class="p">);</span>
-
-      <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;FunctionExpression&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">transformArity</span><span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// todo
-</span><span class="c1"></span>      <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeArity</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z">http://astexplorer.net/#/K0xJ26FT0Z</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">hasKey</span> <span class="o">=</span> <span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">transformArity</span> <span class="o">=</span> <span class="nx">fnNode</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">j</span><span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;container&#39;</span> <span class="p">}).</span><span class="nx">size</span><span class="p">()</span> <span class="o">===</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span> <span class="o">=</span> <span class="p">[</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">changeArity</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">node</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">p</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;initialize&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">initialize</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">properties</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;initialize&#39;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;FunctionExpression&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">transformArity</span><span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// todo
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeArity</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z">http://astexplorer.net/#/K0xJ26FT0Z</a></p>
 <p><strong>Tip</strong>: Always read the source of codemod from the bottom to top, so that you don&rsquo;t have to read through plethora of implementation details to understand the gist of it.</p>
 <p><strong>Note:</strong> Arity is defined as the number of arguments of that given function accepts.</p>
 <p>Let&rsquo;s try to understand the code. In the return value of the codemod function, first we convert the file into an AST and find all the <code>ObjectExpression</code> nodes and then apply the <code>changeArity</code> function on each of them finally convert it back to JavaScript code. Inside the <code>changeArity</code> function, we are checking if the <code>ObjectExpression</code> node we have contains the keys <code>name</code> and <code>initialize</code> using the <code>hasKey</code> function. Since assumed the type of value of <code>initialize</code> key is <code>FunctionExpression</code>, then we apply the <code>transformArity</code> function which will check if the <code>FunctionExpression</code> has two arguments and if <code>container</code> has been used or not in the function body. If it is used, we will leave the function as is, otherwise we will remove the <code>container</code> argument.</p>
 <p>Here, I got stuck trying to implement the <code>transformArity</code> function. Given a node, I didn&rsquo;t know how to count all instances of an <code>Identifier</code> (contianer in this case). After reading some examples, I realized you can call <code>j</code> with a node (AST) as argument and it will return a <code>Collection</code> of that node then we can perform <code>find</code>, <code>filter</code> etc., on it. <code>Collection</code> has a <code>size</code> method which will return the no. of paths it has. With this information, we are back on track. So, we need to create a <code>Collection</code> from the function body and find all <code>Identifier</code> nodes with name <code>container</code> and check if that collection&rsquo;s size is 0.</p>
 <p>Now we will look at how to handle the other case where type of value of <code>initialize</code> key is an <code>Identifier</code>. First, we need look up the name of the <code>Identifier</code> and then find it&rsquo;s <code>FunctionDeclaration</code> node then apply <code>transformArity</code> function on that node. That&rsquo;s it we are done because we already know how to transform the arity of the function and all we needed to do was to find where it is.</p>
 <p>So, the question is how to find this <code>FunctionDeclaration</code> node. The best way I could think of is to go the root of your AST and search from there as you will have access to everything from the root. So, you recursively travel to the parent of the current path and find the root. Although the idea seemed okay, I was looking for simpler solution. After some struggle, I found the solution in one of the transforms in <a href="https://github.com/reactjs/react-codemod">react-codemod</a> repo. I will now present a very simplified version of it.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
-
-  <span class="c1">// Some methods here
-</span><span class="c1"></span>
-  <span class="kr">const</span> <span class="nx">didTransform1</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
-
-  <span class="kr">const</span> <span class="nx">didTransform2</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="nx">didTransform1</span> <span class="o">+</span> <span class="nx">didTransform2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>There are several ideas that presented in this short piece. But we will not right away delve into all of them right away. Let&rsquo;s just look at the most important one of them.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Some methods here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">didTransform1</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">didTransform2</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">didTransform1</span> <span class="o">+</span> <span class="nx">didTransform2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>There are several ideas that presented in this short piece. But we will not right away delve into all of them right away. Let&rsquo;s just look at the most important one of them.</p>
 <p>In the third line, <code>j(file.source)</code> is declared as <code>root</code>. As we have discussed, <code>j</code> when used a function returns a <code>Collection</code> and this time it&rsquo;s a collection that contains the entire program.</p>
 <p>This solves of our problem of finding the <code>FunctionDeclaration</code> node because you can simply do <code>root.find(j.FunctionDeclaration)</code>. There is absolutely no need to write any recursive functions to get to the root. Voila! We can get back to solving our main problem.</p>
 <p>This is what the final code looks like:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js">
-<span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
-
-  <span class="kr">const</span> <span class="nx">hasKey</span> <span class="o">=</span> <span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">key</span><span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">transformArity</span> <span class="o">=</span> <span class="nx">fnNode</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span>
-        <span class="nx">j</span><span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;container&#39;</span> <span class="p">}).</span><span class="nx">size</span><span class="p">()</span> <span class="o">===</span> <span class="mi">0</span>
-      <span class="p">)</span> <span class="p">{</span>
-        <span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span> <span class="o">=</span> <span class="p">[</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">changeArity</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="p">{</span> <span class="nx">node</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">p</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;initialize&#39;</span><span class="p">))</span> <span class="p">{</span>
-      <span class="kr">const</span> <span class="p">[</span><span class="nx">initialize</span><span class="p">]</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">properties</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span>
-        <span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;initialize&#39;</span>
-      <span class="p">);</span>
-
-      <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;FunctionExpression&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">transformArity</span><span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">root</span>
-          <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">FunctionDeclaration</span><span class="p">,</span> <span class="p">{</span>
-            <span class="nx">id</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">name</span> <span class="p">}</span>
-          <span class="p">})</span>
-          <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-            <span class="nx">transformArity</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
-            <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-          <span class="p">});</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeArity</span><span class="p">).</span><span class="nx">toSource</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z/1">http://astexplorer.net/#/K0xJ26FT0Z/1</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">hasKey</span> <span class="o">=</span> <span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">transformArity</span> <span class="o">=</span> <span class="nx">fnNode</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">j</span><span class="p">(</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;container&#39;</span> <span class="p">}).</span><span class="nx">size</span><span class="p">()</span> <span class="o">===</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">      <span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span> <span class="o">=</span> <span class="p">[</span><span class="nx">fnNode</span><span class="p">.</span><span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">changeArity</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">node</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">p</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;initialize&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="p">[</span><span class="nx">initialize</span><span class="p">]</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">properties</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;initialize&#39;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;FunctionExpression&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">transformArity</span><span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">root</span>
+</span></span><span class="line"><span class="cl">          <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">FunctionDeclaration</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">id</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">initialize</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">name</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">          <span class="p">})</span>
+</span></span><span class="line"><span class="cl">          <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">transformArity</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">});</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeArity</span><span class="p">).</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z/1">http://astexplorer.net/#/K0xJ26FT0Z/1</a></p>
 <p>All I did here was to replace the TODO block with some code and the rest is same. We actually didn&rsquo;t write much code this time. Let&rsquo;s try to understand it.</p>
 <p>We started here with a familiar <code>root.find(j.FunctionDeclaration, ...)</code> call &amp; the other argument is just to find the function with correct name and this filter the function with the name we want. Then we are calling <code>.replaceWith(...)</code> to change it&rsquo;s arity using <code>transformArity</code> function. Some here may say &ldquo;Hey! wait a second. Are you trying to pull a fast one over me?&rdquo; Actually no, I actually struggled quite a lot for writing these few lines.</p>
 <p>We are actually inside a transformation call already and we are invoking another transformation call. It is a non-trivial idea but all we are doing is mutating AST within <code>root</code> Collection and the important point to note is we are mutating a node that is out of the scope of current node. This is first time I realized that I was mutating <code>root</code> AST, I was a bit unhappy because I prefer immutability but if we are not mutating, both the transformations would end up creating two different AST&rsquo;s but we want to change same AST, so we are kind forced to mutate it. Anyway, we solved the problem.</p>
 <p>I was not satisfied with solution because the <code>changeArity</code> function didn&rsquo;t look clean at all and it was doing too much stuff. I wanted to modularize it. And thats where I used the ideas in the above snippet again.</p>
 <h3 id="solution-attempt-2">Solution (Attempt 2)</h3>
 <p>I am just re-pasting the above snippet for the sake of convenience. Let&rsquo;s dive more into it this time.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
-
-  <span class="c1">// Some methods here
-</span><span class="c1"></span>
-  <span class="kr">const</span> <span class="nx">didTransform1</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
-
-  <span class="kr">const</span> <span class="nx">didTransform2</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="nx">didTransform1</span> <span class="o">+</span> <span class="nx">didTransform2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>Here, I treat <code>root.find(...).replaceWith(...)</code> as a single transform. If you look at the above snippet, we are actually doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The <code>.size()</code> calls at the end give no. of paths that have transformed in your transformation. So, the <code>didTransform1</code> and <code>didTransform2</code> give a sense of how many transformations occurred and this can be used to prevent errors.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Some methods here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">didTransform1</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">didTransform2</span> <span class="o">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(...).</span><span class="nx">replaceWith</span><span class="p">(...).</span><span class="nx">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">didTransform1</span> <span class="o">+</span> <span class="nx">didTransform2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Here, I treat <code>root.find(...).replaceWith(...)</code> as a single transform. If you look at the above snippet, we are actually doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The <code>.size()</code> calls at the end give no. of paths that have transformed in your transformation. So, the <code>didTransform1</code> and <code>didTransform2</code> give a sense of how many transformations occurred and this can be used to prevent errors.</p>
 <p>There are two kinds of errors that can happen while writing a codemod. The first kind is where you select an incorrect node type while finding the code you want to transform or even if you are finding the correct type, you may not be filtering it enough. The second kind is where you have a bug in your transformation logic. The <code>didTransform1</code> or <code>didTransform2</code> helps to avoid mistakes of the first kind.</p>
 <p>Finally the if conditional at the end says if their sum is zero, then its unnecessary to convert an unmodified AST to back to JavaScript, we can just leave the file as is. So, we return <code>null</code> instead the <code>root.toSource()</code>.</p>
 <p>Anyway before going into the second solution, I will introduce Extensions in <strong>jscodeshift</strong> API. This allows us to add custom methods on the <code>Collection</code>&rsquo;s prototype, so you use use these methods on <code>Collection</code>&rsquo;s as if they were normal methods. Here is sample.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">j</span><span class="p">.</span><span class="nx">registerMethods</span><span class="p">({</span>
-  <span class="nx">customMethod</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializer</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">})</span>
-</code></pre></div><p>If you don&rsquo;t like this, just simply write a function and it works too. There are reasons why you may want to use registerMethods but we won&rsquo;t cover it here.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">j</span><span class="p">.</span><span class="nx">registerMethods</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">customMethod</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></div><p>If you don&rsquo;t like this, just simply write a function and it works too. There are reasons why you may want to use registerMethods but we won&rsquo;t cover it here.</p>
 <p>In our problem, we have two different styles of code which we have to codemod, one where value of <code>initialize</code> key is an <code>Identifier</code> node and the other where it&rsquo;s a <code>FunctionExpression</code> node. So, the idea is to solve them independently using didTransform pattern (I made this up) we just saw.</p>
 <p>This is what the final code looks like:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
-
-  <span class="kr">const</span> <span class="nx">transformArity</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">j</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;container&#39;</span> <span class="p">}).</span><span class="nx">size</span><span class="p">()</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">node</span><span class="p">.</span><span class="nx">params</span> <span class="o">=</span> <span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">hasKey</span> <span class="o">=</span> <span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">key</span><span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">isIntializer</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;initialize&#39;</span><span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">findInitialize</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-    <span class="kr">const</span> <span class="p">[</span><span class="nx">initialize</span><span class="p">]</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span>
-      <span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;initialize&#39;</span>
-    <span class="p">);</span>
-
-    <span class="k">return</span> <span class="nx">initialize</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">isIntializeMethod</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;FunctionExpression&#39;</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">isIntializeIdentifier</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">changeMethod</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">method</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
-    <span class="nx">transformArity</span><span class="p">(</span><span class="nx">method</span><span class="p">);</span>
-
-    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="kr">const</span> <span class="nx">changeIdentifierDeclaration</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-    <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">FunctionDeclaration</span><span class="p">,</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span> <span class="p">}</span> <span class="p">}).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-      <span class="nx">transformArity</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
-      <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="nx">j</span><span class="p">.</span><span class="nx">registerMethods</span><span class="p">({</span>
-    <span class="nx">findInitializeMethod</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializer</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializeMethod</span><span class="p">);</span>
-    <span class="p">},</span>
-    <span class="nx">findInitializeIdentifier</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializer</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializeIdentifier</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">});</span>
-
-  <span class="kr">const</span> <span class="nx">didTransform1</span> <span class="o">=</span> <span class="nx">root</span>
-    <span class="p">.</span><span class="nx">findInitializeMethod</span><span class="p">()</span>
-    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeMethod</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">size</span><span class="p">();</span>
-
-  <span class="kr">const</span> <span class="nx">didTransform2</span> <span class="o">=</span> <span class="nx">root</span>
-    <span class="p">.</span><span class="nx">findInitializeIdentifier</span><span class="p">()</span>
-    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeIdentifierDeclaration</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">size</span><span class="p">();</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="nx">didTransform1</span> <span class="o">+</span> <span class="nx">didTransform2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
-<span class="p">}</span>
-
-</code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z/2">http://astexplorer.net/#/K0xJ26FT0Z/2</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">transformArity</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">j</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">,</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;container&#39;</span> <span class="p">}).</span><span class="nx">size</span><span class="p">()</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">node</span><span class="p">.</span><span class="nx">params</span> <span class="o">=</span> <span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">hasKey</span> <span class="o">=</span> <span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">isIntializer</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">hasKey</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">,</span> <span class="s1">&#39;initialize&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">findInitialize</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">{</span> <span class="nx">properties</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="p">[</span><span class="nx">initialize</span><span class="p">]</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">property</span> <span class="p">=&gt;</span> <span class="nx">property</span><span class="p">.</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="s1">&#39;initialize&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">initialize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">isIntializeMethod</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;FunctionExpression&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">isIntializeIdentifier</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nx">type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Identifier&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">changeMethod</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">method</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">transformArity</span><span class="p">(</span><span class="nx">method</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">changeIdentifierDeclaration</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">findInitialize</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">value</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">root</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">FunctionDeclaration</span><span class="p">,</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span> <span class="p">}</span> <span class="p">}).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">transformArity</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">j</span><span class="p">.</span><span class="nx">registerMethods</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">findInitializeMethod</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializeMethod</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">findInitializeIdentifier</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">ObjectExpression</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">isIntializeIdentifier</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">didTransform1</span> <span class="o">=</span> <span class="nx">root</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">findInitializeMethod</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeMethod</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">didTransform2</span> <span class="o">=</span> <span class="nx">root</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">findInitializeIdentifier</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">changeIdentifierDeclaration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">size</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">didTransform1</span> <span class="o">+</span> <span class="nx">didTransform2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">root</span><span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z/2">http://astexplorer.net/#/K0xJ26FT0Z/2</a></p>
 <p>This looks a lot longer than the previous solution but don&rsquo;t worry you have already seen most it and the difference lies in the organization of the code.</p>
 <p>Let&rsquo;s start reading the code from bottom to top. First thing to notice is using the didTransform pattern, we divided the transform into two sub-transforms which are simpler to reason about (Divide and Conquer FTW!!).</p>
 <p>Without reading the implementation details, lets look at what <code>didTransform1</code> and <code>didTransform2</code> are doing. The <code>didTransform1</code> handles the case where <code>initialize</code> is a <code>FunctionExpression</code> node and <code>didTransform2</code> handles the case where <code>initialize</code> is an <code>Identifier</code> node. Here,<code>findInitializeMethod</code> and <code>findInitializeIdentifier</code> are extensions which return the path of the <code>ObjectExpression</code>&rsquo;s that have <code>initialize</code> defined as <code>FunctionExpression</code> and <code>Identifier</code> respectively. We transform both the collections using <code>changeMethod</code> and <code>changeIdentifierDeclaration</code> functions respectively. Then we check if there any changes and convert the AST to JavaScript if something changes.</p>

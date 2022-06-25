@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.90.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,13 +26,13 @@
   
 </head>
 
-  <body class="theme-base-08 ">
+  <body class="theme-base-0d ">
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <a href="https://blog.vramana.com/"><h1>Ramana Venkata</h1></a>
       <p class="lead">
-       Remote Developer with interest Javascript and Go 
+       Senior Software Engineer with interest Javascript and Rust 
       </p>
     </div>
 
@@ -56,16 +56,16 @@
 <p>For these tutorials (I plan to do more than one tutorial but we will see), we will use <a href="https://astexplorer.net/">ASTExplorer</a> (the same tool showed in the talk) to visualize the AST and writing the transforms as well.</p>
 <h2 id="problem">Problem:</h2>
 <p>I looked to around a bit to find to good first problem, then it struck to me, now that we have template strings in ES2015, we don&rsquo;t have to concatenate using <code>+</code> operator. So our aim is to convert this</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="s1">&#39;Yo &#39;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;! How are you doing?&#39;</span>
-</code></pre></div><p>to this</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="sb">`Yo </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">! How are you doing?`</span>
-</code></pre></div><h2 id="solution">Solution:</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="s1">&#39;Yo &#39;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;! How are you doing?&#39;</span>
+</span></span></code></pre></div><p>to this</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="sb">`Yo </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">! How are you doing?`</span>
+</span></span></code></pre></div><h2 id="solution">Solution:</h2>
 <p>In this section of this tutorial, I will teach to how to use <a href="https://astexplorer.net/">ASTExplorer</a> and arrive at the solution to our problem incrementally.</p>
 <p>Whenever I try to solve a problem, my first approach is to break down the problem into smaller pieces and solve them one by one. To explain this bit more, you don&rsquo;t need to solve problem in its full generality in the first go, solve for a specific case it may give you insights on how to solve the original problem. I think that converting this</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span>
-</code></pre></div><p>to this</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="sb">`</span><span class="si">${</span><span class="nx">a</span><span class="si">}${</span><span class="nx">b</span><span class="si">}</span><span class="sb">`</span>
-</code></pre></div><p>is a nice way to begin solving this problem.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span>
+</span></span></code></pre></div><p>to this</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="sb">`</span><span class="si">${</span><span class="nx">a</span><span class="si">}${</span><span class="nx">b</span><span class="si">}</span><span class="sb">`</span>
+</span></span></code></pre></div><p>is a nice way to begin solving this problem.</p>
 <h3 id="step-1">Step 1:</h3>
 <p>Our entire solution revolves around transforming one AST into another. In our first step, we will explore the AST. Let&rsquo;s open <a href="https://astexplorer.net/">ASTExplorer</a>. Clear everything inside the editor and enter <code>a + b</code>. On the right hand side of the editor, you will see the corresponding AST for the code you have just written. Open the tree a bit and it will look like this.</p>
 <p><img src="https://i.imgur.com/ws1noj7.png?1" alt="Binary Expression AST"></p>
@@ -81,22 +81,22 @@ explains these things.</p>
 <h3 id="step-2">Step 2:</h3>
 <p><em>Note: Some of the explanation provided in this section are not entirely technically accurate and were simplified to make them easier to understand. One can revisit and fill the missing details or correctly understand the technically incorrect details once the big picture is clear.</em></p>
 <p>Now that we know ASTs of the initial code and final code, we will learn how to achieve this transformation using <a href="https://github.com/facebook/jscodeshift">jscodeshift</a>. Open up ASTExplorer and choose <em>jscodeshift</em> under Transform option in the top menubar. Let&rsquo;s go over the transformation example given in the ASTExplorer by default.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-<span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-
-<span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
-<span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">)</span>
-<span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span>
-<span class="nx">p</span> <span class="p">=&gt;</span> <span class="nx">j</span><span class="p">.</span><span class="nx">identifier</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">reverse</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
-<span class="p">)</span>
-<span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-<span class="p">};</span>
-</code></pre></div><p>This is the code for <em>jscodeshift</em> transformation which identifies all the <code>Identifier</code> in your code and reverses the <code>Identifier</code>&rsquo;s name (as you can see in the example). Let&rsquo;s understand the code here bit by bit.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">Identifier</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl"><span class="nx">p</span> <span class="p">=&gt;</span> <span class="nx">j</span><span class="p">.</span><span class="nx">identifier</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">reverse</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>This is the code for <em>jscodeshift</em> transformation which identifies all the <code>Identifier</code> in your code and reverses the <code>Identifier</code>&rsquo;s name (as you can see in the example). Let&rsquo;s understand the code here bit by bit.</p>
 <p>Our transform is function that takes two variables <code>file</code> and <code>api</code> where <code>file</code> as the name suggests represents the file on which we perform the transform and <code>api</code> represents <em>jscodeshift</em>&rsquo;s API passed as the other variable. <code>api.jscodeshift</code> is the function that perform the transformation. Instead of writing writing <code>api.jscodeshift</code> every time we need it need we shorten to and assign to variable <code>j</code> (trust me we are going to use <code>j</code> a lot and it will make sense in the future).</p>
 <p><strong>Overview</strong>: <code>j(file.source)</code> produces the AST for our javascript program. Next we find all the <code>Identifier</code> nodes in our program then we replace each of those nodes by a new <code>Identifier</code> node whose name is reverse of the original node. Then we convert the transformed AST back to a JavaScript program.</p>
 <p>In <code>.find(j.Identifier)</code>, <code>j.Identifier</code> is represents the type of an <code>Identifier</code> node, it is compared against all the nodes in the AST. In the <code>.replaceWith(...)</code> call we are taking the node instance and creating a new node <code>Identifier</code> using the function <code>j.identifier</code> which takes name of the new <code>Identifier</code> that is being created. The <code>p</code> here represents the path of node and we are accessing the node by saying <code>p.node</code>. You may ask why do we need the path of the node, isn&rsquo;t the node itself sufficient? The path provides a reference to parent node, the scope which you can access by <code>p.parent</code> and this is helpful in certain situations. Another <em>important observation</em> here is the pascal case version of node type (<code>Identifier</code>) is used for checking the type of the node and camel case version of node type (<code>identifier</code>) is used to create a node of that type.</p>
 <p>How did I infer all of this stuff just by looking at it? The answer is I didn&rsquo;t infer them directly. I used a ton of <code>console.log</code> calls to understand various things. I tried reading documentation of <a href="https://github.com/facebook/jscodeshift">jscodeshift</a>, <a href="https://github.com/benjamn/recast">recast</a> and <a href="https://github.com/benjamn/ast-types">ast-types</a> but since it was my first time reading about AST &amp; stuff I felt it a bit difficult to find the stuff that answered my questions. The other important thing which I learned was, in cpojer&rsquo;s talk and with a bit of experimentation, you actually get really nice error messages helping you understand the shape of node you are trying to build. For example, when you remove the argument of <code>j.identifier</code> then we get this error.</p>
-<pre tabindex="0"><code>no value or default function given for field &quot;name&quot; of Identifier(&quot;name&quot;: string)
+<pre tabindex="0"><code>no value or default function given for field &#34;name&#34; of Identifier(&#34;name&#34;: string)
 </code></pre><p>This tells our Identifier node is missing the name argument which is a string.</p>
 <p>We have learned about ASTs and how to transform them in very primitive manner. Although this is only half way, we have done most of the hard of the work. Now time to reap the benefits, so lets go!!</p>
 <h3 id="step-3">Step 3:</h3>
@@ -106,149 +106,148 @@ explains these things.</p>
 <li>Collect the values of <em>left</em> and <em>right</em> keys of the chosen node.</li>
 <li>Create a <code>TemplateLiteral</code> node with appropriate <em>quasis</em> and <em>expressions</em> i.e, quasis will be an array simply three <code>TemplateElement</code>&rsquo;s with <em>cooked</em> &amp; <em>raw</em> keys set to <code>''</code> and expressions is an array of <em>left</em> and <em>right</em> values collected earlier.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="p">{</span> <span class="nx">expression</span><span class="p">,</span> <span class="nx">statement</span><span class="p">,</span> <span class="nx">statements</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">template</span><span class="p">;</span>
-
-  <span class="kr">const</span> <span class="nx">convertToTemplateString</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">quasis</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">false</span><span class="p">),</span>
-      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">false</span><span class="p">),</span>
-      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">true</span><span class="p">)</span>
-    <span class="p">];</span>
-
-    <span class="kr">const</span> <span class="nx">expressions</span> <span class="o">=</span> <span class="p">[</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">right</span><span class="p">];</span>
-
-    <span class="k">return</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateLiteral</span><span class="p">(</span><span class="nx">quasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">BinaryExpression</span><span class="p">,</span> <span class="p">{</span> <span class="nx">operator</span><span class="o">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">})</span>
-    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">convertToTemplateString</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div><p>Yay!! We have solved our simplified problem. I just want to make true quick remark before we continue to solving our original problem. You may have noticed that there is second argument in <code>find</code> call, we are restricting to the <code>BinaryExpression</code> nodes with operator <code>+</code> i.e, the second argument contains information about data that is should be present inside our node. The other remark is in the <code>j.templateElement</code> the second argument tells whether it is the last <code>TemplateElement</code> node in the <code>TemplateLiteral</code> or not.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">{</span> <span class="nx">expression</span><span class="p">,</span> <span class="nx">statement</span><span class="p">,</span> <span class="nx">statements</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">template</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">convertToTemplateString</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">quasis</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">false</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">false</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">expressions</span> <span class="o">=</span> <span class="p">[</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">right</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateLiteral</span><span class="p">(</span><span class="nx">quasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">BinaryExpression</span><span class="p">,</span> <span class="p">{</span> <span class="nx">operator</span><span class="o">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">convertToTemplateString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Yay!! We have solved our simplified problem. I just want to make true quick remark before we continue to solving our original problem. You may have noticed that there is second argument in <code>find</code> call, we are restricting to the <code>BinaryExpression</code> nodes with operator <code>+</code> i.e, the second argument contains information about data that is should be present inside our node. The other remark is in the <code>j.templateElement</code> the second argument tells whether it is the last <code>TemplateElement</code> node in the <code>TemplateLiteral</code> or not.</p>
 <h3 id="step-4">Step 4:</h3>
 <p>At this point, I changed my input to <code>a+b+c</code> see how it works. The result is <code>${a+b}${c}</code>. Now it is clear our solution doesn&rsquo;t work but we make an important observation that <code>find</code> doesn&rsquo;t recursively traverse down and apply our transform. If it did we would end up with this</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="sb">`</span><span class="si">${</span><span class="sb">`</span><span class="si">${</span><span class="nx">a</span><span class="si">}${</span><span class="nx">b</span><span class="si">}</span><span class="sb">`</span><span class="si">}${</span><span class="nx">c</span><span class="si">}</span><span class="sb">`</span>
-</code></pre></div><p>But somehow it didn&rsquo;t and we get <code>${a}${b}${c}</code> as our solution. In fact our input <code>a+b+c</code> is actually <code>(a + b) + c</code>. So, it is clear that we need to do flatten the node to get our desired output.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="p">{</span> <span class="nx">expression</span><span class="p">,</span> <span class="nx">statement</span><span class="p">,</span> <span class="nx">statements</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">template</span><span class="p">;</span>
-
-  <span class="kr">const</span> <span class="nx">convertToTemplateString</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">extractNodes</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;BinaryExpression&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">.</span><span class="nx">operator</span> <span class="o">===</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="p">[...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="p">...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">right</span><span class="p">)];</span>
-      <span class="p">}</span>
-
-      <span class="k">return</span> <span class="p">[</span><span class="nx">node</span><span class="p">];</span>
-    <span class="p">};</span>
-
-    <span class="kr">const</span> <span class="nx">expressions</span> <span class="o">=</span> <span class="nx">extractNodes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
-
-    <span class="kr">const</span> <span class="nx">buildQuasis</span> <span class="o">=</span> <span class="nx">expressions</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">_</span> <span class="p">=&gt;</span>
-      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">false</span><span class="p">)</span>
-    <span class="p">);</span>
-
-    <span class="kr">const</span> <span class="nx">quasis</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="p">...</span><span class="nx">buildQuasis</span><span class="p">,</span>
-      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">true</span><span class="p">)</span>
-    <span class="p">];</span>
-
-    <span class="k">return</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateLiteral</span><span class="p">(</span><span class="nx">quasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">);</span>
-  <span class="p">};</span>
-
-  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">BinaryExpression</span><span class="p">,</span> <span class="p">{</span> <span class="nx">operator</span><span class="o">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">})</span>
-    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">convertToTemplateString</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-<span class="p">}</span>
-
-</code></pre></div><p>Here, <code>extractNodes</code> recursively traverses through the <code>BinaryExpression</code> node we have and gives us a list of <em>left</em> and <em>right</em> values in our node (in our case <code>a</code>, <code>b</code>, <code>c</code>) which is exactly what we need for <em>expressions</em> in our <code>TemplateLiteral</code> node. Now we are left with constructing <em>quasis</em>. We just create <code>TemplateElement</code> node for every expression we have and add <code>j.templateElement({ cooked: '', raw: ''}, true)</code> at the end of the array.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="sb">`</span><span class="si">${</span><span class="sb">`</span><span class="si">${</span><span class="nx">a</span><span class="si">}${</span><span class="nx">b</span><span class="si">}</span><span class="sb">`</span><span class="si">}${</span><span class="nx">c</span><span class="si">}</span><span class="sb">`</span>
+</span></span></code></pre></div><p>But somehow it didn&rsquo;t and we get <code>${a}${b}${c}</code> as our solution. In fact our input <code>a+b+c</code> is actually <code>(a + b) + c</code>. So, it is clear that we need to do flatten the node to get our desired output.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">{</span> <span class="nx">expression</span><span class="p">,</span> <span class="nx">statement</span><span class="p">,</span> <span class="nx">statements</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">template</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">convertToTemplateString</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">extractNodes</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;BinaryExpression&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">.</span><span class="nx">operator</span> <span class="o">===</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="p">...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">right</span><span class="p">)];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">[</span><span class="nx">node</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">expressions</span> <span class="o">=</span> <span class="nx">extractNodes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">buildQuasis</span> <span class="o">=</span> <span class="nx">expressions</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">_</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">false</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">quasis</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="p">...</span><span class="nx">buildQuasis</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateLiteral</span><span class="p">(</span><span class="nx">quasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">BinaryExpression</span><span class="p">,</span> <span class="p">{</span> <span class="nx">operator</span><span class="o">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">convertToTemplateString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Here, <code>extractNodes</code> recursively traverses through the <code>BinaryExpression</code> node we have and gives us a list of <em>left</em> and <em>right</em> values in our node (in our case <code>a</code>, <code>b</code>, <code>c</code>) which is exactly what we need for <em>expressions</em> in our <code>TemplateLiteral</code> node. Now we are left with constructing <em>quasis</em>. We just create <code>TemplateElement</code> node for every expression we have and add <code>j.templateElement({ cooked: '', raw: ''}, true)</code> at the end of the array.</p>
 <h3 id="step-5">Step 5:</h3>
 <p>Our current solution looks promising but we are not exactly done yet, but we are almost done. If you pass our original input <code>'Yo' + name + '! How are you doing?'</code> then we get this</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="sb">`</span><span class="si">${</span><span class="s1">&#39;Yo&#39;</span><span class="si">}${</span><span class="nx">name</span><span class="si">}${</span><span class="s1">&#39;! How are you doing?&#39;</span><span class="si">}</span><span class="sb">`</span>
-</code></pre></div><p>Sigh! The mistake we are making here is we are assuming that all the nodes we extracted are expressions. We need to filter out our string and put them in <code>TemplateElement</code>&rsquo;s <em>raw</em> and <em>cooked</em> keys. There is another problem, consider this input</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="s1">&#39;Y&#39;</span> <span class="o">+</span> <span class="s1">&#39;o&#39;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;! How are you doing?&#39;</span>
-</code></pre></div><p>and the expected output is</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="sb">`Yo </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">! How are you doing?`</span>
-</code></pre></div><p>If you think about it, our constructed quasis will have 5 elements in the array. But there are only 2 elements in expected output&rsquo;s quasis. The remedy is collect adjacent <code>Literal</code> and combine them.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="sb">`</span><span class="si">${</span><span class="s1">&#39;Yo&#39;</span><span class="si">}${</span><span class="nx">name</span><span class="si">}${</span><span class="s1">&#39;! How are you doing?&#39;</span><span class="si">}</span><span class="sb">`</span>
+</span></span></code></pre></div><p>Sigh! The mistake we are making here is we are assuming that all the nodes we extracted are expressions. We need to filter out our string and put them in <code>TemplateElement</code>&rsquo;s <em>raw</em> and <em>cooked</em> keys. There is another problem, consider this input</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="s1">&#39;Y&#39;</span> <span class="o">+</span> <span class="s1">&#39;o&#39;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;! How are you doing?&#39;</span>
+</span></span></code></pre></div><p>and the expected output is</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="sb">`Yo </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">! How are you doing?`</span>
+</span></span></code></pre></div><p>If you think about it, our constructed quasis will have 5 elements in the array. But there are only 2 elements in expected output&rsquo;s quasis. The remedy is collect adjacent <code>Literal</code> and combine them.</p>
 <p>Lastly, this is important, we should not convert <code>3 + 4</code> to <code>TemplateLiteral</code> <code>34</code> so we have to do little check to see whether we have at least one node that is of type <code>Literal</code> and it is a string. <code>Literal</code> node is both used for string and number. You can do a <code>typeof</code> check on the <code>Literal</code> node&rsquo;s value key&rsquo;s value to determine whether it&rsquo;s string or not.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
-  <span class="kr">const</span> <span class="p">{</span> <span class="nx">expression</span><span class="p">,</span> <span class="nx">statement</span><span class="p">,</span> <span class="nx">statements</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">template</span><span class="p">;</span>
-
-  <span class="kr">const</span> <span class="nx">convertToTemplateString</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">extractNodes</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;BinaryExpression&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">.</span><span class="nx">operator</span> <span class="o">===</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="p">[...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="p">...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">right</span><span class="p">)];</span>
-      <span class="p">}</span>
-
-      <span class="k">return</span> <span class="p">[</span><span class="nx">node</span><span class="p">];</span>
-    <span class="p">};</span>
-
-    <span class="kr">const</span> <span class="nx">tempNodes</span> <span class="o">=</span> <span class="nx">extractNodes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
-
-    <span class="kr">const</span> <span class="nx">isStringNode</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Literal&#39;</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">;</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">tempNodes</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">isStringNode</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="kr">const</span> <span class="nx">buildTL</span> <span class="o">=</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">,</span> <span class="nx">quasis</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">expressions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">temp</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kr">const</span> <span class="nx">newQuasis</span> <span class="o">=</span> <span class="p">[</span>
-          <span class="p">...</span><span class="nx">quasis</span><span class="p">,</span>
-          <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="nx">temp</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="nx">temp</span> <span class="p">},</span> <span class="kc">true</span><span class="p">)</span>
-        <span class="p">];</span>
-
-        <span class="k">return</span> <span class="p">[</span><span class="nx">newQuasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">];</span>
-      <span class="p">}</span>
-
-      <span class="kr">const</span> <span class="p">[</span><span class="nx">a</span><span class="p">,</span> <span class="p">...</span><span class="nx">rest</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nodes</span><span class="p">;</span>
-
-      <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Literal&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">buildTL</span><span class="p">(</span><span class="nx">rest</span><span class="p">,</span> <span class="nx">quasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">,</span> <span class="nx">temp</span> <span class="o">+</span> <span class="nx">a</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-      <span class="p">}</span>
-
-      <span class="kr">const</span> <span class="nx">nextTemplateElement</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">(</span>
-        <span class="p">{</span> <span class="nx">cooked</span><span class="o">:</span> <span class="nx">temp</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="nx">temp</span> <span class="p">},</span>
-        <span class="kc">false</span>
-      <span class="p">);</span>
-
-      <span class="kr">const</span> <span class="nx">newQuasis</span> <span class="o">=</span> <span class="nx">quasis</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">nextTemplateElement</span><span class="p">);</span>
-      <span class="kr">const</span> <span class="nx">newExpressions</span> <span class="o">=</span> <span class="nx">expressions</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
-
-      <span class="k">return</span> <span class="nx">buildTL</span><span class="p">(</span><span class="nx">rest</span><span class="p">,</span> <span class="nx">newQuasis</span><span class="p">,</span> <span class="nx">newExpressions</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
-    <span class="p">};</span>
-
-    <span class="k">return</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateLiteral</span><span class="p">(...</span><span class="nx">buildTL</span><span class="p">(</span><span class="nx">tempNodes</span><span class="p">));</span>
-  <span class="p">};</span>
-
-  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">BinaryExpression</span><span class="p">,</span> <span class="p">{</span> <span class="nx">operator</span><span class="o">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">})</span>
-    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">convertToTemplateString</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div><p>In the <code>buildTL</code> function, we wrote what has been described above (I explained more about this function in the <strong>Notes</strong> section at the end). Thus we have solved our original problem. I have intentionally left out the case where we escaped characters in <code>Literal</code>s because it may introduce too much complexity.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">j</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">jscodeshift</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">{</span> <span class="nx">expression</span><span class="p">,</span> <span class="nx">statement</span><span class="p">,</span> <span class="nx">statements</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">template</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">convertToTemplateString</span> <span class="o">=</span> <span class="nx">p</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">extractNodes</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;BinaryExpression&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">.</span><span class="nx">operator</span> <span class="o">===</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">left</span><span class="p">),</span> <span class="p">...</span><span class="nx">extractNodes</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">right</span><span class="p">)];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">[</span><span class="nx">node</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">tempNodes</span> <span class="o">=</span> <span class="nx">extractNodes</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">isStringNode</span> <span class="o">=</span> <span class="nx">node</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Literal&#39;</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">node</span><span class="p">.</span><span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">tempNodes</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">isStringNode</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">node</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">buildTL</span> <span class="o">=</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">,</span> <span class="nx">quasis</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">expressions</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">temp</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">nodes</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">newQuasis</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">          <span class="p">...</span><span class="nx">quasis</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">({</span> <span class="nx">cooked</span><span class="o">:</span> <span class="nx">temp</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="nx">temp</span> <span class="p">},</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[</span><span class="nx">newQuasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="p">[</span><span class="nx">a</span><span class="p">,</span> <span class="p">...</span><span class="nx">rest</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nodes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;Literal&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">buildTL</span><span class="p">(</span><span class="nx">rest</span><span class="p">,</span> <span class="nx">quasis</span><span class="p">,</span> <span class="nx">expressions</span><span class="p">,</span> <span class="nx">temp</span> <span class="o">+</span> <span class="nx">a</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">nextTemplateElement</span> <span class="o">=</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateElement</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> <span class="nx">cooked</span><span class="o">:</span> <span class="nx">temp</span><span class="p">,</span> <span class="nx">raw</span><span class="o">:</span> <span class="nx">temp</span> <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">      <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">newQuasis</span> <span class="o">=</span> <span class="nx">quasis</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">nextTemplateElement</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">const</span> <span class="nx">newExpressions</span> <span class="o">=</span> <span class="nx">expressions</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">buildTL</span><span class="p">(</span><span class="nx">rest</span><span class="p">,</span> <span class="nx">newQuasis</span><span class="p">,</span> <span class="nx">newExpressions</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">j</span><span class="p">.</span><span class="nx">templateLiteral</span><span class="p">(...</span><span class="nx">buildTL</span><span class="p">(</span><span class="nx">tempNodes</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">j</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">j</span><span class="p">.</span><span class="nx">BinaryExpression</span><span class="p">,</span> <span class="p">{</span> <span class="nx">operator</span><span class="o">:</span> <span class="s1">&#39;+&#39;</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">replaceWith</span><span class="p">(</span><span class="nx">convertToTemplateString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="nx">toSource</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In the <code>buildTL</code> function, we wrote what has been described above (I explained more about this function in the <strong>Notes</strong> section at the end). Thus we have solved our original problem. I have intentionally left out the case where we escaped characters in <code>Literal</code>s because it may introduce too much complexity.</p>
 <p>I could have shown the final solution &amp; explained it and as consequence this tutorial would have been much shorter. But it would remove the learning experience from it. I had lot of fun writing this and discovered my solution at Step 5 was wrong so I had to rewrite. I hope there are no other glaring bugs. I encourage you to start writing your own blog. I firmly believe that trying to teach others is very good way to understand a subject deeply that you may or may have been familiar with.</p>
 <p>Next I hope to tackle more challenging problems of converting ES5 style React.createClass to ES6 style <em>class</em> syntax for React components. This is already a solved problem. This problem is interesting to me because it has lot of unique constraints which I hope to explain. The codemod is already available in this <a href="react-codemod">react-codemod</a> repository. But I think this is problem may not appeal to everybody so I am open to suggestions.</p>
 <p>Thanks for reading! If you have any suggestions and comments, tweet me at <a href="https://twitter.com/_vramana">@_vramana</a>.</p>
 <p>Big shoutout to <a href="https://twitter.com/cpojer">@cpojer</a> who carefully reviewed this post.</p>
 <h3 id="notes">Notes:</h3>
 <p>Initially when I was solving <strong>Step 5</strong>, I could think of a solution that uses imperative logic but I wanted to write it in functional style. That&rsquo;s how I ended up with <code>buildTL</code> function. Some of the readers will notice that it is very familiar. It is a standard functional way to iterate through an list of items. For example <code>Array.map</code> will be implemented as</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">map</span> <span class="o">=</span> <span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">fn</span><span class="p">,</span> <span class="nx">acc</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">acc</span>
-  <span class="p">}</span>
-
-  <span class="kr">const</span> <span class="p">[</span> <span class="nx">a</span><span class="p">,</span> <span class="p">...</span><span class="nx">as</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">list</span>
-
-  <span class="k">return</span> <span class="nx">map</span><span class="p">(</span><span class="nx">as</span><span class="p">,</span> <span class="nx">fn</span><span class="p">,</span> <span class="nx">acc</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">fn</span><span class="p">(</span><span class="nx">a</span><span class="p">)))</span>
-<span class="p">}</span>
-</code></pre></div><p>The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into <em>quasis</em> and <em>expressions</em> so we need an accumalator for each of them. But we also want to collect adjacent <code>Literal</code> so we will need another accumalator for that and that&rsquo;s how we end up with that function.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">map</span> <span class="o">=</span> <span class="p">(</span><span class="nx">list</span><span class="p">,</span> <span class="nx">fn</span><span class="p">,</span> <span class="nx">acc</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">list</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">acc</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="p">[</span> <span class="nx">a</span><span class="p">,</span> <span class="p">...</span><span class="nx">as</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">list</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">map</span><span class="p">(</span><span class="nx">as</span><span class="p">,</span> <span class="nx">fn</span><span class="p">,</span> <span class="nx">acc</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">fn</span><span class="p">(</span><span class="nx">a</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The main idea of this kind iterative function is capture the items after performing the transformation in an accumalator. In our problem we have an array of nodes, but we need to separate them into <em>quasis</em> and <em>expressions</em> so we need an accumalator for each of them. But we also want to collect adjacent <code>Literal</code> so we will need another accumalator for that and that&rsquo;s how we end up with that function.</p>
 </div>
 
 

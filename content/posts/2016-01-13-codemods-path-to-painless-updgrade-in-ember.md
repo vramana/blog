@@ -4,7 +4,6 @@ published = true
 title = "Codemods: Path to painless upgrades in Ember"
 url = "/2016/01/13/codemods-path-to-painless-updgrade-in-ember"
 layout = "post"
-
 +++
 
 _Note: This post assumes some knowledge of JS features from ES2015_
