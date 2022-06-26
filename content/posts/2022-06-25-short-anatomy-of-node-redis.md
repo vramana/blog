@@ -1,5 +1,5 @@
 +++
-date = "2022-06-23"
+date = "2022-06-25"
 published = true
 title = "Short anatomy of node-redis client"
 layout = "post"
