@@ -2,11 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.vramana.com/tags/node/</loc>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/pm2/</loc>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
+  </url><url>
     <loc>https://blog.vramana.com/posts/</loc>
-    <lastmod>2022-06-25T00:00:00+00:00</lastmod>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/</loc>
-    <lastmod>2022-06-25T00:00:00+00:00</lastmod>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</loc>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/</loc>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/ts-node/</loc>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/tsx/</loc>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/typescript/</loc>
+    <lastmod>2022-10-17T21:59:33+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</loc>
     <lastmod>2022-06-25T00:00:00+00:00</lastmod>
@@ -27,7 +48,5 @@
     <lastmod>2011-08-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/categories/</loc>
-  </url><url>
-    <loc>https://blog.vramana.com/tags/</loc>
   </url>
 </urlset>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.109.0">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Running typescript app with pm2 and tsx &middot; Ramana Venkata</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class="theme-base-0d ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.vramana.com/"><h1>Ramana Venkata</h1></a>
+      <p class="lead">
+       Senior Software Engineer with interest Javascript and Rust 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://blog.vramana.com/">Home</a> </li>
+        <li><a href="/about/"> About </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2023. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Running typescript app with pm2 and tsx</h1>
+  <time datetime=2022-10-17T21:59:33&#43;0530 class="post-date">Mon, Oct 17, 2022</time>
+  <p>You can run node server apps in <code>pm2</code> with <code>ts-node</code> just by simply declaring it as dependency.
+As always there is a catch, <code>ts-node</code> by default use typescript compiler to typecheck and then
+run the code. There is way to disable typechecking via tsconfig.json file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;extends&#34;</span><span class="p">:</span> <span class="s2">&#34;ts-node/node16/tsconfig.json&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;ts-node&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;transpileOnly&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;files&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;compilerOptions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;compilerOptions&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// typescript options here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Reference: <a href="https://www.npmjs.com/package/ts-node#via-tsconfigjson-recommended">https://www.npmjs.com/package/ts-node#via-tsconfigjson-recommended</a></p>
+<p>I had assumed <code>ts-node</code> had no way to disable typechecking and looked at tsx instead. But there is
+a reasonable argument for using tsx if you have large node application since tsx uses esbuild under
+the hood.</p>
+<p>There are two ways to run a typescript program with tsx.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">tsx index.ts
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">node --loader tsx index.ts
+</span></span></code></pre></div><p>pm2 allows you configure the interpreter it uses run the files. So in <code>ecosystem.config.js</code> you can
+configure you application as follows</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">apps</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;server&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">script</span><span class="o">:</span> <span class="s1">&#39;./server/index.ts&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">interpreter</span><span class="o">:</span> <span class="s1">&#39;tsx&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>I couldn&rsquo;t get this work locally as tsx needs to be in <code>PATH</code> environment variable since I was using volta.
+Therefore I turned to the latter style and it works</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">apps</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;server&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">script</span><span class="o">:</span> <span class="s1">&#39;./server/index.ts&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">interpreter</span><span class="o">:</span> <span class="s1">&#39;node&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">interpreterArgs</span><span class="o">:</span> <span class="s1">&#39;--loader tsx&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div>
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>
