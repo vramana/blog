@@ -6,16 +6,7 @@
     <description>Recent content in Posts on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 Oct 2022 21:59:33 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Running typescript app with pm2 and tsx</title>
-      <link>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</link>
-      <pubDate>Mon, 17 Oct 2022 21:59:33 +0530</pubDate>
-      
-      <guid>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Sat, 25 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.vramana.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Short anatomy of node-redis client</title>
       <link>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</link>
