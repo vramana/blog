@@ -14,7 +14,7 @@ name = "Ramana Venkata"
 homepage = "https://blog.vramana.com"
 
 [params]
-description = "Senior Software Engineer with interest Javascript and Rust"
+description = "Senior Software Engineer with interest Javascript, TypeScript and Rust"
 themeColor = "theme-base-0d"
 
 [[params.socials]]

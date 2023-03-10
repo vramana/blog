@@ -2,22 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.vramana.com/tags/beam/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/benchmark/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/bigtable/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/dataflow/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/gcp/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/posts/reflection-benchmark/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/java/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/posts/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/</loc>
+    <lastmod>2023-02-18T11:03:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/build-tools/</loc>
+    <lastmod>2023-02-08T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/eslint/</loc>
+    <lastmod>2023-02-08T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/posts/eslint-speedup/</loc>
+    <lastmod>2023-02-08T21:59:33+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/performance/</loc>
+    <lastmod>2023-02-08T21:59:33+05:30</lastmod>
+  </url><url>
     <loc>https://blog.vramana.com/tags/node/</loc>
     <lastmod>2023-02-04T21:59:33+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/tags/pm2/</loc>
     <lastmod>2023-02-04T21:59:33+05:30</lastmod>
   </url><url>
-    <loc>https://blog.vramana.com/posts/</loc>
-    <lastmod>2023-02-04T21:59:33+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/</loc>
-    <lastmod>2023-02-04T21:59:33+05:30</lastmod>
-  </url><url>
     <loc>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</loc>
-    <lastmod>2023-02-04T21:59:33+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/tags/</loc>
     <lastmod>2023-02-04T21:59:33+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/tags/ts-node/</loc>
