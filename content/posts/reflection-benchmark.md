@@ -2,7 +2,7 @@
 title = "Is Java Reflection Slow?"
 date = 2023-02-18T11:03:26+05:30
 tags = ["gcp", "bigtable", "dataflow", "beam", "java", "benchmark"]
-draft = false
+draft = true
 layout = "post"
 +++
 

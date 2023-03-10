@@ -2,7 +2,7 @@
 title = "How I thought I speed eslint but I didn't"
 date = 2023-02-08T21:59:33+05:30
 tags = ['eslint', 'build tools', 'performance']
-draft = false
+draft = true
 layout = "post"
 +++
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>eslint on Ramana Venkata</title>
+    <link>https://blog.vramana.com/tags/eslint/</link>
+    <description>Recent content in eslint on Ramana Venkata</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 08 Feb 2023 21:59:33 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/tags/eslint/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I thought I speed eslint but I didn&#39;t</title>
+      <link>https://blog.vramana.com/posts/eslint-speedup/</link>
+      <pubDate>Wed, 08 Feb 2023 21:59:33 +0530</pubDate>
+      
+      <guid>https://blog.vramana.com/posts/eslint-speedup/</guid>
+      <description>&lt;p&gt;Inspired by &lt;a href=&#34;https://marvinh.dev/blog/speeding-up-javascript-ecosystem/&#34;&gt;recent&lt;/a&gt; &lt;a href=&#34;https://marvinh.dev/blog/speeding-up-javascript-ecosystem-part-3/&#34;&gt;posts&lt;/a&gt; of Marvin Hagemeister, I want to understand performace on build
+tools and linters on my work codebase. Although I didn&amp;rsquo;t ultimately find a speedup in eslint performance, I
+degraded it, it was an interesting journey nonetheless. This is short version of my investigation.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
