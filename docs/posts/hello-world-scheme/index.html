@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.113.0">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Hello World Scheme &middot; Ramana Venkata</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class="theme-base-0d ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.vramana.com/"><h1>Ramana Venkata</h1></a>
+      <p class="lead">
+       Senior Software Engineer with interest Javascript, TypeScript and Rust 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://blog.vramana.com/">Home</a> </li>
+        <li><a href="/about/"> About </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2023. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Hello World Scheme</h1>
+  <time datetime=2023-06-15T00:40:03&#43;0530 class="post-date">Thu, Jun 15, 2023</time>
+  <p>Recently, I wanted to learn the Scheme language. Let&rsquo;s see how to print &ldquo;Hello World&rdquo; using <a href="http://synthcode.com/wiki/chibi-scheme">chibi-scheme</a>.</p>
+<p>I wanted to use the fastest Scheme compiler because, why not?  According to <a href="https://github.com/schemedoc/awesome-scheme">awesome-scheme</a>, it&rsquo;s <a href="https://cisco.github.io/ChezScheme/">Chez scheme</a>[^1].
+Chez Scheme doesn&rsquo;t yet support ARM based Macs. So, I picked chibi-scheme as my scheme compiler.
+The <a href="http://synthcode.com/scheme/chibi/">documentation</a> is so sparse that there is not even &ldquo;Hello World&rdquo; example.</p>
+<p>I had to look through the source code of chibi-Scheme on <a href="https://github.com/ashinn/chibi-scheme/">its github repository</a> to
+cobble together our &ldquo;Hello World&rdquo; example.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scheme" data-lang="scheme"><span class="line"><span class="cl"><span class="c1">; hello-world.scm</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">import</span> <span class="p">(</span><span class="nf">Scheme</span> <span class="nv">base</span><span class="p">)</span> <span class="p">(</span><span class="nf">scheme</span> <span class="nv">write</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">display </span><span class="s">&#34;Hello World!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nf">newline</span><span class="p">)</span>
+</span></span></code></pre></div><p>You can the file as <code>chibi-Scheme hello-world.scm</code>. You can use either <code>.scm</code> or <code>.ss</code> as scheme file extensions.</p>
+<h3 id="why-scheme">Why scheme?</h3>
+<p>I&rsquo;ve wanted to experiment with Lisp-like language for a lot of time. I feel I broke through my mental
+barrier to write Lisp sometime ago. So I am just trying out Scheme now. May be I&rsquo;ll switch to Racket
+or Clojure after while, but for now, I am starting my journey with Scheme.</p>
+<p>Currently I am working through <a href="https://mitpress.mit.edu/9780262560993/the-little-schemer/">The Little Schemer</a> book.
+It&rsquo;s quite a dry book. but it&rsquo;s full of code examples. They teach Scheme by making you write lots of little programs.
+Since I have experience with functional programming language likes Haskell and Scala, understanding recursion
+has been easy so far.</p>
+</div>
+
+
+    </main>
+
+    
+  </body>
+</html>

@@ -6,7 +6,16 @@
     <description>Recent content on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Feb 2023 21:59:33 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Jun 2023 00:40:03 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello World Scheme</title>
+      <link>https://blog.vramana.com/posts/hello-world-scheme/</link>
+      <pubDate>Thu, 15 Jun 2023 00:40:03 +0530</pubDate>
+      
+      <guid>https://blog.vramana.com/posts/hello-world-scheme/</guid>
+      <description>&lt;p&gt;Recently, I wanted to learn the Scheme language. Let&amp;rsquo;s see how to print &amp;ldquo;Hello World&amp;rdquo; using &lt;a href=&#34;http://synthcode.com/wiki/chibi-scheme&#34;&gt;chibi-scheme&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Running typescript app with pm2 and tsx</title>
       <link>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</link>
