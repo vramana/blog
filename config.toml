@@ -15,7 +15,6 @@ homepage = "https://blog.vramana.com"
 
 [params]
 description = "Senior Software Engineer with interest Javascript, TypeScript and Rust"
-themeColor = "theme-base-0d"
 
 [[params.socials]]
 name = "Github"
@@ -26,3 +25,11 @@ link = "https://github.com/vramana"
 name = "Twitter"
 link = "https://twitter.com/_vramana"
 
+
+[Menus]
+  main = [
+      {Name = "About", URL = "/about"},
+      {Name = "Github", URL = "https://github.com/vramana"},
+      {Name = "Mastodon", URL = "https://mastodon.social/@vramana"},
+      {Name = "LinkedIn", URL = "https://www.linkedin.com/in/vramanamath/"},
+  ]
