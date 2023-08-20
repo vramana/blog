@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>My most used Terminal Commands &middot; Ramana Venkata</title>
+  <title>system design &middot; Ramana Venkata</title>
 
   
   <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
@@ -23,6 +23,7 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
+  <link href="https://blog.vramana.com/tags/system-design/index.xml" rel="alternate" type="application/rss+xml" title="Ramana Venkata" />
   
 </head>
 
@@ -48,32 +49,11 @@
 </aside>
 
     <main class="content container">
-    <div class="post">
-  <h1>My most used Terminal Commands</h1>
-  <time datetime=2019-02-20T00:00:00Z class="post-date">Wed, Feb 20, 2019</time>
-  <p>Inspired by <a href="https://wincent.com/blog/frequently-used-terminal-commands">this article</a>, I set out to find which are my most used commands.</p>
-<h2 id="feb-2019">Feb 2019</h2>
-<pre tabindex="0"><code>→ history 0 $HISTSIZE | awk &#39;{a[$2]++}END{for(i in a){print a[i] &#34; &#34; i}}&#39; | sort -rn | head
-
-1520 git
-616 cd
-611 yarn
-604 sudo
-601 curl
-349 rm
-264 docker
-232 heroku
-220 npm
-176 cat
-</code></pre><p>It&rsquo;s a bit surprising the to see git at the top of the list given my heavy usage of <a href="https://magit.vc">magit</a>. It
-would be nice to check what git subcommands I use the most. When I am working on any work related stuff.
-I tend to stick to magit. It&rsquo;s a bit surprise to not find <code>v</code> (my alias for neovim) in here. I need to
-debug this a bit more. <code>cat</code> is another surprise. I don&rsquo;t know when I used cat that much.</p>
-<p>It would be nice to see how my terminal command usages changes with month and how many commands I perform
-in a day and month. Silly things but I feel quite excited to do some more analysis this and generate graphs.</p>
-</div>
-
-
+    <ul class="posts">
+<li>
+    <span><a href="https://blog.vramana.com/posts/feature_flags/">Designing a feature flag system with Firebase</a> <time class="pull-right post-list" datetime="2023-08-19T15:04:36&#43;0530">Sat, Aug 19, 2023</time></span>
+  </li>
+</ul>
     </main>
 
     

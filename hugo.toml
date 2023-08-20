@@ -4,8 +4,6 @@ languageCode = "en-us"
 defaultContentLanguage = "en"
 publishDir = "docs"
 enableEmoji = true
-pygmentsCodefences = true
-pygmentsUseClasses = true
 
 theme = "hyde"
 
@@ -14,7 +12,7 @@ name = "Ramana Venkata"
 homepage = "https://blog.vramana.com"
 
 [params]
-description = "Senior Software Engineer with interest Javascript, TypeScript and Rust"
+description = "Senior Software Engineer with an interest in Javascript, TypeScript and Rust"
 
 [[params.socials]]
 name = "Github"
@@ -28,7 +26,6 @@ link = "https://twitter.com/_vramana"
 
 [Menus]
   main = [
-      {Name = "About", URL = "/about"},
       {Name = "Github", URL = "https://github.com/vramana"},
       {Name = "Mastodon", URL = "https://mastodon.social/@vramana"},
       {Name = "LinkedIn", URL = "https://www.linkedin.com/in/vramanamath/"},
