@@ -61,8 +61,8 @@ example of feature flags for a given organization
 
 ```json
 {
-    "marketplaceFeature": true,
-    "settingsRedesign": false,
+  "marketplaceFeature": true,
+  "settingsRedesign": false
 }
 ```
 
@@ -92,19 +92,19 @@ Here is schema for how we store feature flags.
 
 ```json
 {
-	"allOrganizations": {
-		"featureFlag6": true
-	},
-	"organization": {
-		"1": {
-			"featureFlag1": true,
-			"featureFlag2": true
-		},
-		"2": {
-			"featureFlag3": true,
-			"featureFlag4": true
-		}
-	}
+  "allOrganizations": {
+    "featureFlag6": true
+  },
+  "organization": {
+    "1": {
+      "featureFlag1": true,
+      "featureFlag2": true
+    },
+    "2": {
+      "featureFlag3": true,
+      "featureFlag4": true
+    }
+  }
 }
 ```
 
@@ -134,14 +134,18 @@ in a broken state, and it is totally fine.
 
 We fetch the feature flags from Firebase function and use context to propagate them throughout the UI.
 
-
 ```ts
-import { createContext, useState, useEffect, useMemo, AppContext } from 'react'
+import {
+    createContext,
+    useState,
+    useEffect,
+    useMemo,
+    AppContext
+} from 'react'
 
 const AppContext = createContext({
     featureFlags: {}
 })
-
 
 function FeatureFlag({ children }) {
   const [featureFlags, setFeatureFlags] = useState({});

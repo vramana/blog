@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.117.0">
+  <meta name="generator" content="Hugo 0.118.2">
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,48 +54,48 @@
   <p>You can run node server apps in <code>pm2</code> with <code>ts-node</code> just by simply declaring it as dependency.
 As always there is a catch, <code>ts-node</code> by default use typescript compiler to typecheck and then
 run the code. There is way to disable typechecking via tsconfig.json file.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;extends&#34;</span>: <span style="color:#e6db74">&#34;ts-node/node16/tsconfig.json&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ts-node&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;transpileOnly&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;files&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;compilerOptions&#34;</span>: {
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;extends&#34;</span>: <span style="color:#a5d6ff">&#34;ts-node/node16/tsconfig.json&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;ts-node&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;transpileOnly&#34;</span>: <span style="color:#79c0ff">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;files&#34;</span>: <span style="color:#79c0ff">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;compilerOptions&#34;</span>: {
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;compilerOptions&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// typescript options here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;compilerOptions&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// typescript options here
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Reference: <a href="https://www.npmjs.com/package/ts-node#via-tsconfigjson-recommended">https://www.npmjs.com/package/ts-node#via-tsconfigjson-recommended</a></p>
 <p>I had assumed <code>ts-node</code> had no way to disable typechecking and looked at tsx instead. But there is
 a reasonable argument for using tsx if you have large node application since tsx uses esbuild under
 the hood.</p>
 <p>There are two ways to run a typescript program with tsx.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>tsx index.ts
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>tsx index.ts
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># or</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># or</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>node --loader tsx index.ts
 </span></span></code></pre></div><p>pm2 allows you configure the interpreter it uses run the files. So in <code>ecosystem.config.js</code> you can
 configure you application as follows</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">apps</span><span style="color:#f92672">:</span> [
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>module.exports <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>  apps<span style="color:#ff7b72;font-weight:bold">:</span> [
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;server&#39;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">script</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./server/index.ts&#39;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">interpreter</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;tsx&#39;</span>,
+</span></span><span style="display:flex;"><span>      name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;server&#39;</span>,
+</span></span><span style="display:flex;"><span>      script<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;./server/index.ts&#39;</span>,
+</span></span><span style="display:flex;"><span>      interpreter<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;tsx&#39;</span>,
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><p>I couldn&rsquo;t get this work locally as tsx needs to be in <code>PATH</code> environment variable since I was using volta.
 Therefore I turned to the latter style and it works</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">apps</span><span style="color:#f92672">:</span> [
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>module.exports <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>  apps<span style="color:#ff7b72;font-weight:bold">:</span> [
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;server&#39;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">script</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./server/index.ts&#39;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">interpreter</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;node&#39;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">interpreterArgs</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;--loader tsx&#39;</span>,
+</span></span><span style="display:flex;"><span>      name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;server&#39;</span>,
+</span></span><span style="display:flex;"><span>      script<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;./server/index.ts&#39;</span>,
+</span></span><span style="display:flex;"><span>      interpreter<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;node&#39;</span>,
+</span></span><span style="display:flex;"><span>      interpreterArgs<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;--loader tsx&#39;</span>,
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>};

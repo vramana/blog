@@ -30,3 +30,7 @@ link = "https://twitter.com/_vramana"
       {Name = "Mastodon", URL = "https://mastodon.social/@vramana"},
       {Name = "LinkedIn", URL = "https://www.linkedin.com/in/vramanamath/"},
   ]
+
+[markup]
+[markup.highlight]
+style = "github-dark"

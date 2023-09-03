@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.117.0">
+  <meta name="generator" content="Hugo 0.118.2">
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,20 +87,20 @@
 </ul>
 <h3 id="problem-1">Problem 1</h3>
 <p>Let&rsquo;s look at the <a href="http://emberjs.com/deprecations/v2.x/#toc_ember-component-defaultlayout">first deprecation code</a> that we will transform.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// Ember &lt; 2.1
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">layout</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;../templates/some-thing-lol&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Ember &lt; 2.1
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> layout from <span style="color:#a5d6ff">&#39;../templates/some-thing-lol&#39;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">Ember</span>.<span style="color:#a6e22e">Component</span>.<span style="color:#a6e22e">extend</span>({
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">defaultLayout</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">layout</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> Ember.Component.extend({
+</span></span><span style="display:flex;"><span>  defaultLayout<span style="color:#ff7b72;font-weight:bold">:</span> layout
 </span></span><span style="display:flex;"><span>});
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Ember 2.1 and later
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">layout</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;../templates/some-thing-lol&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Ember 2.1 and later
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> layout from <span style="color:#a5d6ff">&#39;../templates/some-thing-lol&#39;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">Ember</span>.<span style="color:#a6e22e">Component</span>.<span style="color:#a6e22e">extend</span>({
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">layout</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">layout</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> Ember.Component.extend({
+</span></span><span style="display:flex;"><span>  layout<span style="color:#ff7b72;font-weight:bold">:</span> layout
 </span></span><span style="display:flex;"><span>});
 </span></span></code></pre></div><h3 id="solution">Solution</h3>
 <p>The simplest solution is to replace <code>defaultLayout</code> identifier by <code>layout</code> identifier. But it may do some false positives transformations. We can avoid this problem by looking for some more context i.e, <code>defaultLayout</code> is key of an object literal and that object itself is an argument to <code>Ember.Component.extend</code> function call. So we will use this context to avoid any false positives.</p>
@@ -119,54 +119,54 @@
 <p>If path a satisfies these properties, then replace the <code>defaultLayout</code> identifier with <code>layout</code> identifier.</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> <span style="color:#ff7b72">function</span> (file, api) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> j <span style="color:#ff7b72;font-weight:bold">=</span> api.jscodeshift;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isProperty</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Property&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;defaultLayout&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> isProperty <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> (
+</span></span><span style="display:flex;"><span>    p.parent.node.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Property&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>    p.parent.node.key.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Identifier&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>    p.parent.node.key.name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;defaultLayout&#39;</span>
 </span></span><span style="display:flex;"><span>    );
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">checkCallee</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">types</span> <span style="color:#f92672">=</span> (
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;MemberExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;MemberExpression&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> checkCallee <span style="color:#ff7b72;font-weight:bold">=</span> node =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> types <span style="color:#ff7b72;font-weight:bold">=</span> (
+</span></span><span style="display:flex;"><span>      node.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;MemberExpression&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>      node.object.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;MemberExpression&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>      node.object.object.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Identifier&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>      node.object.property.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Identifier&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>      node.property.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Identifier&#39;</span>
 </span></span><span style="display:flex;"><span>    );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">identifiers</span> <span style="color:#f92672">=</span> (
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Ember&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Component&#39;</span> <span style="color:#f92672">&amp;&amp;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;extend&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> identifiers <span style="color:#ff7b72;font-weight:bold">=</span> (
+</span></span><span style="display:flex;"><span>      node.object.object.name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Ember&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>      node.object.property.name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Component&#39;</span> <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span>
+</span></span><span style="display:flex;"><span>      node.property.name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;extend&#39;</span>
 </span></span><span style="display:flex;"><span>    );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">types</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">identifiers</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> types <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> identifiers;
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isArgument</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;CallExpression&#39;</span>) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">call</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">node</span>;
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">checkCallee</span>(<span style="color:#a6e22e">call</span>.<span style="color:#a6e22e">callee</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> isArgument <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (p.parent.parent.parent.node.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;CallExpression&#39;</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">const</span> call <span style="color:#ff7b72;font-weight:bold">=</span> p.parent.parent.parent.node;
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">return</span> checkCallee(call.callee);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">replaceDefaultLayout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;layout&#39;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> replaceDefaultLayout <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    p.node.name <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;layout&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> p.node;
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;defaultLayout&#39;</span> })
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isProperty</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isArgument</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">replaceDefaultLayout</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">toSource</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> (
+</span></span><span style="display:flex;"><span>    j(file.source)
+</span></span><span style="display:flex;"><span>    .find(j.Identifier, { name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;defaultLayout&#39;</span> })
+</span></span><span style="display:flex;"><span>    .filter(isProperty)
+</span></span><span style="display:flex;"><span>    .filter(isArgument)
+</span></span><span style="display:flex;"><span>    .replaceWith(replaceDefaultLayout)
+</span></span><span style="display:flex;"><span>    .toSource()
 </span></span><span style="display:flex;"><span>  );
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/bq5fA4afqR">http://astexplorer.net/#/bq5fA4afqR</a></p>
@@ -176,33 +176,33 @@
 <hr>
 <h3 id="problem-2">Problem 2</h3>
 <p>Here is the <a href="http://emberjs.com/deprecations/v2.x/#toc_initializer-arity">second deprecation code</a> that we will transform.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// Ember &lt; 2.1
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initialize</span>(<span style="color:#a6e22e">container</span>, <span style="color:#a6e22e">application</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Ember &lt; 2.1
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">function</span> initialize(container, application) {
+</span></span><span style="display:flex;"><span>  application.inject(<span style="color:#a5d6ff">&#39;route&#39;</span>, <span style="color:#a5d6ff">&#39;service:session&#39;</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">initialize</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> {
+</span></span><span style="display:flex;"><span>  name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;inject-session&#39;</span>,
+</span></span><span style="display:flex;"><span>  initialize<span style="color:#ff7b72;font-weight:bold">:</span> initialize
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Ember 2.1 and later
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initialize</span>(<span style="color:#a6e22e">application</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// Ember 2.1 and later
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">function</span> initialize(application) {
+</span></span><span style="display:flex;"><span>  application.inject(<span style="color:#a5d6ff">&#39;route&#39;</span>, <span style="color:#a5d6ff">&#39;service:session&#39;</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">initialize</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> {
+</span></span><span style="display:flex;"><span>  name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;inject-session&#39;</span>,
+</span></span><span style="display:flex;"><span>  initialize<span style="color:#ff7b72;font-weight:bold">:</span> initialize
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The solution I had in my mind was find the <code>initialize</code> function declaration and see if <code>container</code> was being inside it and if not just remove that variable. Here conveniently both key and value have same name but for the sake of learning let&rsquo;s assume a slightly pathetic case where the initialize function is named something else other than <code>initialize</code>.</p>
 <p>While I was thinking about the problem, I wanted to find ember 2.0 codebase to my apply previous transform. I came across a few repos in which I saw another pattern for ember initializers.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;inject-session&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">initialize</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">container</span>, <span style="color:#a6e22e">application</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">application</span>.<span style="color:#a6e22e">inject</span>(<span style="color:#e6db74">&#39;route&#39;</span>, <span style="color:#e6db74">&#39;service:session&#39;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> {
+</span></span><span style="display:flex;"><span>  name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;inject-session&#39;</span>,
+</span></span><span style="display:flex;"><span>  initialize<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#ff7b72">function</span> (container, application) {
+</span></span><span style="display:flex;"><span>    application.inject(<span style="color:#a5d6ff">&#39;route&#39;</span>, <span style="color:#a5d6ff">&#39;service:session&#39;</span>);
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><p>I wanted to handle this case too in my codemod.</p>
@@ -210,45 +210,45 @@
 <h3 id="solution-attempt-1">Solution (Attempt 1)</h3>
 <p>The outline of my first solution is to find the object which has <code>name</code> &amp; <code>initialize</code> keys and depending the type of value of <code>initialize</code> key we can apply a suitable transform. The case where <code>initialize</code> key&rsquo;s value is a <code>FunctionExpression</code> seemed easier to handle. If you don&rsquo;t know what a <code>FunctionExpression</code> is, a function is called <code>FunctionExpression</code> if it is passed around as value for example to initialize a variable, passed as argument to function etc.,</p>
 <p>This is my first half of the solution:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> <span style="color:#ff7b72">function</span> (file, api) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> j <span style="color:#ff7b72;font-weight:bold">=</span> api.jscodeshift;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> hasKey <span style="color:#ff7b72;font-weight:bold">=</span> (object, key) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { properties } <span style="color:#ff7b72;font-weight:bold">=</span> object;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> properties.some(property =&gt; property.key.name <span style="color:#ff7b72;font-weight:bold">===</span> key);
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fnNode</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> transformArity <span style="color:#ff7b72;font-weight:bold">=</span> fnNode =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (fnNode.params.length <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">2</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (
+</span></span><span style="display:flex;"><span>        j(fnNode.body).find(j.Identifier, { name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;container&#39;</span> }).size() <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">0</span>
 </span></span><span style="display:flex;"><span>      ) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>]];
+</span></span><span style="display:flex;"><span>        fnNode.params <span style="color:#ff7b72;font-weight:bold">=</span> [fnNode.params[<span style="color:#a5d6ff">1</span>]];
 </span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">node</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>)) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">initialize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">find</span>(
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> changeArity <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { node } <span style="color:#ff7b72;font-weight:bold">=</span> p;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (hasKey(node, <span style="color:#a5d6ff">&#39;name&#39;</span>) <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> hasKey(node, <span style="color:#a5d6ff">&#39;initialize&#39;</span>)) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">const</span> initialize <span style="color:#ff7b72;font-weight:bold">=</span> node.properties.find(
+</span></span><span style="display:flex;"><span>        property =&gt; property.key.name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;initialize&#39;</span>
 </span></span><span style="display:flex;"><span>      );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;FunctionExpression&#39;</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>);
-</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// todo
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (initialize.value.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;FunctionExpression&#39;</span>) {
+</span></span><span style="display:flex;"><span>        transformArity(initialize.value);
+</span></span><span style="display:flex;"><span>      } <span style="color:#ff7b72">else</span> <span style="color:#ff7b72">if</span> (initialize.value.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Identifier&#39;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8b949e;font-style:italic">// todo
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>      }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> p.node;
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeArity</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">toSource</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> j(file.source)
+</span></span><span style="display:flex;"><span>    .find(j.ObjectExpression)
+</span></span><span style="display:flex;"><span>    .replaceWith(changeArity)
+</span></span><span style="display:flex;"><span>    .toSource();
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z">http://astexplorer.net/#/K0xJ26FT0Z</a></p>
 <p><strong>Tip</strong>: Always read the source of codemod from the bottom to top, so that you don&rsquo;t have to read through plethora of implementation details to understand the gist of it.</p>
@@ -257,71 +257,71 @@
 <p>Here, I got stuck trying to implement the <code>transformArity</code> function. Given a node, I didn&rsquo;t know how to count all instances of an <code>Identifier</code> (contianer in this case). After reading some examples, I realized you can call <code>j</code> with a node (AST) as argument and it will return a <code>Collection</code> of that node then we can perform <code>find</code>, <code>filter</code> etc., on it. <code>Collection</code> has a <code>size</code> method which will return the no. of paths it has. With this information, we are back on track. So, we need to create a <code>Collection</code> from the function body and find all <code>Identifier</code> nodes with name <code>container</code> and check if that collection&rsquo;s size is 0.</p>
 <p>Now we will look at how to handle the other case where type of value of <code>initialize</code> key is an <code>Identifier</code>. First, we need look up the name of the <code>Identifier</code> and then find it&rsquo;s <code>FunctionDeclaration</code> node then apply <code>transformArity</code> function on that node. That&rsquo;s it we are done because we already know how to transform the arity of the function and all we needed to do was to find where it is.</p>
 <p>So, the question is how to find this <code>FunctionDeclaration</code> node. The best way I could think of is to go the root of your AST and search from there as you will have access to everything from the root. So, you recursively travel to the parent of the current path and find the root. Although the idea seemed okay, I was looking for simpler solution. After some struggle, I found the solution in one of the transforms in <a href="https://github.com/reactjs/react-codemod">react-codemod</a> repo. I will now present a very simplified version of it.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> <span style="color:#ff7b72">function</span> (file, api) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> j <span style="color:#ff7b72;font-weight:bold">=</span> api.jscodeshift;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> root <span style="color:#ff7b72;font-weight:bold">=</span> j(file.source);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Some methods here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// Some methods here
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> didTransform1 <span style="color:#ff7b72;font-weight:bold">=</span> root.find(...).replaceWith(...).size();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> didTransform2 <span style="color:#ff7b72;font-weight:bold">=</span> root.find(...).replaceWith(...).size();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">if</span> (didTransform1 <span style="color:#ff7b72;font-weight:bold">+</span> didTransform2 <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#a5d6ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> root.toSource();
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> <span style="color:#79c0ff">null</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>There are several ideas that presented in this short piece. But we will not right away delve into all of them right away. Let&rsquo;s just look at the most important one of them.</p>
 <p>In the third line, <code>j(file.source)</code> is declared as <code>root</code>. As we have discussed, <code>j</code> when used a function returns a <code>Collection</code> and this time it&rsquo;s a collection that contains the entire program.</p>
 <p>This solves of our problem of finding the <code>FunctionDeclaration</code> node because you can simply do <code>root.find(j.FunctionDeclaration)</code>. There is absolutely no need to write any recursive functions to get to the root. Voila! We can get back to solving our main problem.</p>
 <p>This is what the final code looks like:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> <span style="color:#ff7b72">function</span> (file, api) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> j <span style="color:#ff7b72;font-weight:bold">=</span> api.jscodeshift;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> root <span style="color:#ff7b72;font-weight:bold">=</span> j(file.source);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> hasKey <span style="color:#ff7b72;font-weight:bold">=</span> (object, key) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { properties } <span style="color:#ff7b72;font-weight:bold">=</span> object;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> properties.some(property =&gt; property.key.name <span style="color:#ff7b72;font-weight:bold">===</span> key);
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fnNode</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> transformArity <span style="color:#ff7b72;font-weight:bold">=</span> fnNode =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (fnNode.params.length <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">2</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (
+</span></span><span style="display:flex;"><span>        j(fnNode.body).find(j.Identifier, { name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;container&#39;</span> }).size() <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">0</span>
 </span></span><span style="display:flex;"><span>      ) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [<span style="color:#a6e22e">fnNode</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>]];
+</span></span><span style="display:flex;"><span>        fnNode.params <span style="color:#ff7b72;font-weight:bold">=</span> [fnNode.params[<span style="color:#a5d6ff">1</span>]];
 </span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">node</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>)) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">initialize</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">filter</span>(
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> changeArity <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { node } <span style="color:#ff7b72;font-weight:bold">=</span> p;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (hasKey(node, <span style="color:#a5d6ff">&#39;name&#39;</span>) <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> hasKey(node, <span style="color:#a5d6ff">&#39;initialize&#39;</span>)) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">const</span> [initialize] <span style="color:#ff7b72;font-weight:bold">=</span> node.properties.filter(
+</span></span><span style="display:flex;"><span>        property =&gt; property.key.name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;initialize&#39;</span>
 </span></span><span style="display:flex;"><span>      );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;FunctionExpression&#39;</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>);
-</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">root</span>
-</span></span><span style="display:flex;"><span>          .<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">FunctionDeclaration</span>, {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">initialize</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">name</span> }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (initialize.value.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;FunctionExpression&#39;</span>) {
+</span></span><span style="display:flex;"><span>        transformArity(initialize.value);
+</span></span><span style="display:flex;"><span>      } <span style="color:#ff7b72">else</span> <span style="color:#ff7b72">if</span> (initialize.value.type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Identifier&#39;</span>) {
+</span></span><span style="display:flex;"><span>        root
+</span></span><span style="display:flex;"><span>          .find(j.FunctionDeclaration, {
+</span></span><span style="display:flex;"><span>            id<span style="color:#ff7b72;font-weight:bold">:</span> { name<span style="color:#ff7b72;font-weight:bold">:</span> initialize.value.name }
 </span></span><span style="display:flex;"><span>          })
-</span></span><span style="display:flex;"><span>          .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+</span></span><span style="display:flex;"><span>          .replaceWith(p =&gt; {
+</span></span><span style="display:flex;"><span>            transformArity(p.node);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">return</span> p.node;
 </span></span><span style="display:flex;"><span>          });
 </span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> p.node;
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>).<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeArity</span>).<span style="color:#a6e22e">toSource</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> root.find(j.ObjectExpression).replaceWith(changeArity).toSource();
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z/1">http://astexplorer.net/#/K0xJ26FT0Z/1</a></p>
 <p>All I did here was to replace the TODO block with some code and the rest is same. We actually didn&rsquo;t write much code this time. Let&rsquo;s try to understand it.</p>
@@ -330,119 +330,119 @@
 <p>I was not satisfied with solution because the <code>changeArity</code> function didn&rsquo;t look clean at all and it was doing too much stuff. I wanted to modularize it. And thats where I used the ideas in the above snippet again.</p>
 <h3 id="solution-attempt-2">Solution (Attempt 2)</h3>
 <p>I am just re-pasting the above snippet for the sake of convenience. Let&rsquo;s dive more into it this time.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> <span style="color:#ff7b72">function</span> (file, api) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> j <span style="color:#ff7b72;font-weight:bold">=</span> api.jscodeshift;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> root <span style="color:#ff7b72;font-weight:bold">=</span> j(file.source);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Some methods here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// Some methods here
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> didTransform1 <span style="color:#ff7b72;font-weight:bold">=</span> root.find(...).replaceWith(...).size();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(...).<span style="color:#a6e22e">replaceWith</span>(...).<span style="color:#a6e22e">size</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> didTransform2 <span style="color:#ff7b72;font-weight:bold">=</span> root.find(...).replaceWith(...).size();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">if</span> (didTransform1 <span style="color:#ff7b72;font-weight:bold">+</span> didTransform2 <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#a5d6ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> root.toSource();
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> <span style="color:#79c0ff">null</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Here, I treat <code>root.find(...).replaceWith(...)</code> as a single transform. If you look at the above snippet, we are actually doing to two transforms. This pattern is immensely useful when your codemod has to deal with multiple styles of writing the same code like the case we are currently dealing with. The <code>.size()</code> calls at the end give no. of paths that have transformed in your transformation. So, the <code>didTransform1</code> and <code>didTransform2</code> give a sense of how many transformations occurred and this can be used to prevent errors.</p>
 <p>There are two kinds of errors that can happen while writing a codemod. The first kind is where you select an incorrect node type while finding the code you want to transform or even if you are finding the correct type, you may not be filtering it enough. The second kind is where you have a bug in your transformation logic. The <code>didTransform1</code> or <code>didTransform2</code> helps to avoid mistakes of the first kind.</p>
 <p>Finally the if conditional at the end says if their sum is zero, then its unnecessary to convert an unmodified AST to back to JavaScript, we can just leave the file as is. So, we return <code>null</code> instead the <code>root.toSource()</code>.</p>
 <p>Anyway before going into the second solution, I will introduce Extensions in <strong>jscodeshift</strong> API. This allows us to add custom methods on the <code>Collection</code>&rsquo;s prototype, so you use use these methods on <code>Collection</code>&rsquo;s as if they were normal methods. Here is sample.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">registerMethods</span>({
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">customMethod</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>).<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>);
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>j.registerMethods({
+</span></span><span style="display:flex;"><span>  customMethod() {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">this</span>.find(j.ObjectExpression).filter(isIntializer);
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>})
 </span></span></code></pre></div><p>If you don&rsquo;t like this, just simply write a function and it works too. There are reasons why you may want to use registerMethods but we won&rsquo;t cover it here.</p>
 <p>In our problem, we have two different styles of code which we have to codemod, one where value of <code>initialize</code> key is an <code>Identifier</code> node and the other where it&rsquo;s a <code>FunctionExpression</code> node. So, the idea is to solve them independently using didTransform pattern (I made this up) we just saw.</p>
 <p>This is what the final code looks like:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">api</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">jscodeshift</span>;
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">root</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">source</span>);
+<div class="highlight"><pre tabindex="0" style="color:#c9d1d9;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">default</span> <span style="color:#ff7b72">function</span> (file, api) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> j <span style="color:#ff7b72;font-weight:bold">=</span> api.jscodeshift;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> root <span style="color:#ff7b72;font-weight:bold">=</span> j(file.source);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">transformArity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">node</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">2</span>) {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">j</span>(<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">body</span>).<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">Identifier</span>, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span> }).<span style="color:#a6e22e">size</span>() <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> [<span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">params</span>[<span style="color:#ae81ff">1</span>]];
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> transformArity <span style="color:#ff7b72;font-weight:bold">=</span> node =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (node.params.length <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">2</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (j(node.body).find(j.Identifier, { name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;container&#39;</span> }).size() <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">0</span>) {
+</span></span><span style="display:flex;"><span>        node.params <span style="color:#ff7b72;font-weight:bold">=</span> [node.params[<span style="color:#a5d6ff">1</span>]];
 </span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hasKey</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">object</span>, <span style="color:#a6e22e">key</span>) =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">some</span>(<span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">key</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> hasKey <span style="color:#ff7b72;font-weight:bold">=</span> (object, key) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { properties } <span style="color:#ff7b72;font-weight:bold">=</span> object;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> properties.some(property =&gt; property.key.name <span style="color:#ff7b72;font-weight:bold">===</span> key);
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;name&#39;</span>) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">hasKey</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>, <span style="color:#e6db74">&#39;initialize&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> isIntializer <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> hasKey(p.node, <span style="color:#a5d6ff">&#39;name&#39;</span>) <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> hasKey(p.node, <span style="color:#a5d6ff">&#39;initialize&#39;</span>);
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">findInitialize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">properties</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">initialize</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">filter</span>(
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">property</span> =&gt; <span style="color:#a6e22e">property</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;initialize&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> findInitialize <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { properties } <span style="color:#ff7b72;font-weight:bold">=</span> p.node;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> [initialize] <span style="color:#ff7b72;font-weight:bold">=</span> properties.filter(
+</span></span><span style="display:flex;"><span>      property =&gt; property.key.name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;initialize&#39;</span>
 </span></span><span style="display:flex;"><span>    );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">initialize</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> initialize;
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializeMethod</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;FunctionExpression&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> isIntializeMethod <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> type <span style="color:#ff7b72;font-weight:bold">=</span> findInitialize(p).value.type;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;FunctionExpression&#39;</span>;
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isIntializeIdentifier</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">type</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Identifier&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> isIntializeIdentifier <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> type <span style="color:#ff7b72;font-weight:bold">=</span> findInitialize(p).value.type;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> type <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;Identifier&#39;</span>;
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeMethod</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">method</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">method</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> changeMethod <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> method <span style="color:#ff7b72;font-weight:bold">=</span> findInitialize(p).value;
+</span></span><span style="display:flex;"><span>    transformArity(method);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> p.node;
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">changeIdentifierDeclaration</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">findInitialize</span>(<span style="color:#a6e22e">p</span>).<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">name</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">FunctionDeclaration</span>, { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span> } }).<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">p</span> =&gt; {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">transformArity</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> changeIdentifierDeclaration <span style="color:#ff7b72;font-weight:bold">=</span> p =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> name <span style="color:#ff7b72;font-weight:bold">=</span> findInitialize(p).value.name;
+</span></span><span style="display:flex;"><span>    root.find(j.FunctionDeclaration, { id<span style="color:#ff7b72;font-weight:bold">:</span> { name } }).replaceWith(p =&gt; {
+</span></span><span style="display:flex;"><span>      transformArity(p.node);
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">return</span> p.node;
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">node</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> p.node;
 </span></span><span style="display:flex;"><span>  };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">registerMethods</span>({
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findInitializeMethod</span>() {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
-</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>)
-</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializeMethod</span>);
+</span></span><span style="display:flex;"><span>  j.registerMethods({
+</span></span><span style="display:flex;"><span>    findInitializeMethod() {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">this</span>.find(j.ObjectExpression)
+</span></span><span style="display:flex;"><span>        .filter(isIntializer)
+</span></span><span style="display:flex;"><span>        .filter(isIntializeMethod);
 </span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findInitializeIdentifier</span>() {
-</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">find</span>(<span style="color:#a6e22e">j</span>.<span style="color:#a6e22e">ObjectExpression</span>)
-</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializer</span>)
-</span></span><span style="display:flex;"><span>        .<span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">isIntializeIdentifier</span>);
+</span></span><span style="display:flex;"><span>    findInitializeIdentifier() {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">this</span>.find(j.ObjectExpression)
+</span></span><span style="display:flex;"><span>        .filter(isIntializer)
+</span></span><span style="display:flex;"><span>        .filter(isIntializeIdentifier);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  });
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">findInitializeMethod</span>()
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeMethod</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">size</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> didTransform1 <span style="color:#ff7b72;font-weight:bold">=</span> root
+</span></span><span style="display:flex;"><span>    .findInitializeMethod()
+</span></span><span style="display:flex;"><span>    .replaceWith(changeMethod)
+</span></span><span style="display:flex;"><span>    .size();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">root</span>
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">findInitializeIdentifier</span>()
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">changeIdentifierDeclaration</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">size</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">const</span> didTransform2 <span style="color:#ff7b72;font-weight:bold">=</span> root
+</span></span><span style="display:flex;"><span>    .findInitializeIdentifier()
+</span></span><span style="display:flex;"><span>    .replaceWith(changeIdentifierDeclaration)
+</span></span><span style="display:flex;"><span>    .size();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">didTransform1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">didTransform2</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">toSource</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">if</span> (didTransform1 <span style="color:#ff7b72;font-weight:bold">+</span> didTransform2 <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#a5d6ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> root.toSource();
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> <span style="color:#79c0ff">null</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Live Version: <a href="http://astexplorer.net/#/K0xJ26FT0Z/2">http://astexplorer.net/#/K0xJ26FT0Z/2</a></p>
 <p>This looks a lot longer than the previous solution but don&rsquo;t worry you have already seen most it and the difference lies in the organization of the code.</p>
