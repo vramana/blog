@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>code reviews on Ramana Venkata</title>
+    <link>https://blog.vramana.com/tags/code-reviews/</link>
+    <description>Recent content in code reviews on Ramana Venkata</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Sep 2023 08:08:27 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/tags/code-reviews/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Balancing code review requests across my team</title>
+      <link>https://blog.vramana.com/posts/distribute_review_load/</link>
+      <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
+      
+      <guid>https://blog.vramana.com/posts/distribute_review_load/</guid>
+      <description>&lt;p&gt;I manage the frontend team at Kisi. A new senior software engineer joined us in May.
+He is totally up to speed, but we haven&amp;rsquo;t assigned a lot of code review work to
+him yet. I want to understand what is the current distribution of code reviews
+and improve balance it evenly across my team.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
