@@ -99,3 +99,6 @@ jobs:
 ```
 
 Thanks for reading! Maybe I will write follow up after some months whether this was useful or not.
+
+In case you are looking for a job, my company is hiring [Full Stack Developer](https://www.getkisi.com/careers/offer?id=1427949).
+Yes! its a remote role. So please apply.
