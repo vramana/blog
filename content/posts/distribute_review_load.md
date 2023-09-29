@@ -33,7 +33,7 @@ Nope.
 The numbers in code reviews distribution show a view of the situation. It doesn't explain
 why does the problem exist in the first place or what situations led to those. If an engineer
 is on a vacation or sick, they will do less code reviews. That's natural. There might be a
-complicated PR and it took a lot of time for review and there was no time for others. 
+complicated PR and it took a lot of time for review and there was no time for others.
 What else could be the cause?
 
 If other engineers on the team
@@ -58,11 +58,11 @@ a GitHub token, and we can read GitHub API using it. Here is the rough idea.
 
 - Fetch all pull requests from last 3 months
 - Filter the pull requests that were updated in the last week
-- Fetch pull request reviews for each pull request
+- Fetch pull request reviews for each pull request that occurred in the last week
 - Aggregate the review requests by reviewer, count reviews left and pull request count
 - Print the aggregated data or push it Slack/Discord
 
-The path was clear, but I left lazy writing code 😅. So, I chose ChatGPT as my coding assistant.
+The path was clear, but I was feeling a bit lazy to write code 😅. So, I chose ChatGPT as my coding assistant.
 After an hour of back and forth and testing the generated code, I have done it. Here is a link
 to the [entire conversation](https://chat.openai.com/share/dc92fd96-676e-4600-b135-f0a842c04cc9).
 I chose not to rely on external dependencies in script it can run as fast possible as possible.
@@ -73,7 +73,7 @@ Code for the GitHub action itself
 name: Repo Statastics
 on:
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: "0 0 * * 1"
 
 permissions:
   pull-requests: read
@@ -97,6 +97,4 @@ jobs:
         run: node scripts/reviewStats.js
 ```
 
-
 Thanks for reading! Maybe I will write follow up after some months whether this was useful or not.
-

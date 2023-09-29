@@ -86,11 +86,11 @@ a GitHub token, and we can read GitHub API using it. Here is the rough idea.</p>
 <ul>
 <li>Fetch all pull requests from last 3 months</li>
 <li>Filter the pull requests that were updated in the last week</li>
-<li>Fetch pull request reviews for each pull request</li>
+<li>Fetch pull request reviews for each pull request that occurred in the last week</li>
 <li>Aggregate the review requests by reviewer, count reviews left and pull request count</li>
 <li>Print the aggregated data or push it Slack/Discord</li>
 </ul>
-<p>The path was clear, but I left lazy writing code 😅. So, I chose ChatGPT as my coding assistant.
+<p>The path was clear, but I was feeling a bit lazy to write code 😅. So, I chose ChatGPT as my coding assistant.
 After an hour of back and forth and testing the generated code, I have done it. Here is a link
 to the <a href="https://chat.openai.com/share/dc92fd96-676e-4600-b135-f0a842c04cc9">entire conversation</a>.
 I chose not to rely on external dependencies in script it can run as fast possible as possible.</p>
@@ -98,7 +98,7 @@ I chose not to rely on external dependencies in script it can run as fast possib
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#7ee787">name</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">Repo Statastics</span><span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">on</span>:<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">schedule</span>:<span style="color:#6e7681">
-</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#7ee787">cron</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#39;0 0 * * 1&#39;</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#7ee787">cron</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;0 0 * * 1&#34;</span><span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#7ee787">permissions</span>:<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">pull-requests</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">read</span><span style="color:#6e7681">
