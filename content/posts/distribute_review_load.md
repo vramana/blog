@@ -65,7 +65,7 @@ a GitHub token, and we can read GitHub API using it. Here is the rough idea.
 The path was clear, but I was feeling a bit lazy to write code 😅. So, I chose ChatGPT as my coding assistant.
 After an hour of back and forth and testing the generated code, I have done it. Here is a link
 to the [entire conversation](https://chat.openai.com/share/dc92fd96-676e-4600-b135-f0a842c04cc9).
-I chose not to rely on external dependencies in script it can run as fast possible as possible.
+I chose not to rely on external dependencies in script, so that the action can run as fast possible.
 
 Code for the GitHub action itself
 
