@@ -1,5 +1,5 @@
 +++
-title = "Balancing code review requests across my team using ChatGPT"
+title = "Balancing code review requests across my team"
 date = 2023-09-29T08:08:27+05:30
 tags = [
     "programming",
