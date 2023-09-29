@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Balancing code review requests across my team &middot; Ramana Venkata</title>
+  <title>Balancing code review requests across my team using ChatGPT &middot; Ramana Venkata</title>
 
   
   <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
@@ -49,12 +49,13 @@
 
     <main class="content container">
     <div class="post">
-  <h1>Balancing code review requests across my team</h1>
+  <h1>Balancing code review requests across my team using ChatGPT</h1>
   <time datetime=2023-09-29T08:08:27&#43;0530 class="post-date">Fri, Sep 29, 2023</time>
   <p>I manage the frontend team at Kisi. A new senior software engineer joined us in May.
 He is totally up to speed, but we haven&rsquo;t assigned a lot of code review work to
-him yet. I want to understand what is the current distribution of code reviews
-and improve balance it evenly across my team.</p>
+him yet. I want to understand what is the distribution of code reviews and
+balance them evenly across my team. You will see how I used ChatGPT as my coding assistant
+to generate this data.</p>
 <h2 id="problem">Problem</h2>
 <p>Let&rsquo;s dive a bit more deep into the problem statement and identify explicit goals
 and non-goals.</p>
@@ -88,7 +89,7 @@ a GitHub token, and we can read GitHub API using it. Here is the rough idea.</p>
 <li>Filter the pull requests that were updated in the last week</li>
 <li>Fetch pull request reviews for each pull request that occurred in the last week</li>
 <li>Aggregate the review requests by reviewer, count reviews left and pull request count</li>
-<li>Print the aggregated data or push it Slack/Discord</li>
+<li>Print the aggregated data or push it to Slack/Discord</li>
 </ul>
 <p>The path was clear, but I was feeling a bit lazy to write code 😅. So, I chose ChatGPT as my coding assistant.
 After an hour of back and forth and testing the generated code, I have done it. Here is a link

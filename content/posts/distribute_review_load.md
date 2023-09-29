@@ -1,5 +1,5 @@
 +++
-title = "Balancing code review requests across my team"
+title = "Balancing code review requests across my team using ChatGPT"
 date = 2023-09-29T08:08:27+05:30
 tags = [
     "programming",
@@ -16,8 +16,9 @@ layout = "post"
 
 I manage the frontend team at Kisi. A new senior software engineer joined us in May.
 He is totally up to speed, but we haven't assigned a lot of code review work to
-him yet. I want to understand what is the current distribution of code reviews
-and improve balance it evenly across my team.
+him yet. I want to understand what is the distribution of code reviews and
+balance them evenly across my team. You will see how I used ChatGPT as my coding assistant
+to generate this data.
 
 <!--more-->
 
@@ -60,7 +61,7 @@ a GitHub token, and we can read GitHub API using it. Here is the rough idea.
 - Filter the pull requests that were updated in the last week
 - Fetch pull request reviews for each pull request that occurred in the last week
 - Aggregate the review requests by reviewer, count reviews left and pull request count
-- Print the aggregated data or push it Slack/Discord
+- Print the aggregated data or push it to Slack/Discord
 
 The path was clear, but I was feeling a bit lazy to write code 😅. So, I chose ChatGPT as my coding assistant.
 After an hour of back and forth and testing the generated code, I have done it. Here is a link
