@@ -6,15 +6,14 @@
     <description>Recent content in pm2 on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Feb 2023 21:59:33 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/tags/pm2/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Feb 2023 21:59:33 +0530</lastBuildDate>
+    <atom:link href="https://blog.vramana.com/tags/pm2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Running typescript app with pm2 and tsx</title>
       <link>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

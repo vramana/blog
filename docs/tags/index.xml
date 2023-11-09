@@ -6,222 +6,196 @@
     <description>Recent content in Tags on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 07 Nov 2023 09:50:37 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Nov 2023 22:06:02 +0530</lastBuildDate>
+    <atom:link href="https://blog.vramana.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>build</title>
+      <link>https://blog.vramana.com/tags/build/</link>
+      <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/build/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>javascript</title>
+      <link>https://blog.vramana.com/tags/javascript/</link>
+      <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/javascript/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>speed</title>
+      <link>https://blog.vramana.com/tags/speed/</link>
+      <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/speed/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>vite</title>
+      <link>https://blog.vramana.com/tags/vite/</link>
+      <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/vite/</guid>
+      <description></description>
+    </item>
     <item>
       <title>career</title>
       <link>https://blog.vramana.com/tags/career/</link>
       <pubDate>Tue, 07 Nov 2023 09:50:37 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/career/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>productivity</title>
       <link>https://blog.vramana.com/tags/productivity/</link>
       <pubDate>Tue, 07 Nov 2023 09:50:37 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/productivity/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>chatgpt</title>
       <link>https://blog.vramana.com/tags/chatgpt/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/chatgpt/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>code reviews</title>
       <link>https://blog.vramana.com/tags/code-reviews/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/code-reviews/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>github</title>
       <link>https://blog.vramana.com/tags/github/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/github/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>github actions</title>
       <link>https://blog.vramana.com/tags/github-actions/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/github-actions/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>programming</title>
       <link>https://blog.vramana.com/tags/programming/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/programming/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>pull requests</title>
       <link>https://blog.vramana.com/tags/pull-requests/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/pull-requests/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>reviews</title>
       <link>https://blog.vramana.com/tags/reviews/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/reviews/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>context</title>
       <link>https://blog.vramana.com/tags/context/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/context/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>database</title>
       <link>https://blog.vramana.com/tags/database/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/database/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>feature flags</title>
       <link>https://blog.vramana.com/tags/feature-flags/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/feature-flags/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>firebase</title>
       <link>https://blog.vramana.com/tags/firebase/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/firebase/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>firebase real-time database</title>
       <link>https://blog.vramana.com/tags/firebase-real-time-database/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/firebase-real-time-database/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>javascript</title>
-      <link>https://blog.vramana.com/tags/javascript/</link>
-      <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
-      <guid>https://blog.vramana.com/tags/javascript/</guid>
-      <description></description>
-    </item>
-    
     <item>
       <title>react</title>
       <link>https://blog.vramana.com/tags/react/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/react/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>system design</title>
       <link>https://blog.vramana.com/tags/system-design/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/system-design/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>chibi-scheme</title>
       <link>https://blog.vramana.com/tags/chibi-scheme/</link>
       <pubDate>Thu, 15 Jun 2023 00:40:03 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/chibi-scheme/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>scheme</title>
       <link>https://blog.vramana.com/tags/scheme/</link>
       <pubDate>Thu, 15 Jun 2023 00:40:03 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/scheme/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>node</title>
       <link>https://blog.vramana.com/tags/node/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/node/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>pm2</title>
       <link>https://blog.vramana.com/tags/pm2/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/pm2/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>ts-node</title>
       <link>https://blog.vramana.com/tags/ts-node/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/ts-node/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>tsx</title>
       <link>https://blog.vramana.com/tags/tsx/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/tsx/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>typescript</title>
       <link>https://blog.vramana.com/tags/typescript/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/tags/typescript/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

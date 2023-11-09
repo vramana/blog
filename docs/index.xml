@@ -6,21 +6,28 @@
     <description>Recent content on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 07 Nov 2023 09:50:37 +0530</lastBuildDate><atom:link href="https://blog.vramana.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Nov 2023 22:06:02 +0530</lastBuildDate>
+    <atom:link href="https://blog.vramana.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Journey to 3x Faster Builds: Trimming Barrel File Imports</title>
+      <link>https://blog.vramana.com/posts/barrel_files_slow_build/</link>
+      <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
+      <guid>https://blog.vramana.com/posts/barrel_files_slow_build/</guid>
+      <description>&lt;p&gt;I maintain a small frontend application (4K LOC) which uses &lt;a href=&#34;https://vitejs.dev/&#34;&gt;Vite&lt;/a&gt; as the compiler. The production build, using
+&lt;code&gt;npm run build&lt;/code&gt;, was taking 26 secs on Github Actions. It seemed awfully slow for such a small application. I decided to investigate
+why.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>On burnout</title>
       <link>https://blog.vramana.com/posts/on_burnout/</link>
       <pubDate>Tue, 07 Nov 2023 09:50:37 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/posts/on_burnout/</guid>
       <description>&lt;p&gt;I have never suffered from prolonged burnout, but I do experience occasional short-term burnout that can last a few days to several weeks.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Balancing code review requests across my team</title>
       <link>https://blog.vramana.com/posts/distribute_review_load/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/posts/distribute_review_load/</guid>
       <description>&lt;p&gt;I manage the frontend team at Kisi. A new senior software engineer joined us in May.
 He is totally up to speed, but we haven&amp;rsquo;t assigned a lot of code review work to
@@ -28,95 +35,76 @@ him yet. I want to understand what is the distribution of code reviews and
 balance them evenly across my team. You will see how I used ChatGPT as my coding assistant
 to generate this data.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Designing a feature flag system with Firebase</title>
       <link>https://blog.vramana.com/posts/feature_flags/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/posts/feature_flags/</guid>
       <description>&lt;p&gt;Feature flags allow developers to enable and disable features without making changes to code and re-deploying the application.
 I have designed &amp;amp; developed the feature flag system at work for &lt;a href=&#34;&#34;&gt;https://web.kisi.io&lt;/a&gt;. It has been 3 years since I wrote the
 first commit, and it&amp;rsquo;s still in production.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>About</title>
       <link>https://blog.vramana.com/about/</link>
       <pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.vramana.com/about/</guid>
       <description>My name is Ramana Venkata. I am currently working as a senior software engineer on both front-end and back-end. In my current job, I lead multiple full stack teams.
 My main interests are compilers, developer tools and low level graphics APIs.
 Twitter
 Github</description>
     </item>
-    
     <item>
       <title>Hello World Scheme</title>
       <link>https://blog.vramana.com/posts/hello-world-scheme/</link>
       <pubDate>Thu, 15 Jun 2023 00:40:03 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/posts/hello-world-scheme/</guid>
       <description>&lt;p&gt;Recently, I wanted to learn the Scheme language. Let&amp;rsquo;s see how to print &amp;ldquo;Hello World&amp;rdquo; using &lt;a href=&#34;http://synthcode.com/wiki/chibi-scheme&#34;&gt;chibi-scheme&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Running typescript app with pm2 and tsx</title>
       <link>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      
       <guid>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Short anatomy of node-redis client</title>
       <link>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</link>
       <pubDate>Sat, 25 Jun 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</guid>
       <description>&lt;p&gt;I am trying to write simple redis-client in rust. As part of that exercise, I have read the source code of
 Node.js Redis Client. I want to jot down some notes on how it works.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>My most used Terminal Commands</title>
       <link>https://blog.vramana.com/2019/02/20/terminal-commands/</link>
       <pubDate>Wed, 20 Feb 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.vramana.com/2019/02/20/terminal-commands/</guid>
       <description>&lt;p&gt;Inspired by &lt;a href=&#34;https://wincent.com/blog/frequently-used-terminal-commands&#34;&gt;this article&lt;/a&gt;, I set out to find which are my most used commands.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Rust Debugging Paper Cuts</title>
       <link>https://blog.vramana.com/2018/09/30/rust-debugging/</link>
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.vramana.com/2018/09/30/rust-debugging/</guid>
       <description>&lt;p&gt;These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
 may be already solved problems but I don&amp;rsquo;t know the solution yet.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Codemods: Path to painless upgrades in Ember</title>
       <link>https://blog.vramana.com/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</link>
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.vramana.com/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</guid>
       <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;This is blog post is continuation to the my other blog post on &lt;a href=&#34;https://vramana.github.io/blog/2015/12/21/codemod-tutorial/&#34;&gt;How to write a codemod&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>How to write a codemod</title>
       <link>https://blog.vramana.com/2015/12/21/codemod-tutorial/</link>
       <pubDate>Mon, 21 Dec 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.vramana.com/2015/12/21/codemod-tutorial/</guid>
       <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
