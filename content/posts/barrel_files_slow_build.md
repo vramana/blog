@@ -12,7 +12,7 @@ why.
 
 <!--more-->
 
-I decided to check build time of another project (100K LOC) which uses Vite. It's build time is also 26 secs. Something is definitely
+I decided to check build time of another project (100K LOC) which uses Vite. I's build time is also 26 secs. Something is definitely
 wrong and I want to know why.
 
 We use [material-ui](https://mui.com/) in this project. When we started this project, I double checked that top-level import from
@@ -54,7 +54,7 @@ transforming...
 ✓ 2894 modules transformed.
 ```
 
-Yes we consuming a lot of modules but barely using any of it and I don't know what is causing it. My next step was to remove all
+We are consuming a lot of modules but barely using any of it and I don't know what is causing it. My next step was to remove all
 the routes in the application and check how many modules are being compiled.
 
 ```sh
@@ -87,7 +87,7 @@ transforming...
 ✓ 1188 modules transformed.
 ```
 
-The build time was down to 8 seconds. Hopefully once Vite team releases rolldown, it will be ever faster.
+The build time was down to 8 seconds. Hopefully, once Vite team releases rolldown, it will be ever faster.
 
 ## Conclusion
 
