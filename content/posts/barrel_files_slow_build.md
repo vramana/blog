@@ -30,8 +30,8 @@ My first guess was that it might be still material-ui package that's causing the
 [this excellent blog post](https://marvinh.dev/blog/speeding-up-javascript-ecosystem-part-7/) by
 [Marvin Hagemeister](https://twitter.com/marvinhagemeist). I removed the top-level import and imported the components directly.
 
-```
-import Button from "@mui/material"
+```js
+import Button from "@mui/material/Button";
 ```
 
 The build time did not change much. I noticed Vite prints the number of modules it transformed and it seemed unusually high.
