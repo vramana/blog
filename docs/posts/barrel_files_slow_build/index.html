@@ -54,7 +54,7 @@
   <p>I maintain a small frontend application (4K LOC) which uses <a href="https://vitejs.dev/">Vite</a> as the compiler. The production build, using
 <code>npm run build</code>, was taking 26 secs on Github Actions. It seemed awfully slow for such a small application. I decided to investigate
 why.</p>
-<p>I decided to check build time of another project (100K LOC) which uses Vite. It&rsquo;s build time is also 26 secs. Something is definitely
+<p>I decided to check build time of another project (100K LOC) which uses Vite. I&rsquo;s build time is also 26 secs. Something is definitely
 wrong and I want to know why.</p>
 <p>We use <a href="https://mui.com/">material-ui</a> in this project. When we started this project, I double checked that top-level import from
 the material-ui package did not cause bundle size to go up.</p>
@@ -78,7 +78,7 @@ excess modules than what I was roughly using in the <code>material-ui</code> blo
 </span></span><span style="display:flex;"><span>vite v4.5.0 building <span style="color:#ff7b72">for</span> production...
 </span></span><span style="display:flex;"><span>transforming...
 </span></span><span style="display:flex;"><span>✓ <span style="color:#a5d6ff">2894</span> modules transformed.
-</span></span></code></pre></div><p>Yes we consuming a lot of modules but barely using any of it and I don&rsquo;t know what is causing it. My next step was to remove all
+</span></span></code></pre></div><p>We are consuming a lot of modules but barely using any of it and I don&rsquo;t know what is causing it. My next step was to remove all
 the routes in the application and check how many modules are being compiled.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vite v4.5.0 building <span style="color:#ff7b72">for</span> production...
 </span></span><span style="display:flex;"><span>transforming...
@@ -95,7 +95,7 @@ the routes in the application and check how many modules are being compiled.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vite v4.5.0 building <span style="color:#ff7b72">for</span> production...
 </span></span><span style="display:flex;"><span>transforming...
 </span></span><span style="display:flex;"><span>✓ <span style="color:#a5d6ff">1188</span> modules transformed.
-</span></span></code></pre></div><p>The build time was down to 8 seconds. Hopefully once Vite team releases rolldown, it will be ever faster.</p>
+</span></span></code></pre></div><p>The build time was down to 8 seconds. Hopefully, once Vite team releases rolldown, it will be ever faster.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Barrel files are terrible for performance whether it&rsquo;s runtime performance or bundling performance. Now go
 and kill them from your codebase. Being vigilant and caring about performance will always yield results.</p>

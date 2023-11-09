@@ -7,7 +7,7 @@ enableEmoji = true
 
 theme = "hyde"
 
-[author]
+[[params.author]]
 name = "Ramana Venkata"
 homepage = "https://blog.vramana.com"
 
