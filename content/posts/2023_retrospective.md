@@ -67,3 +67,4 @@ Some more year in reviews you may like to read
 
 - [https://una.im/2023-in-review/]()
 - [https://addyo.substack.com/p/23-lessons-in-2023]()
+- [https://blog.cassidoo.co/post/bye-bye-2023/]()
