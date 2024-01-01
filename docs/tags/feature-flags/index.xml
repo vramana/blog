@@ -13,9 +13,7 @@
       <link>https://blog.vramana.com/posts/feature_flags/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
       <guid>https://blog.vramana.com/posts/feature_flags/</guid>
-      <description>&lt;p&gt;Feature flags allow developers to enable and disable features without making changes to code and re-deploying the application.
-I have designed &amp;amp; developed the feature flag system at work for &lt;a href=&#34;&#34;&gt;https://web.kisi.io&lt;/a&gt;. It has been 3 years since I wrote the
-first commit, and it&amp;rsquo;s still in production.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Feature flags allow developers to enable and disable features without making changes to code and re-deploying the application.&#xA;I have designed &amp;amp; developed the feature flag system at work for &lt;a href=&#34;&#34;&gt;https://web.kisi.io&lt;/a&gt;. It has been 3 years since I wrote the&#xA;first commit, and it&amp;rsquo;s still in production.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Rust Debugging Paper Cuts &middot; Ramana Venkata</title>
+  <title>Year in Review &middot; Ramana Venkata</title>
 
   
   <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
@@ -23,6 +23,7 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
+  <link href="https://blog.vramana.com/tags/year-in-review/index.xml" rel="alternate" type="application/rss+xml" title="Ramana Venkata" />
   
 </head>
 
@@ -48,31 +49,11 @@
 </aside>
 
     <main class="content container">
-    <div class="post">
-  <h1>Rust Debugging Paper Cuts</h1>
-  <time datetime=2018-09-20T00:00:00Z class="post-date">Thu, Sep 20, 2018</time>
-  <p>These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
-may be already solved problems but I don&rsquo;t know the solution yet.</p>
-<p><strong>Don&rsquo;t step in to standard library source code</strong></p>
-<p>This is a major issue step accidentally into rust std source code. Then do <code>next</code> command for few times
-till get out of it. More generally it would be nice to have command that will omit stepping into a few
-selected crates.</p>
-<p>While writing this post, I discovered <code>finish</code> which steps out the current stackframe. That is a neat
-workaround for now.</p>
-<p><strong>Enable gdb history by default for rust-gdb</strong></p>
-<p>I thought it&rsquo;s really weird that gdb does have history of commands of the last run. After typing the same
-commands again and again, I simply googled and found that gdb infact has history but it&rsquo;s just disabled
-by default.</p>
-<p><strong>Inspect return value of functions with expression as return value</strong></p>
-<p>I am usually at the end of the function defintion but I don&rsquo;t know how I can print the return value of the function.
-According to SO, again <code>finish</code> comes to the rescue. When you run it, it also gives the values returned by the
-last stack frame. The problem with this approach is we can&rsquo;t look at the locals variables and return value at the same time</p>
-<p><strong>The try operator dance</strong></p>
-<p>When the result of expression with try operator fails, then as you run <code>next</code> command first you jump to
-<code>}</code> at the end of function and then back to the <code>?</code> mark and then again back <code>}</code>.</p>
-</div>
-
-
+    <ul class="posts">
+<li>
+    <span><a href="https://blog.vramana.com/posts/2023_retrospective/">2023 year in Review</a> <time class="pull-right post-list" datetime="2023-12-31T16:14:26&#43;0530">Sun, Dec 31, 2023</time></span>
+  </li>
+</ul>
     </main>
     <script defer data-domain="blog.vramana.com" src="https://plausible.vramana.com/js/script.js"></script>
   </body>

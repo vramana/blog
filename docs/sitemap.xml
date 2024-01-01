@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.vramana.com/posts/2023_retrospective/</loc>
+    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/personal/</loc>
+    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/posts/</loc>
+    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/</loc>
+    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/</loc>
+    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/year-in-review/</loc>
+    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
+  </url><url>
     <loc>https://blog.vramana.com/tags/build/</loc>
     <lastmod>2023-11-09T22:06:02+05:30</lastmod>
   </url><url>
@@ -11,16 +29,7 @@
     <loc>https://blog.vramana.com/posts/barrel_files_slow_build/</loc>
     <lastmod>2023-11-09T22:06:02+05:30</lastmod>
   </url><url>
-    <loc>https://blog.vramana.com/posts/</loc>
-    <lastmod>2023-11-09T22:06:02+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/</loc>
-    <lastmod>2023-11-09T22:06:02+05:30</lastmod>
-  </url><url>
     <loc>https://blog.vramana.com/tags/speed/</loc>
-    <lastmod>2023-11-09T22:06:02+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/tags/</loc>
     <lastmod>2023-11-09T22:06:02+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/tags/vite/</loc>

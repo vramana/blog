@@ -6,16 +6,21 @@
     <description>Recent content on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Nov 2023 22:06:02 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 31 Dec 2023 16:14:26 +0530</lastBuildDate>
     <atom:link href="https://blog.vramana.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2023 year in Review</title>
+      <link>https://blog.vramana.com/posts/2023_retrospective/</link>
+      <pubDate>Sun, 31 Dec 2023 16:14:26 +0530</pubDate>
+      <guid>https://blog.vramana.com/posts/2023_retrospective/</guid>
+      <description>&lt;p&gt;2023 has been a fantastic year for me. I have delivered a lot of projects at&#xA;work. My first child was born. I got promoted as a staff software engineer&#xA;and a lot more. I want to jot down all the things that I remember as much as I can.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>My Journey to 3x Faster Builds: Trimming Barrel File Imports</title>
       <link>https://blog.vramana.com/posts/barrel_files_slow_build/</link>
       <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
       <guid>https://blog.vramana.com/posts/barrel_files_slow_build/</guid>
-      <description>&lt;p&gt;I maintain a small frontend application (4K LOC) which uses &lt;a href=&#34;https://vitejs.dev/&#34;&gt;Vite&lt;/a&gt; as the compiler. The production build, using
-&lt;code&gt;npm run build&lt;/code&gt;, was taking 26 secs on Github Actions. It seemed awfully slow for such a small application. I decided to investigate
-why.&lt;/p&gt;</description>
+      <description>&lt;p&gt;I maintain a small frontend application (4K LOC) which uses &lt;a href=&#34;https://vitejs.dev/&#34;&gt;Vite&lt;/a&gt; as the compiler. The production build, using&#xA;&lt;code&gt;npm run build&lt;/code&gt;, was taking 26 secs on Github Actions. It seemed awfully slow for such a small application. I decided to investigate&#xA;why.&lt;/p&gt;</description>
     </item>
     <item>
       <title>On burnout</title>
@@ -29,30 +34,21 @@ why.&lt;/p&gt;</description>
       <link>https://blog.vramana.com/posts/distribute_review_load/</link>
       <pubDate>Fri, 29 Sep 2023 08:08:27 +0530</pubDate>
       <guid>https://blog.vramana.com/posts/distribute_review_load/</guid>
-      <description>&lt;p&gt;I manage the frontend team at Kisi. A new senior software engineer joined us in May.
-He is totally up to speed, but we haven&amp;rsquo;t assigned a lot of code review work to
-him yet. I want to understand what is the distribution of code reviews and
-balance them evenly across my team. You will see how I used ChatGPT as my coding assistant
-to generate this data.&lt;/p&gt;</description>
+      <description>&lt;p&gt;I manage the frontend team at Kisi. A new senior software engineer joined us in May.&#xA;He is totally up to speed, but we haven&amp;rsquo;t assigned a lot of code review work to&#xA;him yet. I want to understand what is the distribution of code reviews and&#xA;balance them evenly across my team. You will see how I used ChatGPT as my coding assistant&#xA;to generate this data.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Designing a feature flag system with Firebase</title>
       <link>https://blog.vramana.com/posts/feature_flags/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
       <guid>https://blog.vramana.com/posts/feature_flags/</guid>
-      <description>&lt;p&gt;Feature flags allow developers to enable and disable features without making changes to code and re-deploying the application.
-I have designed &amp;amp; developed the feature flag system at work for &lt;a href=&#34;&#34;&gt;https://web.kisi.io&lt;/a&gt;. It has been 3 years since I wrote the
-first commit, and it&amp;rsquo;s still in production.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Feature flags allow developers to enable and disable features without making changes to code and re-deploying the application.&#xA;I have designed &amp;amp; developed the feature flag system at work for &lt;a href=&#34;&#34;&gt;https://web.kisi.io&lt;/a&gt;. It has been 3 years since I wrote the&#xA;first commit, and it&amp;rsquo;s still in production.&lt;/p&gt;</description>
     </item>
     <item>
       <title>About</title>
       <link>https://blog.vramana.com/about/</link>
       <pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate>
       <guid>https://blog.vramana.com/about/</guid>
-      <description>My name is Ramana Venkata. I am currently working as a senior software engineer on both front-end and back-end. In my current job, I lead multiple full stack teams.
-My main interests are compilers, developer tools and low level graphics APIs.
-Twitter
-Github</description>
+      <description>My name is Ramana Venkata. I am currently working as a senior software engineer on both front-end and back-end. In my current job, I lead multiple full stack teams.&#xA;My main interests are compilers, developer tools and low level graphics APIs.&#xA;Twitter&#xA;Github</description>
     </item>
     <item>
       <title>Hello World Scheme</title>
@@ -73,8 +69,7 @@ Github</description>
       <link>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</link>
       <pubDate>Sat, 25 Jun 2022 00:00:00 +0000</pubDate>
       <guid>https://blog.vramana.com/posts/2022-06-25-short-anatomy-of-node-redis/</guid>
-      <description>&lt;p&gt;I am trying to write simple redis-client in rust. As part of that exercise, I have read the source code of
-Node.js Redis Client. I want to jot down some notes on how it works.&lt;/p&gt;</description>
+      <description>&lt;p&gt;I am trying to write simple redis-client in rust. As part of that exercise, I have read the source code of&#xA;Node.js Redis Client. I want to jot down some notes on how it works.&lt;/p&gt;</description>
     </item>
     <item>
       <title>My most used Terminal Commands</title>
@@ -88,16 +83,14 @@ Node.js Redis Client. I want to jot down some notes on how it works.&lt;/p&gt;</
       <link>https://blog.vramana.com/2018/09/30/rust-debugging/</link>
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
       <guid>https://blog.vramana.com/2018/09/30/rust-debugging/</guid>
-      <description>&lt;p&gt;These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them
-may be already solved problems but I don&amp;rsquo;t know the solution yet.&lt;/p&gt;</description>
+      <description>&lt;p&gt;These are some of the pain points I have felt while trying debug Rust code in GDB. Some of them&#xA;may be already solved problems but I don&amp;rsquo;t know the solution yet.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Codemods: Path to painless upgrades in Ember</title>
       <link>https://blog.vramana.com/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</link>
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
       <guid>https://blog.vramana.com/2016/01/13/codemods-path-to-painless-updgrade-in-ember/</guid>
-      <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;This is blog post is continuation to the my other blog post on &lt;a href=&#34;https://vramana.github.io/blog/2015/12/21/codemod-tutorial/&#34;&gt;How to write a codemod&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;em&gt;Note: This post assumes some knowledge of JS features from ES2015&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;This is blog post is continuation to the my other blog post on &lt;a href=&#34;https://vramana.github.io/blog/2015/12/21/codemod-tutorial/&#34;&gt;How to write a codemod&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>How to write a codemod</title>
