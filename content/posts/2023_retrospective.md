@@ -32,7 +32,7 @@ and a lot more. I want to jot down all the things that I remember as much as I c
 - I have focussed on building a great engineering culture and work environment for all
   my teammates. I recognized my passion for engineering is my biggest leverage to make
   my teammates more excited about the work they do. I feel I am seeing small results
-  from the work I put in, I hope to even better results in the future.
+  from the work I put in, I hope to see even better results in the future.
 
 ## Outside work
 
