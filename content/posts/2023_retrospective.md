@@ -73,3 +73,4 @@ I have tried to persuade a couple of my friends to write year in reviews as well
 
 - [https://duttakapil.com/posts/year-in-review-2023](https://duttakapil.com/posts/year-in-review-2023)
 - [https://ksridhar.dev/my-2023-a-year-of-challenges-and-triumphs](https://ksridhar.dev/my-2023-a-year-of-challenges-and-triumphs)
+- [https://debamitra.github.io/debs-blog/2023-year-in-review/](https://debamitra.github.io/debs-blog/2023-year-in-review/)
