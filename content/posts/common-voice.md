@@ -443,6 +443,10 @@ I was able to read and navigate through several core npm packages that underpin 
 It was instrumental in solving my problems.
 I am a little better programmer than I am yesterday.
 
+As I was solving the problems, I kept writing a [small guide](https://hackmd.io/@vramana/rksgTjsqp) to my future self and whosoever works on this project after me.
+There should be clear path for who comes after me.
+My wish is that the atomic commits I made with meaningful commit messages and this blog post will help maintain this project.
+
 It feels good.
 Now I can go and solve the problem which got excited.
 Maybe I will write another blog post about it.
