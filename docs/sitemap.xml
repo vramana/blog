@@ -2,28 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.vramana.com/tags/docker/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/javascript/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/posts/common-voice/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/nginx/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/node/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/posts/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/react/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
+    <loc>https://blog.vramana.com/tags/</loc>
+    <lastmod>2024-02-04T17:56:23+05:30</lastmod>
+  </url><url>
     <loc>https://blog.vramana.com/posts/2023_retrospective/</loc>
     <lastmod>2023-12-31T16:14:26+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/tags/personal/</loc>
     <lastmod>2023-12-31T16:14:26+05:30</lastmod>
   </url><url>
-    <loc>https://blog.vramana.com/posts/</loc>
-    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/</loc>
-    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/tags/</loc>
-    <lastmod>2023-12-31T16:14:26+05:30</lastmod>
-  </url><url>
     <loc>https://blog.vramana.com/tags/year-in-review/</loc>
     <lastmod>2023-12-31T16:14:26+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/tags/build/</loc>
-    <lastmod>2023-11-09T22:06:02+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/tags/javascript/</loc>
     <lastmod>2023-11-09T22:06:02+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/posts/barrel_files_slow_build/</loc>
@@ -86,9 +101,6 @@
     <loc>https://blog.vramana.com/tags/firebase-real-time-database/</loc>
     <lastmod>2023-08-19T15:04:36+05:30</lastmod>
   </url><url>
-    <loc>https://blog.vramana.com/tags/react/</loc>
-    <lastmod>2023-08-19T15:04:36+05:30</lastmod>
-  </url><url>
     <loc>https://blog.vramana.com/tags/system-design/</loc>
     <lastmod>2023-08-19T15:04:36+05:30</lastmod>
   </url><url>
@@ -103,9 +115,6 @@
   </url><url>
     <loc>https://blog.vramana.com/tags/scheme/</loc>
     <lastmod>2023-06-15T00:40:03+05:30</lastmod>
-  </url><url>
-    <loc>https://blog.vramana.com/tags/node/</loc>
-    <lastmod>2023-02-04T21:59:33+05:30</lastmod>
   </url><url>
     <loc>https://blog.vramana.com/tags/pm2/</loc>
     <lastmod>2023-02-04T21:59:33+05:30</lastmod>

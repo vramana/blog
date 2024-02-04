@@ -6,8 +6,43 @@
     <description>Recent content in Tags on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 Dec 2023 16:14:26 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 04 Feb 2024 17:56:23 +0530</lastBuildDate>
     <atom:link href="https://blog.vramana.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker</title>
+      <link>https://blog.vramana.com/tags/docker/</link>
+      <pubDate>Sun, 04 Feb 2024 17:56:23 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>javascript</title>
+      <link>https://blog.vramana.com/tags/javascript/</link>
+      <pubDate>Sun, 04 Feb 2024 17:56:23 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/javascript/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>nginx</title>
+      <link>https://blog.vramana.com/tags/nginx/</link>
+      <pubDate>Sun, 04 Feb 2024 17:56:23 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/nginx/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>node</title>
+      <link>https://blog.vramana.com/tags/node/</link>
+      <pubDate>Sun, 04 Feb 2024 17:56:23 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/node/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>react</title>
+      <link>https://blog.vramana.com/tags/react/</link>
+      <pubDate>Sun, 04 Feb 2024 17:56:23 +0530</pubDate>
+      <guid>https://blog.vramana.com/tags/react/</guid>
+      <description></description>
+    </item>
     <item>
       <title>personal</title>
       <link>https://blog.vramana.com/tags/personal/</link>
@@ -27,13 +62,6 @@
       <link>https://blog.vramana.com/tags/build/</link>
       <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
       <guid>https://blog.vramana.com/tags/build/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>javascript</title>
-      <link>https://blog.vramana.com/tags/javascript/</link>
-      <pubDate>Thu, 09 Nov 2023 22:06:02 +0530</pubDate>
-      <guid>https://blog.vramana.com/tags/javascript/</guid>
       <description></description>
     </item>
     <item>
@@ -149,13 +177,6 @@
       <description></description>
     </item>
     <item>
-      <title>react</title>
-      <link>https://blog.vramana.com/tags/react/</link>
-      <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      <guid>https://blog.vramana.com/tags/react/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>system design</title>
       <link>https://blog.vramana.com/tags/system-design/</link>
       <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
@@ -174,13 +195,6 @@
       <link>https://blog.vramana.com/tags/scheme/</link>
       <pubDate>Thu, 15 Jun 2023 00:40:03 +0530</pubDate>
       <guid>https://blog.vramana.com/tags/scheme/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>node</title>
-      <link>https://blog.vramana.com/tags/node/</link>
-      <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
-      <guid>https://blog.vramana.com/tags/node/</guid>
       <description></description>
     </item>
     <item>

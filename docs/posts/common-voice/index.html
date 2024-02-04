@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.121.2">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My journey self-hosting common-voice! What a wild ride! &middot; Ramana Venkata</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class=" ">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://blog.vramana.com/"><h1>Ramana Venkata</h1></a>
+      <p class="lead">
+       Senior Software Engineer with an interest in Javascript, TypeScript and Rust 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://blog.vramana.com/">Home</a> </li>
+        <li><a rel="me" href="/about/"> About </a></li><li><a rel="me" href="https://github.com/vramana"> Github </a></li><li><a rel="me" href="https://www.linkedin.com/in/vramanamath/"> LinkedIn </a></li><li><a rel="me" href="https://mastodon.social/@vramana"> Mastodon </a></li>
+      </ul>
+    </nav>
+
+    <p>&copy; 2024. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>My journey self-hosting common-voice! What a wild ride!</h1>
+  <time datetime=2024-02-04T17:56:23&#43;0530 class="post-date">Sun, Feb 4, 2024</time>
+  <p>My friend Ranjith asked me if I can help out implementing an alternate authentication system for Common Voice.
+Common Voice is a platform for collecting voice dataset for languages other than English.
+<a href="https://swecha.org">Swecha</a>, a local organization, wanted to collect voice samples for my native language Telugu through
+their own self-hosted version of Common Voice.
+They will use voice sample to train LLM models.</p>
+<p>It sounded like nice challenge and a good cause.
+So, I agreed and went down a deep rabbit hole.
+I will write down all things I encountered as I tried to self-host this application.</p>
+<h2 id="problem">Problem</h2>
+<p>Common Voice uses Auth0 as it&rsquo;s authentication platform.
+Auth0 has a limit for number of free users.
+The expected users of the self-hosted instance to be at least 3x the provided free limit.</p>
+<p>My friend asked if I can look into any authentication system like LDAP or <a href="https://www.keycloak.org/">Keycloak</a>.
+My first reaction was like <em>What? Why?</em>
+Why do you need any authentication platform when you have a bunch of platforms that already support OAuth?
+I told him I will see if I can integrate the application with either their self-hosted GitLab or Mattermost instance.</p>
+<p>I browsed through common-voice repository to take a look at how hard it would be change authentication platform.
+It&rsquo;s an express server with passport.js handling the authentication strategy.
+This is a pretty good sign since if I find GitLab passport strategy changing and testing it would be pretty straight forward.
+After a few minutes of googling and reading through passport.js website, I landed on passport-gitlab2.</p>
+<p>Perfect! It&rsquo;s a solvable problem without much effort.</p>
+<h2 id="dx-hell">DX Hell</h2>
+<p>There is a docker-compose.yaml file in the repository.
+Good sign, I can hit <code>docker compose up</code> and focus on solving the problem.
+<em>Nope, not so fast</em>.
+Running <code>docker-compose up</code> fails.
+The mysql docker image version used by the project doesn&rsquo;t have ARM64 image for macOS.
+I read through their documentation for development it suggests using compatible mariadb version.</p>
+<p>Now I have the application running locally.
+How do I make the changes and see them?</p>
+<p>I don&rsquo;t use either docker or docker compose for development regularly, but I have bits and pieces of knowledge.
+Long way of saying I am docker noob.
+I have experience with use VS Code DevContainers.
+Nothing of that sort is configured for this project.</p>
+<p>I thought I would use VS Code to develop from within the container environment.
+<em>Nope!</em> You can&rsquo;t login into this container permission denied!
+I tried to open a bash shell in the same container by using <code>docker exec</code>.
+It&rsquo;s the same result again.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Prepare for nonroot user</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> groupadd -g <span style="color:#79c0ff">$GID</span> app; <span style="color:#79c0ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#79c0ff"></span>    useradd -g <span style="color:#79c0ff">$GID</span> -u <span style="color:#79c0ff">$UID</span> -m -d /code -s /usr/sbin/nologin app<span style="color:#f85149">
+</span></span></span></code></pre></div><p>I found these suspicious lines.
+Okay! <strong>Deep breath!</strong>
+All I want to do is make some changes and see how they work.
+The documentation is scarce.</p>
+<p>Do I have <code>docker compose up</code> and <code>docker compose down</code> every time I make change?
+It takes like 4 minutes to build the containers from scratch.
+<strong>My heart screamed in agony</strong>.
+There must be a better way.</p>
+<p>I remembered that volumes in docker allows share files between host and container.
+I tried to understand how the build commands are configured in <code>package.json</code>.
+They are configured with watch mode for <code>tsc</code> and <code>webpack</code>.</p>
+<p>May be, just may be, I can make change in my editor locally and changes are reflected automatically.
+Yep! I can confirm it by checking logs in docker compose.</p>
+<p>All of this is my inexperience working with docker &amp; docker-compose.
+Nothing to do with project.
+But on the bright side, I will not run into these problems again.</p>
+<p>Adding GitLab as the authentication provider was pretty easy after that.</p>
+<ul>
+<li>Install the relevant package <code>passport-gitlab2</code></li>
+<li>Comment out the Auth0 passport strategy lines</li>
+<li>Copy sample code from <code>passport-gitlab2</code></li>
+<li>Add a few environment variables</li>
+<li>Copy the configuration for a sample OAuth application and place them in .env file</li>
+</ul>
+<p>That&rsquo;s it! I am able to log in to the application with GitLab.</p>
+<h2 id="a-bigger-and-interesting-challenge">A bigger and interesting challenge</h2>
+<p>Once I informed my friend that I have successfully completed the task.
+He was super happy and told me that he will assign someone else to look into scaling issues with the app.
+Apparently the app crashes if 50 users are using it concurrently.</p>
+<p><strong>Scaling issues</strong>, that sounded like music to my ears.
+I don&rsquo;t encounter much scaling issues in my day job.
+I want a piece of that action.
+Performance optimization is topic close to my heart.</p>
+<p>I asked him if I can help him on the issue, he said sure.</p>
+<p>He shared me access to AWS EC2 instance where they have already hosted the application.
+They configured domain and all the other stuff too.
+Since I have my GitLab patch ready, I thought I would tweak the application a little and get to the problem.</p>
+<p><strong>Wrong!</strong></p>
+<p>I am tried to log in to the application and nothing worked.
+More issues to the fact that I did not understand how docker &amp; docker-compose works.
+Some of the issues are with the configuration setup by the engineer who set it up.
+There were already some changes made to the code at the time of self-hosting.
+None of them are documented properly.</p>
+<p>I don&rsquo;t have the energy to write all the issues I encountered.
+I wasted an entire afternoon trying to make things work but nothing worked.</p>
+<p>So, that brings me to this weekend where I tried to solve all the problems I encountered step by step.</p>
+<h2 id="self-hosting-adventure">Self-hosting Adventure</h2>
+<p>This is my XY problem now.
+I want to solve performance issue, but I am stuck with solving self-hosting issue.
+Now let&rsquo;s dive into the title of blog post. <em>Haha, haha</em></p>
+<blockquote>
+<p>Yes, After 900+ words I am writing about the title of this blog post.</p>
+</blockquote>
+<p>I have put some music and started working the problem.</p>
+<p>I rebased my patch on the latest commit of the main branch.
+<code>git reset --hard</code> the repo on the EC2 instance.
+I did <code>docker compose up</code>.</p>
+<p>Before I go any further, we are going to take a little detour.</p>
+<p>I needed to improve the EC2 instance shell.
+I am running a small subset of commands repeatedly, and I don&rsquo;t want to type them again and again.
+<a href="https://atuin.sh/">atuin</a> is literally magical at improving this experience.
+I have installed it and configured it in <code>.bashrc</code>. Imported all the history by running <code>atuin import auto</code>.</p>
+<p><em>Problem solved? Nope</em>
+<code>atuin</code> doesn&rsquo;t save my commands into its history.
+<code>bash</code> seems to hijack the history.
+I tried reading relevant github issues where other people complained about the same issue and experiment with <code>.bashrc</code> a little.
+I just could not solve it.</p>
+<p>Chuck it. I am going to install <code>zsh</code> and call it day.
+It worked on the first try.
+The default prompt was a bit too ugly for me.
+So, I also added <a href="https://starship.rs/">Starship</a> for a good-looking terminal prompt.
+Now back to the main story.</p>
+<h3 id="oh-no-docker-not-you-again">Oh no, Docker, not you again!</h3>
+<p>I did all my development on my MacBook Air.
+<code>docker compose up</code> ran fine.
+When I ran the same command on EC2 Ubuntu instance, the containers were built but refused to start.
+The problem was incorrect permissions for node_modules when <code>npm</code> was running a command.
+Permission denied.
+Remember the few lines I mentioned above, they strike again.</p>
+<p>I stripped all the permission related stuff from Dockerfiles and started one container at a time.
+Everything works!</p>
+<p>I noticed something werd that&rsquo;s causing huge build times.</p>
+<p><code>bundler/Dockerfile</code> contains the following lines</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Install dependencies</span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> npm ci<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">COPY</span> --chown<span style="color:#ff7b72;font-weight:bold">=</span>node ./ ./<span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149">
+</span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> npm run build<span style="color:#f85149">
+</span></span></span></code></pre></div><p><code>docker-compose.yml</code> contains the following lines</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#7ee787">bundler</span>:<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">build</span>:<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#7ee787">context</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">./bundler</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#7ee787">dockerfile</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">Dockerfile</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">container_name</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">bundler</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">links</span>:<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#a5d6ff">db</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#a5d6ff">redis</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#a5d6ff">storage</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">volumes</span>:<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#a5d6ff">./bundler:/home/node/code</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">networks</span>:<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#a5d6ff">voice-web</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">ports</span>:<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>- <span style="color:#a5d6ff">9001</span>:<span style="color:#a5d6ff">9001</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">  </span><span style="color:#7ee787">command</span>:<span style="color:#6e7681"> </span><span style="color:#a5d6ff">bash -c &#34;npm ci &amp;&amp; npm run build &amp;&amp; npm start&#34;</span><span style="color:#6e7681">
+</span></span></span></code></pre></div><p>Why are <code>npm ci</code> &amp; <code>npm run build</code> included multiples times?
+Installing all the dependencies and copying them Docker build context.
+Also, mounting a volume on the same path.
+Maybe it&rsquo;s for the ease of contributors who like me are poor at docker.
+Always create an up-to date environment by doing them everywhere.
+I just don&rsquo;t understand this madness.</p>
+<p>I wrote a separate docker-compose file, mostly mirroring the original removing this mad/rad strategy.
+Now I had faster builds.</p>
+<h3 id="content-security-policy">Content-Security-Policy</h3>
+<p>When I run the application in production mode, the application shows a black screen in the browser.
+Reason? CSP is not configured correctly.
+A bunch hard-coded SHA sums are added for script tags sent in the index.html.
+The easiest solution to this problem for now is change the header to <code>Content-Security-Policy-Report-Only</code>.</p>
+<p>I am not shipping this production. So it&rsquo;s okay. No harm done yet!
+Why the hell SHA sums are hard coded into the source code?
+Well, I did the same thing in an app I maintain.
+It&rsquo;s the path of least work.
+I sympathize with who ever did this.
+It must have been revolting to do this, but it had to be done.</p>
+<p>I can open the web application in browser.
+I tried to log in to the application, and it doesn&rsquo;t work again.
+<em>Sigh!</em></p>
+<h3 id="hack-it-till-it-works">Hack it, till it works!</h3>
+<p>I switched to development mode, and this time I can log in to the application.
+<em>Phew!</em> I can save my profile and browse the application in signed in state.</p>
+<p>Just one problem, I can&rsquo;t add my native language to list of languages I want to contribute.
+Only Indonesian was available for some reason.
+Till now, I haven&rsquo;t read anything specific relevant to actual application.</p>
+<p>I inspect the requests in DevTools Network panel and I find the relevant request.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;id&#34;</span>: <span style="color:#a5d6ff">172</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;name&#34;</span>: <span style="color:#a5d6ff">&#34;te&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;target_sentence_count&#34;</span>: <span style="color:#a5d6ff">5000</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;native_name&#34;</span>: <span style="color:#a5d6ff">&#34;తెలుగు&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;is_contributable&#34;</span>: <span style="color:#a5d6ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;is_translated&#34;</span>: <span style="color:#a5d6ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;text_direction&#34;</span>: <span style="color:#a5d6ff">&#34;LTR&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now I grep (rg) my way in the code base and to find the relevant file using <code>is_contributable</code>.
+<code>server/src/lib/model/db/import-locales.ts</code> is what I was looking for.</p>
+<p>After spending some time to understanding it, I understood that 5000 short sentences in Telugu.
+But I don&rsquo;t have them at had.
+The repository thankfully has 250+ sentences.</p>
+<p>Instead of relying upon any code changes, I can hack the database and change the relevant columns.
+I changed <code>is_contributable</code> to 1 and <code>target_sentence_count</code> to 200.
+I went to profile page and checked again.
+<em>Nope!</em> Telugu still doesn&rsquo;t appear as a contributable language.</p>
+<p>There is another additional check, there has to 200 sentences (with the updated limit) in the sentences table.
+There is not much documentation on how to import sentences into the documentation.
+Nothing in GitHub issues as well.
+I found a <a href="https://github.com/vramana/common-voice/blob/gitlab/server/src/lib/model/db/import-sentences.ts">file</a> that can import sentences into the database.
+But strangely, this file is not used anywhere in the project.</p>
+<p>It exports a single function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">export</span> <span style="color:#ff7b72">async</span> <span style="color:#ff7b72">function</span> importSentences(pool<span style="color:#ff7b72;font-weight:bold">:</span> any) {
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>}
+</span></span></code></pre></div><p>All it needs is a database pool instance. No problemo.
+I added the following lines.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>getMySQLInstance()
+</span></span><span style="display:flex;"><span>  .getPool()
+</span></span><span style="display:flex;"><span>  .then(importSentences)
+</span></span><span style="display:flex;"><span>  .then(() =&gt; getMySQLInstance().endConnection());
+</span></span></code></pre></div><p>It started to import a bazillion locales.
+The repository has huge corpus of text.
+I don&rsquo;t have time for all of that, so I sneaked in the following <a href="https://github.com/vramana/common-voice/blob/gitlab/server/src/lib/model/db/import-sentences.ts#L158">line</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>    .filter(name =&gt; name <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#39;te&#39;</span>)
+</span></span></code></pre></div><p>Only import Telugu sentences and it was quick.
+Telugu now shows up as a contributable language. Hooray!!</p>
+<h3 id="production-hell">Production Hell</h3>
+<p>Now it&rsquo;s time to face my nightmare again.
+Production environment of application doesn&rsquo;t send the session cookie upon login success.
+But why? Why is production broken in such a bizzare manner?
+Do you have any guesses?</p>
+<p>I, metaphorically, rolled up my sleeves and started reading the source of <code>passpost-gitlab2</code>.
+Maybe it has a bug, I don&rsquo;t know.
+I searched for the code which was setting the cookie.</p>
+<p>There is nothing here, so I move one layer down <code>passport-oauth2</code>.
+There is nothing here as well, so I move one layer down <code>passport</code>.
+There is nothing here as well, so I move one layer down <code>express-session</code>.</p>
+<p>There is a lot of code and I found out where session cookie is being set from.
+I still don&rsquo;t have any idea why is it not working.
+Luckily for me there a lot of <a href="https://npm.im/debug">debug</a> logs spread throughout the code.</p>
+<blockquote>
+<p>Thank you TJ for debug! And for all your early work in Node.js. I am still amazed by how your early is pervasive.</p>
+</blockquote>
+<p>I have added <code>DEBUG=express-session</code> and I see logs of <code>not secured</code>.
+Bam! We have suspect.
+It&rsquo;s a short function you can read it to guess what might be the problem.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#ff7b72">function</span> issecure(req, trustProxy) {
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// socket is https server
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  <span style="color:#ff7b72">if</span> (req.connection <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> req.connection.encrypted) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> <span style="color:#79c0ff">true</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// do not trust proxy
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  <span style="color:#ff7b72">if</span> (trustProxy <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#79c0ff">false</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> <span style="color:#79c0ff">false</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// no explicit trust; try req.secure from express
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  <span style="color:#ff7b72">if</span> (trustProxy <span style="color:#ff7b72;font-weight:bold">!==</span> <span style="color:#79c0ff">true</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> req.secure <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#79c0ff">true</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// read the proto from x-forwarded-proto header
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  <span style="color:#ff7b72">var</span> header <span style="color:#ff7b72;font-weight:bold">=</span> req.headers[<span style="color:#a5d6ff">&#34;x-forwarded-proto&#34;</span>] <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#a5d6ff">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">var</span> index <span style="color:#ff7b72;font-weight:bold">=</span> header.indexOf(<span style="color:#a5d6ff">&#34;,&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">var</span> proto <span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    index <span style="color:#ff7b72;font-weight:bold">!==</span> <span style="color:#ff7b72;font-weight:bold">-</span><span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72;font-weight:bold">?</span> header.substr(<span style="color:#a5d6ff">0</span>, index).toLowerCase().trim()
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72;font-weight:bold">:</span> header.toLowerCase().trim();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">return</span> proto <span style="color:#ff7b72;font-weight:bold">===</span> <span style="color:#a5d6ff">&#34;https&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We are running a HTTP express server in docker container and using NGINX as reverse proxy.
+NGINX handle HTTPS connections and our server handles an unencrypted connection.
+This is totally fine.
+But our server is expecting <code>x-forwarded-proto</code> header when the request gets forwarded.</p>
+<p>A quick ChatGPT conversation later, I fixed the NGINX configuration.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#ff7b72">proxy_set_header</span> <span style="color:#a5d6ff">X-Forwarded-Proto</span> <span style="color:#79c0ff">$scheme</span>;
+</span></span></code></pre></div><p>I am able to log in to the application in production environment.
+Wow! I am not crying, I am just happy.
+Navigating around the application seems to work fine.</p>
+<h3 id="levels-final-boss">Level&rsquo;s final boss</h3>
+<p>I tried to upload a voice clip, and it doesn&rsquo;t work.
+There is 400 error in Network Panel for the POST <code>/clip</code> request.
+The network panel doesn&rsquo;t show any response.</p>
+<p><a href="https://www.youtube.com/watch?v=-1qju6V1jLM">Ah! Shit! Here we go again</a></p>
+<p>I tried to copy the request, and run it cURL to see what is the response.
+There is an error message but since I want to debug it, I just wrote bunch of <a href="https://npm.im/debug">debug</a> logs. 😁
+It was handy before so why not!</p>
+<p>This was the problematic piece of code, and it was doing an early here.
+Can you guess what is the problem here?</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>  saveClip <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">async</span> (request<span style="color:#ff7b72;font-weight:bold">:</span> Request, response<span style="color:#ff7b72;font-weight:bold">:</span> Response) =&gt; {
+</span></span><span style="display:flex;"><span>    debug(<span style="color:#a5d6ff">&#39;saveClip request started&#39;</span>, request.headers);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { client_id, headers } <span style="color:#ff7b72;font-weight:bold">=</span> request;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> sentenceId <span style="color:#ff7b72;font-weight:bold">=</span> headers.sentence_id as string;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> source <span style="color:#ff7b72;font-weight:bold">=</span> headers.source <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#a5d6ff">&#39;unidentified&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> format <span style="color:#ff7b72;font-weight:bold">=</span> headers[<span style="color:#a5d6ff">&#39;content-type&#39;</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> size <span style="color:#ff7b72;font-weight:bold">=</span> headers[<span style="color:#a5d6ff">&#39;content-length&#39;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72;font-weight:bold">!</span>sentenceId <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72;font-weight:bold">!</span>client_id) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.clipSaveError(
+</span></span><span style="display:flex;"><span>        headers,
+</span></span><span style="display:flex;"><span>        response,
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">400</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">`missing parameter: </span><span style="color:#a5d6ff">${</span>sentenceId <span style="color:#ff7b72;font-weight:bold">?</span> <span style="color:#a5d6ff">&#39;client_id&#39;</span> <span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;sentence_id&#39;</span><span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">`</span>,
+</span></span><span style="display:flex;"><span>        ERRORS.MISSING_PARAM,
+</span></span><span style="display:flex;"><span>        <span style="color:#a5d6ff">&#39;clip&#39;</span>
+</span></span><span style="display:flex;"><span>      );
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>The error I saw in the logs was <code>sentence_id</code> parameter is missing.
+I did a few extra round trips to front-end code base before it hit me.
+<code>sentence_id</code> header is being dropped.
+You already know who the culprit is, NGINX.</p>
+<p>By default, NGINX drops any headers with underscores.
+After a small configuration change, everything works well!</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span>    <span style="color:#ff7b72">underscores_in_headers</span> <span style="color:#79c0ff;font-weight:bold">on</span>;
+</span></span></code></pre></div><p>I can now upload clips to the self-hosted instance of common-voice.</p>
+<p>Actually, I cursed a lot at this point. Why? When we have <code>multipart/form-data</code> available or query parameters, why use headers to transmit information?
+I thought it might be better to transmit all custom headers with <code>x-</code> prefix.
+I searched to find any supporting documents.
+I found a <a href="https://stackoverflow.com/a/3561399/1117168">StackOverflow answer</a> which stated that all headers are allowed now.
+IETF deprecated the suggestion to prefix custom headers with <code>x-</code>.
+Read the SO answer for more details.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>What was I able to achieve over this weekend beyond obvious stuff?
+I have demonstrated the expertise to myself to go up and down the stack seamlessly.
+I was able to read and navigate through several core npm packages that underpin the Node.js ecosystem.
+It was instrumental in solving my problems.
+I am a little better programmer than I am yesterday.</p>
+<p>It feels good.
+Now I can go and solve the problem which got excited.
+Maybe I will write another blog post about it.</p>
+</div>
+
+
+    </main>
+    <script defer data-domain="blog.vramana.com" src="https://plausible.vramana.com/js/script.js"></script>
+  </body>
+</html>

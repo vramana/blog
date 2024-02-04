@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>react on Ramana Venkata</title>
-    <link>https://blog.vramana.com/tags/react/</link>
-    <description>Recent content in react on Ramana Venkata</description>
+    <title>docker on Ramana Venkata</title>
+    <link>https://blog.vramana.com/tags/docker/</link>
+    <description>Recent content in docker on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 04 Feb 2024 17:56:23 +0530</lastBuildDate>
-    <atom:link href="https://blog.vramana.com/tags/react/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.vramana.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My journey self-hosting common-voice! What a wild ride!</title>
       <link>https://blog.vramana.com/posts/common-voice/</link>
       <pubDate>Sun, 04 Feb 2024 17:56:23 +0530</pubDate>
       <guid>https://blog.vramana.com/posts/common-voice/</guid>
       <description>&lt;p&gt;My friend Ranjith asked me if I can help out implementing an alternate authentication system for Common Voice.&#xA;Common Voice is a platform for collecting voice dataset for languages other than English.&#xA;&lt;a href=&#34;https://swecha.org&#34;&gt;Swecha&lt;/a&gt;, a local organization, wanted to collect voice samples for my native language Telugu through&#xA;their own self-hosted version of Common Voice.&#xA;They will use voice sample to train LLM models.&lt;/p&gt;&#xA;&lt;p&gt;It sounded like nice challenge and a good cause.&#xA;So, I agreed and went down a deep rabbit hole.&#xA;I will write down all things I encountered as I tried to self-host this application.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Designing a feature flag system with Firebase</title>
-      <link>https://blog.vramana.com/posts/feature_flags/</link>
-      <pubDate>Sat, 19 Aug 2023 15:04:36 +0530</pubDate>
-      <guid>https://blog.vramana.com/posts/feature_flags/</guid>
-      <description>&lt;p&gt;Feature flags allow developers to enable and disable features without making changes to code and re-deploying the application.&#xA;I have designed &amp;amp; developed the feature flag system at work for &lt;a href=&#34;&#34;&gt;https://web.kisi.io&lt;/a&gt;. It has been 3 years since I wrote the&#xA;first commit, and it&amp;rsquo;s still in production.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
