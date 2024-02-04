@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>My journey self-hosting common-voice! What a wild ride! &middot; Ramana Venkata</title>
+  <title>My journey self-hosting common-voice - What a wild ride! &middot; Ramana Venkata</title>
 
   
   <link type="text/css" rel="stylesheet" href="https://blog.vramana.com/css/print.css" media="print">
@@ -49,23 +49,23 @@
 
     <main class="content container">
     <div class="post">
-  <h1>My journey self-hosting common-voice! What a wild ride!</h1>
+  <h1>My journey self-hosting common-voice - What a wild ride!</h1>
   <time datetime=2024-02-04T17:56:23&#43;0530 class="post-date">Sun, Feb 4, 2024</time>
   <p>My friend Ranjith asked me if I can help out implementing an alternate authentication system for Common Voice.
 Common Voice is a platform for collecting voice dataset for languages other than English.
 <a href="https://swecha.org">Swecha</a>, a local organization, wanted to collect voice samples for my native language Telugu through
 their own self-hosted version of Common Voice.
-They will use voice sample to train LLM models.</p>
+They will use voice samples to train LLM models.</p>
 <p>It sounded like nice challenge and a good cause.
 So, I agreed and went down a deep rabbit hole.
 I will write down all things I encountered as I tried to self-host this application.</p>
 <h2 id="problem">Problem</h2>
-<p>Common Voice uses Auth0 as it&rsquo;s authentication platform.
+<p>Common Voice uses Auth0 as it&rsquo;s authentication provider.
 Auth0 has a limit for number of free users.
 The expected users of the self-hosted instance to be at least 3x the provided free limit.</p>
 <p>My friend asked if I can look into any authentication system like LDAP or <a href="https://www.keycloak.org/">Keycloak</a>.
 My first reaction was like <em>What? Why?</em>
-Why do you need any authentication platform when you have a bunch of platforms that already support OAuth?
+Why do you need another authentication provider when you have a bunch of platforms that already support OAuth?
 I told him I will see if I can integrate the application with either their self-hosted GitLab or Mattermost instance.</p>
 <p>I browsed through common-voice repository to take a look at how hard it would be change authentication platform.
 It&rsquo;s an express server with passport.js handling the authentication strategy.
@@ -77,16 +77,16 @@ After a few minutes of googling and reading through passport.js website, I lande
 Good sign, I can hit <code>docker compose up</code> and focus on solving the problem.
 <em>Nope, not so fast</em>.
 Running <code>docker-compose up</code> fails.
-The mysql docker image version used by the project doesn&rsquo;t have ARM64 image for macOS.
-I read through their documentation for development it suggests using compatible mariadb version.</p>
+The MySQL docker image version used by the project doesn&rsquo;t have ARM64 image for macOS.
+I read through their documentation for development it suggests using compatible MariaDB version.</p>
 <p>Now I have the application running locally.
 How do I make the changes and see them?</p>
 <p>I don&rsquo;t use either docker or docker compose for development regularly, but I have bits and pieces of knowledge.
 Long way of saying I am docker noob.
-I have experience with use VS Code DevContainers.
+I used VS Code DevContainers for development, but it was already preconfigured for me.
 Nothing of that sort is configured for this project.</p>
 <p>I thought I would use VS Code to develop from within the container environment.
-<em>Nope!</em> You can&rsquo;t login into this container permission denied!
+<em>Nope!</em> You can&rsquo;t log in into this container permission denied!
 I tried to open a bash shell in the same container by using <code>docker exec</code>.
 It&rsquo;s the same result again.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Prepare for nonroot user</span><span style="color:#f85149">
@@ -96,7 +96,7 @@ It&rsquo;s the same result again.</p>
 Okay! <strong>Deep breath!</strong>
 All I want to do is make some changes and see how they work.
 The documentation is scarce.</p>
-<p>Do I have <code>docker compose up</code> and <code>docker compose down</code> every time I make change?
+<p>Do I have to do <code>docker compose up</code> and <code>docker compose down</code> every time I make change?
 It takes like 4 minutes to build the containers from scratch.
 <strong>My heart screamed in agony</strong>.
 There must be a better way.</p>
@@ -173,7 +173,7 @@ Permission denied.
 Remember the few lines I mentioned above, they strike again.</p>
 <p>I stripped all the permission related stuff from Dockerfiles and started one container at a time.
 Everything works!</p>
-<p>I noticed something werd that&rsquo;s causing huge build times.</p>
+<p>I noticed something weird that&rsquo;s causing huge build times.</p>
 <p><code>bundler/Dockerfile</code> contains the following lines</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Install dependencies</span><span style="color:#f85149">
 </span></span></span><span style="display:flex;"><span><span style="color:#f85149"></span><span style="color:#ff7b72">RUN</span> npm ci<span style="color:#f85149">
@@ -201,8 +201,8 @@ Everything works!</p>
 </span></span></span></code></pre></div><p>Why are <code>npm ci</code> &amp; <code>npm run build</code> included multiples times?
 Installing all the dependencies and copying them Docker build context.
 Also, mounting a volume on the same path.
-Maybe it&rsquo;s for the ease of contributors who like me are poor at docker.
-Always create an up-to date environment by doing them everywhere.
+Maybe it&rsquo;s for the ease of contributors who, like me, are poor at docker.
+Always create an up-to date environment by running these commands everywhere.
 I just don&rsquo;t understand this madness.</p>
 <p>I wrote a separate docker-compose file, mostly mirroring the original removing this mad/rad strategy.
 Now I had faster builds.</p>
@@ -281,7 +281,7 @@ There is nothing here as well, so I move one layer down <code>express-session</c
 I still don&rsquo;t have any idea why is it not working.
 Luckily for me there a lot of <a href="https://npm.im/debug">debug</a> logs spread throughout the code.</p>
 <blockquote>
-<p>Thank you TJ for debug! And for all your early work in Node.js. I am still amazed by how your early is pervasive.</p>
+<p>Thank you TJ for debug! And for all your early work in Node.js. I am still amazed by how pervasive your work is.</p>
 </blockquote>
 <p>I have added <code>DEBUG=express-session</code> and I see logs of <code>not secured</code>.
 Bam! We have suspect.
@@ -329,7 +329,7 @@ The network panel doesn&rsquo;t show any response.</p>
 <p>I tried to copy the request, and run it cURL to see what is the response.
 There is an error message but since I want to debug it, I just wrote bunch of <a href="https://npm.im/debug">debug</a> logs. 😁
 It was handy before so why not!</p>
-<p>This was the problematic piece of code, and it was doing an early here.
+<p>This was the problematic piece of code, and it was doing an early return here.
 Can you guess what is the problem here?</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>  saveClip <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">async</span> (request<span style="color:#ff7b72;font-weight:bold">:</span> Request, response<span style="color:#ff7b72;font-weight:bold">:</span> Response) =&gt; {
 </span></span><span style="display:flex;"><span>    debug(<span style="color:#a5d6ff">&#39;saveClip request started&#39;</span>, request.headers);
@@ -367,7 +367,7 @@ Read the SO answer for more details.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>What was I able to achieve over this weekend beyond obvious stuff?
 I have demonstrated the expertise to myself to go up and down the stack seamlessly.
-I was able to read and navigate through several core npm packages that underpin the Node.js ecosystem.
+I was able to read, grep and navigate through several core npm packages that underpin the Node.js ecosystem.
 It was instrumental in solving my problems.
 I am a little better programmer than I am yesterday.</p>
 <p>As I was solving the problems, I kept writing a <a href="https://hackmd.io/@vramana/rksgTjsqp">small guide</a> to my future self and whosoever works on this project after me.

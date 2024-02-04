@@ -1,5 +1,5 @@
 +++
-title = "My journey self-hosting common-voice! What a wild ride!"
+title = "My journey self-hosting common-voice - What a wild ride!"
 date = 2024-02-04T17:56:23+05:30
 tags = [
     "docker",
@@ -16,7 +16,7 @@ My friend Ranjith asked me if I can help out implementing an alternate authentic
 Common Voice is a platform for collecting voice dataset for languages other than English.
 [Swecha](https://swecha.org), a local organization, wanted to collect voice samples for my native language Telugu through
 their own self-hosted version of Common Voice.
-They will use voice sample to train LLM models.
+They will use voice samples to train LLM models.
 
 It sounded like nice challenge and a good cause.
 So, I agreed and went down a deep rabbit hole.
@@ -26,13 +26,13 @@ I will write down all things I encountered as I tried to self-host this applicat
 
 ## Problem
 
-Common Voice uses Auth0 as it's authentication platform.
+Common Voice uses Auth0 as it's authentication provider.
 Auth0 has a limit for number of free users.
 The expected users of the self-hosted instance to be at least 3x the provided free limit.
 
 My friend asked if I can look into any authentication system like LDAP or [Keycloak](https://www.keycloak.org/).
 My first reaction was like _What? Why?_
-Why do you need any authentication platform when you have a bunch of platforms that already support OAuth?
+Why do you need another authentication provider when you have a bunch of platforms that already support OAuth?
 I told him I will see if I can integrate the application with either their self-hosted GitLab or Mattermost instance.
 
 I browsed through common-voice repository to take a look at how hard it would be change authentication platform.
@@ -48,19 +48,19 @@ There is a docker-compose.yaml file in the repository.
 Good sign, I can hit `docker compose up` and focus on solving the problem.
 _Nope, not so fast_.
 Running `docker-compose up` fails.
-The mysql docker image version used by the project doesn't have ARM64 image for macOS.
-I read through their documentation for development it suggests using compatible mariadb version.
+The MySQL docker image version used by the project doesn't have ARM64 image for macOS.
+I read through their documentation for development it suggests using compatible MariaDB version.
 
 Now I have the application running locally.
 How do I make the changes and see them?
 
 I don't use either docker or docker compose for development regularly, but I have bits and pieces of knowledge.
 Long way of saying I am docker noob.
-I have experience with use VS Code DevContainers.
+I used VS Code DevContainers for development, but it was already preconfigured for me.
 Nothing of that sort is configured for this project.
 
 I thought I would use VS Code to develop from within the container environment.
-_Nope!_ You can't login into this container permission denied!
+_Nope!_ You can't log in into this container permission denied!
 I tried to open a bash shell in the same container by using `docker exec`.
 It's the same result again.
 
@@ -75,7 +75,7 @@ Okay! **Deep breath!**
 All I want to do is make some changes and see how they work.
 The documentation is scarce.
 
-Do I have `docker compose up` and `docker compose down` every time I make change?
+Do I have to do `docker compose up` and `docker compose down` every time I make change?
 It takes like 4 minutes to build the containers from scratch.
 **My heart screamed in agony**.
 There must be a better way.
@@ -176,7 +176,7 @@ Remember the few lines I mentioned above, they strike again.
 I stripped all the permission related stuff from Dockerfiles and started one container at a time.
 Everything works!
 
-I noticed something werd that's causing huge build times.
+I noticed something weird that's causing huge build times.
 
 `bundler/Dockerfile` contains the following lines
 
@@ -213,8 +213,8 @@ bundler:
 Why are `npm ci` & `npm run build` included multiples times?
 Installing all the dependencies and copying them Docker build context.
 Also, mounting a volume on the same path.
-Maybe it's for the ease of contributors who like me are poor at docker.
-Always create an up-to date environment by doing them everywhere.
+Maybe it's for the ease of contributors who, like me, are poor at docker.
+Always create an up-to date environment by running these commands everywhere.
 I just don't understand this madness.
 
 I wrote a separate docker-compose file, mostly mirroring the original removing this mad/rad strategy.
@@ -327,7 +327,7 @@ There is a lot of code and I found out where session cookie is being set from.
 I still don't have any idea why is it not working.
 Luckily for me there a lot of [debug](https://npm.im/debug) logs spread throughout the code.
 
-> Thank you TJ for debug! And for all your early work in Node.js. I am still amazed by how your early is pervasive.
+> Thank you TJ for debug! And for all your early work in Node.js. I am still amazed by how pervasive your work is.
 
 I have added `DEBUG=express-session` and I see logs of `not secured`.
 Bam! We have suspect.
@@ -389,7 +389,7 @@ I tried to copy the request, and run it cURL to see what is the response.
 There is an error message but since I want to debug it, I just wrote bunch of [debug](https://npm.im/debug) logs. 😁
 It was handy before so why not!
 
-This was the problematic piece of code, and it was doing an early here.
+This was the problematic piece of code, and it was doing an early return here.
 Can you guess what is the problem here?
 
 ```js
@@ -439,7 +439,7 @@ Read the SO answer for more details.
 
 What was I able to achieve over this weekend beyond obvious stuff?
 I have demonstrated the expertise to myself to go up and down the stack seamlessly.
-I was able to read and navigate through several core npm packages that underpin the Node.js ecosystem.
+I was able to read, grep and navigate through several core npm packages that underpin the Node.js ecosystem.
 It was instrumental in solving my problems.
 I am a little better programmer than I am yesterday.
 
