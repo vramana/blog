@@ -14,11 +14,10 @@ layout = "post"
 
 My friend Ranjith asked me if I can help out implementing an alternate authentication system for Common Voice.
 Common Voice is a platform for collecting voice dataset for languages other than English.
-[Swecha](https://swecha.org), a local organization, wanted to collect voice samples for my native language Telugu through
-their own self-hosted version of Common Voice.
-They will use voice samples to train LLM models.
+[Swecha](https://swecha.org), a local organization, wanted to collect voice samples for my native language Telugu through their own self-hosted version of Common Voice.
+They will use these voice samples to train LLM models.
 
-It sounded like nice challenge and a good cause.
+It sounded like a nice challenge and a good cause.
 So, I agreed and went down a deep rabbit hole.
 I will write down all things I encountered as I tried to self-host this application.
 
@@ -28,16 +27,17 @@ I will write down all things I encountered as I tried to self-host this applicat
 
 Common Voice uses Auth0 as it's authentication provider.
 Auth0 has a limit for number of free users.
-The expected users of the self-hosted instance to be at least 3x the provided free limit.
+The anticipated number of users for the self-hosted instance is expected to be at least three times higher than the free limit (10k) provided.
 
 My friend asked if I can look into any authentication system like LDAP or [Keycloak](https://www.keycloak.org/).
 My first reaction was like _What? Why?_
-Why do you need another authentication provider when you have a bunch of platforms that already support OAuth?
+Why do you need another authentication provider when you have a bunch of platforms that already can act as authentication provider using OAuth 2.0 protocol?
 I told him I will see if I can integrate the application with either their self-hosted GitLab or Mattermost instance.
 
-I browsed through common-voice repository to take a look at how hard it would be change authentication platform.
+I browsed through common-voice repository to take a look at how hard it would be change authentication provider.
 It's an express server with passport.js handling the authentication strategy.
-This is a pretty good sign since if I find GitLab passport strategy changing and testing it would be pretty straight forward.
+This is a pretty good sign.
+If I find GitLab passport strategy, changing and testing it would be pretty straight forward.
 After a few minutes of googling and reading through passport.js website, I landed on passport-gitlab2.
 
 Perfect! It's a solvable problem without much effort.
@@ -139,7 +139,7 @@ Now let's dive into the title of blog post. _Haha, haha_
 
 > Yes, After 900+ words I am writing about the title of this blog post.
 
-I have put some music and started working the problem.
+I have put some music on and started working the problem.
 
 I rebased my patch on the latest commit of the main branch.
 `git reset --hard` the repo on the EC2 instance.
@@ -222,7 +222,7 @@ Now I had faster builds.
 
 ### Content-Security-Policy
 
-When I run the application in production mode, the application shows a black screen in the browser.
+When I run the application in production mode, the application shows a white screen in the browser.
 Reason? CSP is not configured correctly.
 A bunch hard-coded SHA sums are added for script tags sent in the index.html.
 The easiest solution to this problem for now is change the header to `Content-Security-Policy-Report-Only`.
@@ -273,7 +273,7 @@ I changed `is_contributable` to 1 and `target_sentence_count` to 200.
 I went to profile page and checked again.
 _Nope!_ Telugu still doesn't appear as a contributable language.
 
-There is another additional check, there has to 200 sentences (with the updated limit) in the sentences table.
+There is another additional check, there has to be at least 200 sentences (with the updated limit) in the sentences table.
 There is not much documentation on how to import sentences into the documentation.
 Nothing in GitHub issues as well.
 I found a [file](https://github.com/vramana/common-voice/blob/gitlab/server/src/lib/model/db/import-sentences.ts) that can import sentences into the database.
@@ -442,6 +442,8 @@ I have demonstrated the expertise to myself to go up and down the stack seamless
 I was able to read, grep and navigate through several core npm packages that underpin the Node.js ecosystem.
 It was instrumental in solving my problems.
 I am a little better programmer than I am yesterday.
+
+I really, really need to spend a weekend learning about Docker in depth.
 
 As I was solving the problems, I kept writing a [small guide](https://hackmd.io/@vramana/rksgTjsqp) to my future self and whosoever works on this project after me.
 There should be clear path for who comes after me.

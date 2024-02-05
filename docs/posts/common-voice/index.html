@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.121.2">
+  <meta name="generator" content="Hugo 0.122.0">
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,23 +53,23 @@
   <time datetime=2024-02-04T17:56:23&#43;0530 class="post-date">Sun, Feb 4, 2024</time>
   <p>My friend Ranjith asked me if I can help out implementing an alternate authentication system for Common Voice.
 Common Voice is a platform for collecting voice dataset for languages other than English.
-<a href="https://swecha.org">Swecha</a>, a local organization, wanted to collect voice samples for my native language Telugu through
-their own self-hosted version of Common Voice.
-They will use voice samples to train LLM models.</p>
-<p>It sounded like nice challenge and a good cause.
+<a href="https://swecha.org">Swecha</a>, a local organization, wanted to collect voice samples for my native language Telugu through their own self-hosted version of Common Voice.
+They will use these voice samples to train LLM models.</p>
+<p>It sounded like a nice challenge and a good cause.
 So, I agreed and went down a deep rabbit hole.
 I will write down all things I encountered as I tried to self-host this application.</p>
 <h2 id="problem">Problem</h2>
 <p>Common Voice uses Auth0 as it&rsquo;s authentication provider.
 Auth0 has a limit for number of free users.
-The expected users of the self-hosted instance to be at least 3x the provided free limit.</p>
+The anticipated number of users for the self-hosted instance is expected to be at least three times higher than the free limit (10k) provided.</p>
 <p>My friend asked if I can look into any authentication system like LDAP or <a href="https://www.keycloak.org/">Keycloak</a>.
 My first reaction was like <em>What? Why?</em>
-Why do you need another authentication provider when you have a bunch of platforms that already support OAuth?
+Why do you need another authentication provider when you have a bunch of platforms that already can act as authentication provider using OAuth 2.0 protocol?
 I told him I will see if I can integrate the application with either their self-hosted GitLab or Mattermost instance.</p>
-<p>I browsed through common-voice repository to take a look at how hard it would be change authentication platform.
+<p>I browsed through common-voice repository to take a look at how hard it would be change authentication provider.
 It&rsquo;s an express server with passport.js handling the authentication strategy.
-This is a pretty good sign since if I find GitLab passport strategy changing and testing it would be pretty straight forward.
+This is a pretty good sign.
+If I find GitLab passport strategy, changing and testing it would be pretty straight forward.
 After a few minutes of googling and reading through passport.js website, I landed on passport-gitlab2.</p>
 <p>Perfect! It&rsquo;s a solvable problem without much effort.</p>
 <h2 id="dx-hell">DX Hell</h2>
@@ -145,7 +145,7 @@ Now let&rsquo;s dive into the title of blog post. <em>Haha, haha</em></p>
 <blockquote>
 <p>Yes, After 900+ words I am writing about the title of this blog post.</p>
 </blockquote>
-<p>I have put some music and started working the problem.</p>
+<p>I have put some music on and started working the problem.</p>
 <p>I rebased my patch on the latest commit of the main branch.
 <code>git reset --hard</code> the repo on the EC2 instance.
 I did <code>docker compose up</code>.</p>
@@ -207,7 +207,7 @@ I just don&rsquo;t understand this madness.</p>
 <p>I wrote a separate docker-compose file, mostly mirroring the original removing this mad/rad strategy.
 Now I had faster builds.</p>
 <h3 id="content-security-policy">Content-Security-Policy</h3>
-<p>When I run the application in production mode, the application shows a black screen in the browser.
+<p>When I run the application in production mode, the application shows a white screen in the browser.
 Reason? CSP is not configured correctly.
 A bunch hard-coded SHA sums are added for script tags sent in the index.html.
 The easiest solution to this problem for now is change the header to <code>Content-Security-Policy-Report-Only</code>.</p>
@@ -245,7 +245,7 @@ The repository thankfully has 250+ sentences.</p>
 I changed <code>is_contributable</code> to 1 and <code>target_sentence_count</code> to 200.
 I went to profile page and checked again.
 <em>Nope!</em> Telugu still doesn&rsquo;t appear as a contributable language.</p>
-<p>There is another additional check, there has to 200 sentences (with the updated limit) in the sentences table.
+<p>There is another additional check, there has to be at least 200 sentences (with the updated limit) in the sentences table.
 There is not much documentation on how to import sentences into the documentation.
 Nothing in GitHub issues as well.
 I found a <a href="https://github.com/vramana/common-voice/blob/gitlab/server/src/lib/model/db/import-sentences.ts">file</a> that can import sentences into the database.
@@ -370,6 +370,7 @@ I have demonstrated the expertise to myself to go up and down the stack seamless
 I was able to read, grep and navigate through several core npm packages that underpin the Node.js ecosystem.
 It was instrumental in solving my problems.
 I am a little better programmer than I am yesterday.</p>
+<p>I really, really need to spend a weekend learning about Docker in depth.</p>
 <p>As I was solving the problems, I kept writing a <a href="https://hackmd.io/@vramana/rksgTjsqp">small guide</a> to my future self and whosoever works on this project after me.
 There should be clear path for who comes after me.
 My wish is that the atomic commits I made with meaningful commit messages and this blog post will help maintain this project.</p>
