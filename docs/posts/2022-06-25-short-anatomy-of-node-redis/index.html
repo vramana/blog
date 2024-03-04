@@ -60,176 +60,181 @@ We will to examine these 3 things in detail. Opening a connection, writing a com
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">class</span> RedisClient {
 </span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// ....
 </span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  <span style="color:#ff7b72">constructor</span>(options?: <span style="color:#ff7b72">RedisClientOptions</span>&lt;<span style="color:#7ee787">M</span><span style="color:#f85149">,</span> F<span style="color:#f85149">,</span> S&gt;) {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">super</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiateOptions(options);
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiateQueue();
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiateSocket();
-</span></span><span style="display:flex;"><span>        <span style="color:#8b949e;font-style:italic">// ....
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">super</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiateOptions(options);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiateQueue();
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiateSocket();
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// ....
 </span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// ....
 </span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>}
 </span></span></code></pre></div><p>In the constructor, we see that <code>RedisClient</code> object has two private variables <code>this.#queue</code> &amp; <code>this.#socket</code> that are relevant to us.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">class</span> RedisClient {
 </span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// ....
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#f85149">#</span>initiateSocket()<span style="color:#ff7b72;font-weight:bold">:</span> RedisSocket {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">const</span> socketInitiator <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">async</span> ()<span style="color:#ff7b72;font-weight:bold">:</span> Promise&lt;<span style="color:#7ee787">void</span>&gt; <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">const</span> promises <span style="color:#ff7b72;font-weight:bold">=</span> [];
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  <span style="color:#f85149">#</span>initiateSocket()<span style="color:#ff7b72;font-weight:bold">:</span> RedisSocket {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> socketInitiator <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">async</span> ()<span style="color:#ff7b72;font-weight:bold">:</span> Promise&lt;<span style="color:#7ee787">void</span>&gt; <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">const</span> promises <span style="color:#ff7b72;font-weight:bold">=</span> [];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>selectedDB <span style="color:#ff7b72;font-weight:bold">!==</span> <span style="color:#a5d6ff">0</span>) {
-</span></span><span style="display:flex;"><span>                promises.push(
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand(
-</span></span><span style="display:flex;"><span>                        [<span style="color:#a5d6ff">&#39;SELECT&#39;</span>, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>selectedDB.toString()],
-</span></span><span style="display:flex;"><span>                        { asap: <span style="color:#ff7b72">true</span> }
-</span></span><span style="display:flex;"><span>                    )
-</span></span><span style="display:flex;"><span>                );
-</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>selectedDB <span style="color:#ff7b72;font-weight:bold">!==</span> <span style="color:#a5d6ff">0</span>) {
+</span></span><span style="display:flex;"><span>        promises.push(
+</span></span><span style="display:flex;"><span>          <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand([<span style="color:#a5d6ff">&#34;SELECT&#34;</span>, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>selectedDB.toString()], {
+</span></span><span style="display:flex;"><span>            asap: <span style="color:#ff7b72">true</span>,
+</span></span><span style="display:flex;"><span>          }),
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.<span style="color:#ff7b72">readonly</span>) {
-</span></span><span style="display:flex;"><span>                promises.push(
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand(
-</span></span><span style="display:flex;"><span>                        COMMANDS.READONLY.transformArguments(),
-</span></span><span style="display:flex;"><span>                        { asap: <span style="color:#ff7b72">true</span> }
-</span></span><span style="display:flex;"><span>                    )
-</span></span><span style="display:flex;"><span>                );
-</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.<span style="color:#ff7b72">readonly</span>) {
+</span></span><span style="display:flex;"><span>        promises.push(
+</span></span><span style="display:flex;"><span>          <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand(COMMANDS.READONLY.transformArguments(), {
+</span></span><span style="display:flex;"><span>            asap: <span style="color:#ff7b72">true</span>,
+</span></span><span style="display:flex;"><span>          }),
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.name) {
-</span></span><span style="display:flex;"><span>                promises.push(
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand(
-</span></span><span style="display:flex;"><span>                        COMMANDS.CLIENT_SETNAME.transformArguments(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.name),
-</span></span><span style="display:flex;"><span>                        { asap: <span style="color:#ff7b72">true</span> }
-</span></span><span style="display:flex;"><span>                    )
-</span></span><span style="display:flex;"><span>                );
-</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.name) {
+</span></span><span style="display:flex;"><span>        promises.push(
+</span></span><span style="display:flex;"><span>          <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand(
+</span></span><span style="display:flex;"><span>            COMMANDS.CLIENT_SETNAME.transformArguments(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.name),
+</span></span><span style="display:flex;"><span>            { asap: <span style="color:#ff7b72">true</span> },
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.username <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.password) {
-</span></span><span style="display:flex;"><span>                promises.push(
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand(
-</span></span><span style="display:flex;"><span>                        COMMANDS.AUTH.transformArguments({
-</span></span><span style="display:flex;"><span>                            username: <span style="color:#ff7b72">this.</span><span style="color:#f85149">#</span>options.username,
-</span></span><span style="display:flex;"><span>                            password: <span style="color:#ff7b72">this.</span><span style="color:#f85149">#</span>options.password <span style="color:#ff7b72;font-weight:bold">??</span> <span style="color:#a5d6ff">&#39;&#39;</span>
-</span></span><span style="display:flex;"><span>                        }),
-</span></span><span style="display:flex;"><span>                        { asap: <span style="color:#ff7b72">true</span> }
-</span></span><span style="display:flex;"><span>                    )
-</span></span><span style="display:flex;"><span>                );
-</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.username <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.password) {
+</span></span><span style="display:flex;"><span>        promises.push(
+</span></span><span style="display:flex;"><span>          <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.addCommand(
+</span></span><span style="display:flex;"><span>            COMMANDS.AUTH.transformArguments({
+</span></span><span style="display:flex;"><span>              username: <span style="color:#ff7b72">this.</span><span style="color:#f85149">#</span>options.username,
+</span></span><span style="display:flex;"><span>              password: <span style="color:#ff7b72">this.</span><span style="color:#f85149">#</span>options.password <span style="color:#ff7b72;font-weight:bold">??</span> <span style="color:#a5d6ff">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>            }),
+</span></span><span style="display:flex;"><span>            { asap: <span style="color:#ff7b72">true</span> },
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">const</span> resubscribePromise <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.resubscribe();
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (resubscribePromise) {
-</span></span><span style="display:flex;"><span>                promises.push(resubscribePromise);
-</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">const</span> resubscribePromise <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.resubscribe();
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (resubscribePromise) {
+</span></span><span style="display:flex;"><span>        promises.push(resubscribePromise);
+</span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (promises.length) {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick(<span style="color:#79c0ff">true</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">await</span> Promise.all(promises);
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (promises.length) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick(<span style="color:#79c0ff">true</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">await</span> Promise.all(promises);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    };
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> RedisSocket(socketInitiator, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.socket)
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;data&#39;</span>, chunk <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.onReplyChunk(chunk))
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;error&#39;</span>, err <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;error&#39;</span>, err);
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.isOpen <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72;font-weight:bold">!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.disableOfflineQueue) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushWaitingForReply(err);
-</span></span><span style="display:flex;"><span>                } <span style="color:#ff7b72">else</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushAll(err);
-</span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;connect&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;connect&#39;</span>))
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;ready&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;ready&#39;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick();
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;reconnecting&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;reconnecting&#39;</span>))
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;drain&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick())
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;end&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;end&#39;</span>));
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> RedisSocket(socketInitiator, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.socket)
+</span></span><span style="display:flex;"><span>      .on(<span style="color:#a5d6ff">&#34;data&#34;</span>, (chunk) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.onReplyChunk(chunk))
+</span></span><span style="display:flex;"><span>      .on(<span style="color:#a5d6ff">&#34;error&#34;</span>, (err) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;error&#34;</span>, err);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.isOpen <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72;font-weight:bold">!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.disableOfflineQueue) {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushWaitingForReply(err);
+</span></span><span style="display:flex;"><span>        } <span style="color:#ff7b72">else</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushAll(err);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>      .on(<span style="color:#a5d6ff">&#34;connect&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;connect&#34;</span>))
+</span></span><span style="display:flex;"><span>      .on(<span style="color:#a5d6ff">&#34;ready&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;ready&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick();
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>      .on(<span style="color:#a5d6ff">&#34;reconnecting&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;reconnecting&#34;</span>))
+</span></span><span style="display:flex;"><span>      .on(<span style="color:#a5d6ff">&#34;drain&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick())
+</span></span><span style="display:flex;"><span>      .on(<span style="color:#a5d6ff">&#34;end&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;end&#34;</span>));
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// ....
 </span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>}
 </span></span></code></pre></div><p><code>initiateSocket</code> method returns a <code>RedisSocket</code> object which is turn an <code>EventEmitter</code>.
 The method also pushes some commands onto <code>this.#queue</code>.
 <code>RedisSocket</code> definition is in <a href="https://github.dev/redis/node-redis/blob/23b65133c9610c44f336199a1ea73e77a9b73bc7/packages/client/lib/client/socket.ts#L32">this file</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">class</span> RedisSocket {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    <span style="color:#ff7b72">async</span> <span style="color:#f85149">#</span>connect(retries: <span style="color:#ff7b72">number</span>, hadError?: <span style="color:#ff7b72">boolean</span>)<span style="color:#ff7b72;font-weight:bold">:</span> Promise&lt;<span style="color:#7ee787">void</span>&gt; {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> (retries <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#a5d6ff">0</span> <span style="color:#ff7b72;font-weight:bold">||</span> hadError) {
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;reconnecting&#39;</span>);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">try</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isOpen <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">true</span>;
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">await</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>createSocket();
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>writableNeedDrain <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">false</span>;
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;connect&#39;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">try</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">await</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiator();
-</span></span><span style="display:flex;"><span>            } <span style="color:#ff7b72">catch</span> (err) {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.destroy();
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">undefined</span>;
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">throw</span> err;
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isReady <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">true</span>;
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;ready&#39;</span>);
-</span></span><span style="display:flex;"><span>        } <span style="color:#ff7b72">catch</span> (err) {
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;error&#39;</span>, err);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">const</span> retryIn <span style="color:#ff7b72;font-weight:bold">=</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.reconnectStrategy <span style="color:#ff7b72;font-weight:bold">??</span> RedisSocket.<span style="color:#f85149">#</span>defaultReconnectStrategy)(retries);
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (retryIn <span style="color:#ff7b72">instanceof</span> Error) {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isOpen <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">false</span>;
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">throw</span> <span style="color:#ff7b72">new</span> ReconnectStrategyError(retryIn, err);
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">await</span> promiseTimeout(retryIn);
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>connect(retries <span style="color:#ff7b72;font-weight:bold">+</span> <span style="color:#a5d6ff">1</span>);
-</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>  <span style="color:#ff7b72">async</span> <span style="color:#f85149">#</span>connect(retries: <span style="color:#ff7b72">number</span>, hadError?: <span style="color:#ff7b72">boolean</span>)<span style="color:#ff7b72;font-weight:bold">:</span> Promise&lt;<span style="color:#7ee787">void</span>&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (retries <span style="color:#ff7b72;font-weight:bold">&gt;</span> <span style="color:#a5d6ff">0</span> <span style="color:#ff7b72;font-weight:bold">||</span> hadError) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;reconnecting&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f85149">#</span>createSocket()<span style="color:#ff7b72;font-weight:bold">:</span> Promise&lt;<span style="color:#7ee787">net.Socket</span> <span style="color:#f85149">|</span> tls.TLSSocket&gt; {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> Promise((resolve, reject) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">const</span> {connectEvent, socket} <span style="color:#ff7b72;font-weight:bold">=</span> RedisSocket.<span style="color:#f85149">#</span>isTlsSocket(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options) <span style="color:#ff7b72;font-weight:bold">?</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>createTlsSocket() <span style="color:#ff7b72;font-weight:bold">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>createNetSocket();
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">try</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isOpen <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">true</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">await</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>createSocket();
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>writableNeedDrain <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">false</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;connect&#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.connectTimeout) {
-</span></span><span style="display:flex;"><span>                socket.setTimeout(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.connectTimeout, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> socket.destroy(<span style="color:#ff7b72">new</span> ConnectionTimeoutError()));
-</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">try</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">await</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>initiator();
+</span></span><span style="display:flex;"><span>      } <span style="color:#ff7b72">catch</span> (err) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.destroy();
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">undefined</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">throw</span> err;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isReady <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">true</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;ready&#34;</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff7b72">catch</span> (err) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;error&#34;</span>, err);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            socket
-</span></span><span style="display:flex;"><span>                .setNoDelay(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.noDelay)
-</span></span><span style="display:flex;"><span>                .once(<span style="color:#a5d6ff">&#39;error&#39;</span>, reject)
-</span></span><span style="display:flex;"><span>                .once(connectEvent, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                    socket
-</span></span><span style="display:flex;"><span>                        .setTimeout(<span style="color:#a5d6ff">0</span>)
-</span></span><span style="display:flex;"><span>                        <span style="color:#8b949e;font-style:italic">// https://github.com/nodejs/node/issues/31663
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>                        .setKeepAlive(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.keepAlive <span style="color:#ff7b72;font-weight:bold">!==</span> <span style="color:#79c0ff">false</span>, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.keepAlive <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#a5d6ff">0</span>)
-</span></span><span style="display:flex;"><span>                        .off(<span style="color:#a5d6ff">&#39;error&#39;</span>, reject)
-</span></span><span style="display:flex;"><span>                        .once(<span style="color:#a5d6ff">&#39;error&#39;</span>, (err: <span style="color:#ff7b72">Error</span>) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>onSocketError(err))
-</span></span><span style="display:flex;"><span>                        .once(<span style="color:#a5d6ff">&#39;close&#39;</span>, hadError <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                            <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72;font-weight:bold">!</span>hadError <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isOpen <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">===</span> socket) {
-</span></span><span style="display:flex;"><span>                                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>onSocketError(<span style="color:#ff7b72">new</span> SocketClosedUnexpectedlyError());
-</span></span><span style="display:flex;"><span>                            }
-</span></span><span style="display:flex;"><span>                        })
-</span></span><span style="display:flex;"><span>                        .on(<span style="color:#a5d6ff">&#39;drain&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                            <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>writableNeedDrain <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">false</span>;
-</span></span><span style="display:flex;"><span>                            <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;drain&#39;</span>);
-</span></span><span style="display:flex;"><span>                        })
-</span></span><span style="display:flex;"><span>                        .on(<span style="color:#a5d6ff">&#39;data&#39;</span>, data <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;data&#39;</span>, data));
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">const</span> retryIn <span style="color:#ff7b72;font-weight:bold">=</span> (
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.reconnectStrategy <span style="color:#ff7b72;font-weight:bold">??</span>
+</span></span><span style="display:flex;"><span>        RedisSocket.<span style="color:#f85149">#</span>defaultReconnectStrategy
+</span></span><span style="display:flex;"><span>      )(retries);
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (retryIn <span style="color:#ff7b72">instanceof</span> Error) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isOpen <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">false</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">throw</span> <span style="color:#ff7b72">new</span> ReconnectStrategyError(retryIn, err);
+</span></span><span style="display:flex;"><span>      }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                    resolve(socket);
-</span></span><span style="display:flex;"><span>                });
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">await</span> promiseTimeout(retryIn);
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>connect(retries <span style="color:#ff7b72;font-weight:bold">+</span> <span style="color:#a5d6ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f85149">#</span>createSocket()<span style="color:#ff7b72;font-weight:bold">:</span> Promise&lt;<span style="color:#7ee787">net.Socket</span> <span style="color:#f85149">|</span> tls.TLSSocket&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> Promise((resolve, reject) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">const</span> { connectEvent, socket } <span style="color:#ff7b72;font-weight:bold">=</span> RedisSocket.<span style="color:#f85149">#</span>isTlsSocket(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">?</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>createTlsSocket()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>createNetSocket();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.connectTimeout) {
+</span></span><span style="display:flex;"><span>        socket.setTimeout(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.connectTimeout, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span>
+</span></span><span style="display:flex;"><span>          socket.destroy(<span style="color:#ff7b72">new</span> ConnectionTimeoutError()),
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      socket
+</span></span><span style="display:flex;"><span>        .setNoDelay(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.noDelay)
+</span></span><span style="display:flex;"><span>        .once(<span style="color:#a5d6ff">&#34;error&#34;</span>, reject)
+</span></span><span style="display:flex;"><span>        .once(connectEvent, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>          socket
+</span></span><span style="display:flex;"><span>            .setTimeout(<span style="color:#a5d6ff">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#8b949e;font-style:italic">// https://github.com/nodejs/node/issues/31663
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>            .setKeepAlive(
+</span></span><span style="display:flex;"><span>              <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.keepAlive <span style="color:#ff7b72;font-weight:bold">!==</span> <span style="color:#79c0ff">false</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options.keepAlive <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#a5d6ff">0</span>,
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            .off(<span style="color:#a5d6ff">&#34;error&#34;</span>, reject)
+</span></span><span style="display:flex;"><span>            .once(<span style="color:#a5d6ff">&#34;error&#34;</span>, (err: <span style="color:#ff7b72">Error</span>) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>onSocketError(err))
+</span></span><span style="display:flex;"><span>            .once(<span style="color:#a5d6ff">&#34;close&#34;</span>, (hadError) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>              <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72;font-weight:bold">!</span>hadError <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>isOpen <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket <span style="color:#ff7b72;font-weight:bold">===</span> socket) {
+</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>onSocketError(<span style="color:#ff7b72">new</span> SocketClosedUnexpectedlyError());
+</span></span><span style="display:flex;"><span>              }
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#34;drain&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>              <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>writableNeedDrain <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">false</span>;
+</span></span><span style="display:flex;"><span>              <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;drain&#34;</span>);
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#34;data&#34;</span>, (data) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;data&#34;</span>, data));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          resolve(socket);
 </span></span><span style="display:flex;"><span>        });
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f85149">#</span>createNetSocket()<span style="color:#ff7b72;font-weight:bold">:</span> CreateSocketReturn&lt;<span style="color:#7ee787">net.Socket</span>&gt; {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> {
-</span></span><span style="display:flex;"><span>            connectEvent<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;connect&#39;</span>,
-</span></span><span style="display:flex;"><span>            socket: <span style="color:#ff7b72">net.connect</span>(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options <span style="color:#ff7b72">as</span> net.NetConnectOpts) <span style="color:#8b949e;font-style:italic">// TODO
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>        };
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  <span style="color:#f85149">#</span>createNetSocket()<span style="color:#ff7b72;font-weight:bold">:</span> CreateSocketReturn&lt;<span style="color:#7ee787">net.Socket</span>&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> {
+</span></span><span style="display:flex;"><span>      connectEvent<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;connect&#34;</span>,
+</span></span><span style="display:flex;"><span>      socket: <span style="color:#ff7b72">net.connect</span>(<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options <span style="color:#ff7b72">as</span> net.NetConnectOpts), <span style="color:#8b949e;font-style:italic">// TODO
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>    };
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// ...
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-style:italic">// ...
 </span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"></span>}
 </span></span></code></pre></div><p>The <code>#createSocket</code> &amp; <code>#createNetSocket</code> method finally lead us to TCP connection logic we are looking for.</p>
 <p>From Node.js documentation, <code>net</code> module</p>
@@ -293,24 +298,24 @@ The authentication command is the last command enqueued from socket initiator wi
 <p>So far we queued commands, Let&rsquo;s examine how they are sent.</p>
 <p><code>RedisSocket.#socket</code> will emit a <code>ready</code> event and <code>RedisSocket</code> will in turn emit <code>ready</code> event too.
 In <code>RedisClient.#initiateSocket</code>, <code>RedisSocket</code> has a callback for <code>ready</code> event.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> RedisSocket(socketInitiator, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.socket)
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;data&#39;</span>, chunk <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.onReplyChunk(chunk))
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;error&#39;</span>, err <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;error&#39;</span>, err);
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.isOpen <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72;font-weight:bold">!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.disableOfflineQueue) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushWaitingForReply(err);
-</span></span><span style="display:flex;"><span>                } <span style="color:#ff7b72">else</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushAll(err);
-</span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;connect&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;connect&#39;</span>))
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;ready&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;ready&#39;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick();
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;reconnecting&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;reconnecting&#39;</span>))
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;drain&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick())
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;end&#39;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#39;end&#39;</span>));
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> RedisSocket(socketInitiator, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.socket)
+</span></span><span style="display:flex;"><span>  .on(<span style="color:#a5d6ff">&#34;data&#34;</span>, (chunk) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.onReplyChunk(chunk))
+</span></span><span style="display:flex;"><span>  .on(<span style="color:#a5d6ff">&#34;error&#34;</span>, (err) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;error&#34;</span>, err);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.isOpen <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72;font-weight:bold">!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.disableOfflineQueue) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushWaitingForReply(err);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff7b72">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.flushAll(err);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span>  .on(<span style="color:#a5d6ff">&#34;connect&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;connect&#34;</span>))
+</span></span><span style="display:flex;"><span>  .on(<span style="color:#a5d6ff">&#34;ready&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;ready&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick();
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span>  .on(<span style="color:#a5d6ff">&#34;reconnecting&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;reconnecting&#34;</span>))
+</span></span><span style="display:flex;"><span>  .on(<span style="color:#a5d6ff">&#34;drain&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>tick())
+</span></span><span style="display:flex;"><span>  .on(<span style="color:#a5d6ff">&#34;end&#34;</span>, () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.emit(<span style="color:#a5d6ff">&#34;end&#34;</span>));
 </span></span></code></pre></div><p>Let&rsquo;s examine <code>RedisClient.#tick</code> method and related methods</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>    <span style="color:#f85149">#</span>tick(force <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">false</span>)<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#ff7b72">void</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.writableNeedDrain <span style="color:#ff7b72;font-weight:bold">||</span> (<span style="color:#ff7b72;font-weight:bold">!</span>force <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> <span style="color:#ff7b72;font-weight:bold">!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>socket.isReady)) {
@@ -371,32 +376,36 @@ In <code>RedisClient.#initiateSocket</code>, <code>RedisSocket</code> has a call
 </span></span></code></pre></div><p><code>RedisClient.#tick</code> will enqueue command until <code>RedisSocket.#writableNeedDrain</code> is true.
 <code>RedisClient.#tick</code> will be called again when <code>RedisSocket</code> will emit <code>drain</code>.</p>
 <h3 id="reading-a-response">Reading a response</h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> RedisSocket(socketInitiator, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.socket)
-</span></span><span style="display:flex;"><span>            .on(<span style="color:#a5d6ff">&#39;data&#39;</span>, chunk <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.onReplyChunk(chunk))
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#ff7b72">return</span> <span style="color:#ff7b72">new</span> RedisSocket(socketInitiator, <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>options<span style="color:#ff7b72;font-weight:bold">?</span>.socket).on(
+</span></span><span style="display:flex;"><span>  <span style="color:#a5d6ff">&#34;data&#34;</span>,
+</span></span><span style="display:flex;"><span>  (chunk) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>queue.onReplyChunk(chunk),
+</span></span><span style="display:flex;"><span>);
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>    onReplyChunk(chunk: <span style="color:#ff7b72">Buffer</span>)<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#ff7b72">void</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>decoder.write(chunk);
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p><code>RedisSocket</code> will queue data coming from the TCP socket to <code>RedisCommandQueue.onReplyChunk</code> method.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span>    <span style="color:#f85149">#</span>decoder <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> RESP2Decoder({
-</span></span><span style="display:flex;"><span>        returnStringsAsBuffers<span style="color:#ff7b72;font-weight:bold">:</span> () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">return</span> <span style="color:#ff7b72;font-weight:bold">!!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>waitingForReply.head<span style="color:#ff7b72;font-weight:bold">?</span>.value.returnBuffers <span style="color:#ff7b72;font-weight:bold">||</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>pubSubState.isActive;
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        onReply: <span style="color:#ff7b72">reply</span> <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>handlePubSubReply(reply)) {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">return</span>;
-</span></span><span style="display:flex;"><span>            } <span style="color:#ff7b72">else</span> <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72;font-weight:bold">!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>waitingForReply.length) {
-</span></span><span style="display:flex;"><span>                <span style="color:#ff7b72">throw</span> <span style="color:#ff7b72">new</span> Error(<span style="color:#a5d6ff">&#39;Got an unexpected reply from Redis&#39;</span>);
-</span></span><span style="display:flex;"><span>            }
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#f85149">#</span>decoder <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> RESP2Decoder({
+</span></span><span style="display:flex;"><span>  returnStringsAsBuffers<span style="color:#ff7b72;font-weight:bold">:</span> () <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> (
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72;font-weight:bold">!!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>waitingForReply.head<span style="color:#ff7b72;font-weight:bold">?</span>.value.returnBuffers <span style="color:#ff7b72;font-weight:bold">||</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>pubSubState.isActive
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  onReply<span style="color:#ff7b72;font-weight:bold">:</span> (reply) <span style="color:#ff7b72;font-weight:bold">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>handlePubSubReply(reply)) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">return</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff7b72">else</span> <span style="color:#ff7b72">if</span> (<span style="color:#ff7b72;font-weight:bold">!</span><span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>waitingForReply.length) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">throw</span> <span style="color:#ff7b72">new</span> Error(<span style="color:#a5d6ff">&#34;Got an unexpected reply from Redis&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">const</span> { resolve, reject } <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>waitingForReply.shift()<span style="color:#ff7b72;font-weight:bold">!</span>;
-</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">if</span> (reply <span style="color:#ff7b72">instanceof</span> ErrorReply) {
-</span></span><span style="display:flex;"><span>                reject(reply);
-</span></span><span style="display:flex;"><span>            } <span style="color:#ff7b72">else</span> {
-</span></span><span style="display:flex;"><span>                resolve(reply);
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">const</span> { resolve, reject } <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">this</span>.<span style="color:#f85149">#</span>waitingForReply.shift()<span style="color:#ff7b72;font-weight:bold">!</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> (reply <span style="color:#ff7b72">instanceof</span> ErrorReply) {
+</span></span><span style="display:flex;"><span>      reject(reply);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff7b72">else</span> {
+</span></span><span style="display:flex;"><span>      resolve(reply);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
 </span></span></code></pre></div><p><code>RESP2Decoder</code> will decode the response and call <code>onReply</code>.
 <code>RedisCommandQueue.#waitingForReply</code> will pop a node so that it can finally settle to the Promise that was created in <code>RedisCommandQueue.addCommand</code>.</p>
 <p>What a journey! I feel great understanding how all this works.</p>
