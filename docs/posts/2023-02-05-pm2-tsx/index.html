@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.122.0">
+  <meta name="generator" content="Hugo 0.123.6">
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,8 +59,7 @@ run the code. There is way to disable typechecking via tsconfig.json file.</p>
 </span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;ts-node&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;transpileOnly&#34;</span>: <span style="color:#79c0ff">true</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;files&#34;</span>: <span style="color:#79c0ff">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;compilerOptions&#34;</span>: {
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;compilerOptions&#34;</span>: {}
 </span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>  <span style="color:#7ee787">&#34;compilerOptions&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">// typescript options here
@@ -75,31 +74,33 @@ the hood.</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># or</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>node --loader tsx index.ts
+</span></span><span style="display:flex;"><span>node --import tsx index.ts
 </span></span></code></pre></div><p>pm2 allows you configure the interpreter it uses run the files. So in <code>ecosystem.config.js</code> you can
 configure you application as follows</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>module.exports <span style="color:#ff7b72;font-weight:bold">=</span> {
 </span></span><span style="display:flex;"><span>  apps<span style="color:#ff7b72;font-weight:bold">:</span> [
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;server&#39;</span>,
-</span></span><span style="display:flex;"><span>      script<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;./server/index.ts&#39;</span>,
-</span></span><span style="display:flex;"><span>      interpreter<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;tsx&#39;</span>,
+</span></span><span style="display:flex;"><span>      name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;server&#34;</span>,
+</span></span><span style="display:flex;"><span>      script<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;./server/index.ts&#34;</span>,
+</span></span><span style="display:flex;"><span>      interpreter<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;tsx&#34;</span>,
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><p>I couldn&rsquo;t get this work locally as tsx needs to be in <code>PATH</code> environment variable since I was using volta.
-Therefore I turned to the latter style and it works</p>
+Therefore, I turned to the latter style and it works</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>module.exports <span style="color:#ff7b72;font-weight:bold">=</span> {
 </span></span><span style="display:flex;"><span>  apps<span style="color:#ff7b72;font-weight:bold">:</span> [
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;server&#39;</span>,
-</span></span><span style="display:flex;"><span>      script<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;./server/index.ts&#39;</span>,
-</span></span><span style="display:flex;"><span>      interpreter<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;node&#39;</span>,
-</span></span><span style="display:flex;"><span>      interpreterArgs<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#39;--loader tsx&#39;</span>,
+</span></span><span style="display:flex;"><span>      name<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;server&#34;</span>,
+</span></span><span style="display:flex;"><span>      script<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;./server/index.ts&#34;</span>,
+</span></span><span style="display:flex;"><span>      interpreter<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;node&#34;</span>,
+</span></span><span style="display:flex;"><span>      interpreterArgs<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">&#34;--import tsx&#34;</span>,
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div>
+</span></span></code></pre></div><blockquote>
+<p>For Node 18 and below, you should use <a href="https://github.com/nodejs/node/blob/main/doc/changelogs/CHANGELOG_V18.md#esm-and-customization-hook-changes">&ndash;loader</a> instead of &ndash;import.</p>
+</blockquote>
 </div>
 
 

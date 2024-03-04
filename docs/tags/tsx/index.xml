@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tsx on Ramana Venkata</title>
+    <title>Tsx on Ramana Venkata</title>
     <link>https://blog.vramana.com/tags/tsx/</link>
-    <description>Recent content in tsx on Ramana Venkata</description>
+    <description>Recent content in Tsx on Ramana Venkata</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 04 Feb 2023 21:59:33 +0530</lastBuildDate>
@@ -13,7 +13,7 @@
       <link>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</link>
       <pubDate>Sat, 04 Feb 2023 21:59:33 +0530</pubDate>
       <guid>https://blog.vramana.com/posts/2023-02-05-pm2-tsx/</guid>
-      <description></description>
+      <description>You can run node server apps in pm2 with ts-node just by simply declaring it as dependency. As always there is a catch, ts-node by default use typescript compiler to typecheck and then run the code. There is way to disable typechecking via tsconfig.json file.&#xA;{ &amp;#34;extends&amp;#34;: &amp;#34;ts-node/node16/tsconfig.json&amp;#34;, &amp;#34;ts-node&amp;#34;: { &amp;#34;transpileOnly&amp;#34;: true, &amp;#34;files&amp;#34;: true, &amp;#34;compilerOptions&amp;#34;: {} }, &amp;#34;compilerOptions&amp;#34;: { // typescript options here } } Reference: https://www.npmjs.com/package/ts-node#via-tsconfigjson-recommended&#xA;I had assumed ts-node had no way to disable typechecking and looked at tsx instead.</description>
     </item>
   </channel>
 </rss>
