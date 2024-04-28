@@ -1,8 +1,8 @@
 +++
 title = "How to send free transactional emails with Cloudflare & MailChannels: Step by step tutorial"
 date = 2024-04-29T00:15:38+05:30
-tags = ["email", "cloudflare", "javascript"]
-draft = true
+tags = ["email", "cloudflare", "dns", "javascript"]
+draft = false
 layout = "post"
 +++
 
