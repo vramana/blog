@@ -6,13 +6,14 @@ draft = false
 layout = "post"
 +++
 
-<!--more-->
-
-There are few people that want to thank deeply. Their passion for software engineering has ignited a fire that was dormant.
+There are few people that want to thank deeply for this.
+Their passion for software engineering has ignited a fire that was dormant.
 
 - Theo Browne - [@t3dotgg](https://twitter.com/t3dotgg)
 - Michael Paulson - [@ThePrimeagen](https://twitter.com/ThePrimeagen)
 - Rahul Pandey - [@rpandey1234](https://twitter.com/rpandey1234)
+
+<!--more-->
 
 I was a senior frontend engineer and a team lead for the past 5 years.
 I felt stagnant as an engineer.
