@@ -1,6 +1,6 @@
 +++
 title = "How I got promoted as a staff software engineer"
-date = 2024-05-05T14:43:36+05:30
+date = 2024-05-05T09:43:36+05:30
 tags = ["career"]
 draft = false
 layout = "post"
