@@ -59,7 +59,7 @@ During Christmas break and our company-wide Hack week, I worked on two massive P
 After a few more small PRs from me and my team, it was completely done.
 
 I took an initiative to reduce our CI time from 18 min to 9 min, a 50% reduction.
-I have also improved the developer experience around internalization.
+I have also improved the developer experience around internationalization.
 
 Additionally, I have successfully deployed Dataflow pipelines in to production.
 Apart from all this, I shipped a ton of new features in our web application.
