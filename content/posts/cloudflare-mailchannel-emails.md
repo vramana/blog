@@ -6,11 +6,15 @@ draft = false
 layout = "post"
 +++
 
+> [!NOTE] This post is outdated.
+> MailChannels has stopped free transactional emails via Cloudflare workers
+
+
+<!--more-->
+
 Back in 2022, Cloudflare introduced support for free transactional emails in partnership with MailChannels back
 I have known about this for a some time and I wanted to see if it's easy to setup and send an email.
 Turns out, its amazingly easy and free.
-
-<!--more-->
 
 Are you thinking of building a SaaS or a side project?
 You will run into a situation where you have to send emails to your users.
