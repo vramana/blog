@@ -46,7 +46,7 @@ body {
 }
 
 html {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -153,7 +153,7 @@ abbr[title] {
 /* Code */
 code,
 pre {
-  font-family: Menlo, Monaco, 'Courier New', monospace;
+  font-family: Menlo, Monaco, "Courier New", monospace;
 }
 code {
   padding: 0.25em 0.5em;
@@ -183,9 +183,9 @@ pre code {
 }
 .highlight {
   margin-bottom: 1rem;
-  border-radius: 4px;
 }
 .highlight pre {
+  border-radius: 6px;
   margin-bottom: 0;
 }
 
@@ -204,6 +204,22 @@ blockquote p:last-child {
     padding-right: 5rem;
     padding-left: 1.25rem;
   }
+}
+
+blockquote.alert {
+  border: none;
+  border-radius: 6px;
+  padding: 1rem;
+  background-color: rgba(0, 191, 188, 0.1);
+  color: rgba(0, 191, 188, 1);
+}
+
+blockquote.alert p {
+  margin-bottom: 0.5rem;
+}
+
+blockquote.alert p.alert-heading {
+  font-weight: bold;
 }
 
 img {
@@ -362,7 +378,7 @@ tbody tr:nth-child(odd) th {
   overflow: hidden; /* clearfix */
   margin-left: -1rem;
   margin-right: -1rem;
-  font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+  font-family: "PT Sans", Helvetica, Arial, sans-serif;
   color: #ccc;
   text-align: center;
 }

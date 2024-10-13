@@ -24,10 +24,15 @@ name = "Twitter"
 link = "https://twitter.com/_vramana"
 
 
+[[params.socials]]
+name = "Bluesky"
+link = "https://bsky.app/profile/vramana.dev"
+
+
 [Menus]
   main = [
       {Name = "Github", URL = "https://github.com/vramana"},
-      {Name = "Mastodon", URL = "https://mastodon.social/@vramana"},
+      {Name = "Bluesky", URL = "https://bsky.app/profile/vramana.dev"},
       {Name = "LinkedIn", URL = "https://www.linkedin.com/in/vramanamath/"},
   ]
 

@@ -1,6 +1,5 @@
 +++
 title= "Rust Debugging Paper Cuts"
-published = true
 url = "/2018/09/30/rust-debugging"
 date= "2018-09-20"
 layout = "post"

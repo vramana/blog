@@ -1,6 +1,5 @@
 +++
 date = "2015-12-21"
-published = true
 title = "How to write a codemod"
 url = "/2015/12/21/codemod-tutorial"
 layout = "post"

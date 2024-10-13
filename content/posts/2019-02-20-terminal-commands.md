@@ -1,6 +1,5 @@
 +++
 title= "My most used Terminal Commands"
-published = true
 url = "/2019/02/20/terminal-commands"
 date= "2019-02-20"
 layout = "post"
