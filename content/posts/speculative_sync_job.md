@@ -127,10 +127,9 @@ I know that this customer will quadruple their groups in the next 2 months.
 The future savings are much larger in this case.
 So yeah, it's totally worth it.
 
-> This is a trivial optimization to write about.
->
-> I haven't written a blog post in a long time.
-> This gives me an opportunity to write about something that created a meaningful impact at work.
+This is a trivial optimization to write about.
+I haven't written a blog post in a long time.
+This gives me an opportunity to write about something that created a meaningful impact at work.
 
 
 
