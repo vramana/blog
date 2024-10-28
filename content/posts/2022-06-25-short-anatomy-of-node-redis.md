@@ -5,13 +5,14 @@ layout = "post"
 tags = ["node"]
 +++
 
-I am trying to write simple redis-client in rust. As part of that exercise, I have read the source code of
-Node.js Redis Client. I want to jot down some notes on how it works.
+
+I am trying to write a simple Redis client in Rust. As part of that exercise, I have read the source code of the
+Node.js Redis client. I want to jot down some notes on how it works.
 
 <!--more-->
 
-A Redis Client opens a TCP connection and it writes and reads over that connection.
-We will to examine these 3 things in detail. Opening a connection, writing a command and reading a reponse.
+A Redis client opens a TCP connection, and it writes and reads over that connection.
+We will examine these three things in detail. Opening a connection, writing a command, and reading a response.
 
 ### Opening a connection
 
