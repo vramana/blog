@@ -10,9 +10,9 @@ draft = false
 layout = "post"
 +++
 
-In this post, I explore how I made a simple optimization that saves a lot of time.
+In this post, I explore how I made a simple optimization that saved a lot of time.
 The actual synchronization algorithm has a lot more details.
-They are skipped to keep focus on this specific optimization.
+Those details are omitted to keep the focus on this specific optimization.
 
 <!--more-->
 
