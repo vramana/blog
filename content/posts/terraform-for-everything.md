@@ -1,8 +1,12 @@
 +++
 title = "Don't use Terraform for everything"
 date = 2024-11-22T11:10:21+05:30
-tags = []
-draft = true
+tags = [
+  "terraform",
+  "devops",
+  "gcp"
+]
+draft = false
 layout = "post"
 +++
 
@@ -86,11 +90,46 @@ Certainly, I have a lot of thoughts on how we can improve the current situation.
 
 There are three ways we use Terraform.
 
-1. It is used to manage permissions for users and resources.
-2. It is used to manage configurations for resources (think about databases, buckets, etc.)
-3. It is used to deploy code.
+1. Manage permissions for users and resources
+2. Manage configurations for resources (think about databases, buckets, etc.)
+3. Deploy code
 
 I hate only the last part; the rest is fine.
+I have said this earlier: as a startup, our biggest advantage is shipping and iterating fast.
+We don't frequently make PRs to change points 1 and 2.
+
+In my opinion, any resource that changes frequently should be kept out of Terraform.
+Manual deployments are error-prone and time-consuming.
+We should use automated deployments for code.
+Terraform should not be used as a revision control system for deployments.
+
+This, in turn, reduces the permissions given to developers (principle of least privilege).
+This is another huge win.
+We need contingency plans for when we need to deploy something manually.
+But we don't need to do that often.
+
+I had a long chat with my CTO about this.
+In the end, I was able to convince him that we should not use Terraform for everything.
+Our conclusion was that deployments and observability should be owned by the teams.
+Rest should be managed through Terraform.
+
+My CTO took this seriously and went to work.
+We have completely automated deployments for a critical project :heart:.
+Shell scripts using the gcloud CLI are used to deploy Cloud Functions, Dataflow pipelines, and more.
+
+Maybe there are downsides to this approach.
+We will know it in due course.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
