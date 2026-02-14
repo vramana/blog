@@ -31,6 +31,7 @@ link = "https://bsky.app/profile/vramana.dev"
 
 [Menus]
   main = [
+      {Name = "Thoughts", URL = "/thoughts/"},
       {Name = "Github", URL = "https://github.com/vramana"},
       {Name = "Bluesky", URL = "https://bsky.app/profile/vramana.dev"},
       {Name = "LinkedIn", URL = "https://www.linkedin.com/in/vramanamath/"},
